@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speisekarte | Halle Krumbach</title>
+<meta name="description" content="Unsere Speisekarte – Pizza, Fisch, Fleisch, Desserts & Getränke. Halle Krumbach, Cucina Italiana.">
+<link rel="canonical" href="https://www.halle-krumbach.at/menu.html">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Menu","name":"Speisekarte Halle Krumbach","url":"https://www.halle-krumbach.at/menu.html"}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#c9a96e;
+  --gold-hover:#e0c48a;
+  --gold-dark:#7a5c10;
+  --ivory:#f4ede0;
+  --ivory-2:#ede3cf;
+  --dark:#12100d;
+  --dark-2:#1e180f;
+  --stone:#9a8a76;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --display:'Cinzel',serif;
+  --sans:'DM Sans',sans-serif;
+  --pw:420px;
+  --ph:600px;
+}
+html,body{height:100%}
+body{
+  font-family:var(--sans);
+  background:var(--dark);
+  color:var(--dark);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  user-select:none;
+}
+a{text-decoration:none;color:inherit}
+.hidden-lang{display:none!important}
+
+/* ─── ATMOSPHERIC BACKGROUND ─── */
+#bg{
+  position:fixed;inset:0;z-index:0;
+  background:radial-gradient(ellipse 80% 80% at 50% 30%,#2a1a08 0%,#0d0905 60%,#000 100%);
+  overflow:hidden;
+}
+.candle{
+  position:absolute;bottom:0;
+  width:1px;
+  background:linear-gradient(to top,rgba(201,169,110,.35) 0%,transparent 100%);
+  animation:cflicker 3s ease-in-out infinite alternate;
+}
+.candle::after{
+  content:'';position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  width:12px;height:18px;
+  background:radial-gradient(ellipse at 50% 70%,rgba(255,230,100,.95) 0%,rgba(255,120,0,.5) 50%,transparent 80%);
+  border-radius:50% 50% 40% 40%;filter:blur(2px);
+  animation:cflame 2.4s ease-in-out infinite alternate;
+}
+@keyframes cflicker{0%{opacity:.4}100%{opacity:.9}}
+@keyframes cflame{0%{transform:translateX(-50%) scale(1,.9) rotate(-3deg)}100%{transform:translateX(-50%) scale(1.15,1.1) rotate(4deg)}}
+
+/* subtle vignette */
+#bg::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(0,0,0,.7) 100%);
+  pointer-events:none;
+}
+
+/* ─── NAVBAR ─── */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 2.5rem;
+  background:rgba(8,6,3,.8);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(201,169,110,.12);
+}
+.nav-logo{height:2rem;filter:brightness(0) invert(1);opacity:.8}
+.nav-back{
+  display:flex;align-items:center;gap:.4rem;
+  font-family:var(--display);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);opacity:.65;transition:opacity .2s;
+}
+.nav-back:hover{opacity:1}
+.lang-sw{display:flex;align-items:center;gap:.5rem}
+.lb{
+  background:none;border:none;cursor:pointer;padding:0;
+  font-family:var(--display);font-size:.55rem;letter-spacing:.2em;
+  color:rgba(255,255,255,.3);transition:color .2s;
+}
+.lb.on{color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:1px}
+.ls{color:rgba(255,255,255,.1)}
+
+/* ─── SCENE ─── */
+#scene{
+  position:relative;z-index:10;
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:90px 1rem 2rem;gap:1.75rem;
+}
+
+.scene-label{
+  text-align:center;
+  font-family:var(--display);font-size:.55rem;letter-spacing:.45em;text-transform:uppercase;
+  color:var(--gold);opacity:.55;
+}
+.scene-title{
+  text-align:center;
+  font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.5rem);font-style:italic;
+  color:rgba(255,255,255,.85);margin-top:.3rem;
+}
+
+/* ─── BOOK STAGE ─── */
+#stage{
+  position:relative;
+  width:calc(var(--pw)*2);
+  height:var(--ph);
+  perspective:2800px;
+  cursor:pointer;
+}
+
+/* spine shadow */
+#stage::after{
+  content:'';position:absolute;
+  left:50%;top:4%;width:14px;height:92%;transform:translateX(-50%);
+  background:linear-gradient(to right,rgba(0,0,0,.55),rgba(201,169,110,.12),rgba(0,0,0,.45));
+  z-index:80;pointer-events:none;
+}
+
+/* floor shadow */
+#stage::before{
+  content:'';position:absolute;
+  bottom:-30px;left:5%;width:90%;height:30px;
+  background:radial-gradient(ellipse,rgba(0,0,0,.7) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* ─── PAGE BASE ─── */
+.pg{
+  position:absolute;
+  width:var(--pw);height:var(--ph);
+  transform-style:preserve-3d;
+  transition:transform 1s cubic-bezier(.645,.045,.355,1);
+  z-index:1;
+}
+.pg .pf,.pg .pb{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  background:var(--ivory);
+  overflow:hidden;
+}
+.pg .pb{transform:rotateY(180deg);background:var(--ivory-2)}
+
+/* paper grain overlay */
+.pg .pf::before,.pg .pb::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.045'/%3E%3C/svg%3E");
+  mix-blend-mode:multiply;
+}
+
+/* page edge depth */
+.pg.rp .pf::after{
+  content:'';position:absolute;left:0;top:0;width:20px;height:100%;
+  background:linear-gradient(to right,rgba(0,0,0,.1),transparent);z-index:3;pointer-events:none;
+}
+.pg.lp .pf::after{
+  content:'';position:absolute;right:0;top:0;width:20px;height:100%;
+  background:linear-gradient(to left,rgba(0,0,0,.08),transparent);z-index:3;pointer-events:none;
+}
+
+/* gold frame */
+.frame{
+  position:absolute;inset:14px;
+  border:1px solid rgba(201,169,110,.22);
+  pointer-events:none;z-index:4;
+}
+.frame::before,.frame::after{
+  content:'';position:absolute;width:10px;height:10px;border-color:rgba(201,169,110,.4);border-style:solid;
+}
+.frame::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+.frame::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+
+/* shine sweep on turn */
+.shine{
+  position:absolute;inset:0;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.09) 50%,transparent 70%);
+  opacity:0;pointer-events:none;z-index:5;
+  transition:opacity .2s;
+}
+.pg.turning .shine{opacity:1}
+
+/* page number */
+.pnum{
+  position:absolute;bottom:1.2rem;
+  font-family:var(--display);font-size:.45rem;letter-spacing:.2em;
+  color:var(--stone);opacity:.4;z-index:5;
+}
+.pnum.l{left:1.8rem}
+.pnum.r{right:1.8rem}
+
+/* page curl hint */
+.curl{
+  position:absolute;bottom:0;right:0;z-index:6;pointer-events:none;
+  width:0;height:0;border-style:solid;
+  border-width:0 0 0 0;
+  border-color:transparent transparent rgba(201,169,110,.18) transparent;
+  transition:border-width .35s ease;
+}
+.pg.rp:not(.flipped):hover .pf .curl{border-width:0 0 40px 40px}
+
+/* right pages sit on right side */
+.pg.rp{left:var(--pw);transform-origin:left center}
+/* left pages sit on left side */
+.pg.lp{left:0;transform-origin:right center}
+
+/* flipped states */
+.pg.rp.flipped{transform:rotateY(-180deg)}
+.pg.lp.flipped{transform:rotateY(180deg)}
+
+/* ─── INNER CONTENT ─── */
+.inner{
+  padding:2.2rem 2rem;height:100%;
+  display:flex;flex-direction:column;
+  position:relative;z-index:1;
+  overflow:hidden;
+}
+
+/* ─── COVER ─── */
+.cover-page{
+  background:var(--dark-2)!important;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:2.5rem 2.2rem;
+  position:relative;
+}
+.cover-page::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(201,169,110,.07) 0%,transparent 70%);
+}
+.cover-border{position:absolute;inset:18px;border:1px solid rgba(201,169,110,.28)}
+.cover-border::before,.cover-border::after{
+  content:'';position:absolute;width:14px;height:14px;border-color:rgba(201,169,110,.5);border-style:solid;
+}
+.cover-border::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+.cover-border::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+.cover-mono{
+  font-family:var(--display);font-size:3.5rem;
+  color:var(--gold);opacity:.08;letter-spacing:.05em;
+  position:absolute;top:1.5rem;left:50%;transform:translateX(-50%);
+}
+.cover-eyebrow{
+  font-family:var(--display);font-size:.48rem;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--gold);opacity:.55;margin-bottom:1.2rem;
+  position:relative;z-index:1;
+}
+.cover-h1{
+  font-family:var(--serif);font-size:3rem;font-style:italic;
+  color:rgba(255,255,255,.9);line-height:1;
+  position:relative;z-index:1;
+}
+.cover-rule{
+  width:36px;height:1px;background:var(--gold);opacity:.35;
+  margin:1.1rem auto;position:relative;z-index:1;
+}
+.cover-sub{
+  font-family:var(--display);font-size:.42rem;letter-spacing:.4em;
+  color:var(--gold);opacity:.4;text-transform:uppercase;
+  position:relative;z-index:1;
+}
+.cover-body{
+  font-family:var(--serif);font-size:.82rem;font-style:italic;
+  color:rgba(255,255,255,.3);line-height:1.7;margin-top:.8rem;
+  position:relative;z-index:1;
+}
+
+/* ─── SECTION HEADING ─── */
+.sh{margin-bottom:1.4rem;padding-bottom:.65rem;border-bottom:1px solid rgba(201,169,110,.18)}
+.sh .sl{font-family:var(--display);font-size:.45rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:.3rem}
+.sh .st{font-family:var(--serif);font-size:1.7rem;font-style:italic;color:var(--dark);line-height:1.1}
+
+/* ─── MENU ITEM ─── */
+.mi{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid rgba(201,169,110,.09)}
+.mi:last-of-type{border-bottom:none}
+.mn{font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--dark);margin-bottom:.18rem;line-height:1.2}
+.alg{font-family:var(--sans);font-size:.45rem;font-style:normal;color:var(--stone);opacity:.55;margin-left:.3rem;letter-spacing:.05em}
+.md{font-size:.68rem;color:var(--stone);font-weight:300;line-height:1.5}
+.mp{font-family:var(--display);font-size:.8rem;font-weight:600;color:var(--gold-dark);white-space:nowrap;padding-top:.1rem}
+
+/* ─── FEATURE BOX ─── */
+.fb{background:linear-gradient(135deg,rgba(201,169,110,.07),transparent);border:1px solid rgba(201,169,110,.22);padding:1.1rem;margin-top:.9rem}
+.fbt{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--gold-dark);margin-bottom:.25rem}
+.fbd{font-size:.65rem;color:var(--stone);font-weight:300;line-height:1.5;margin-bottom:.7rem}
+.fpr{display:flex;justify-content:space-between;font-size:.7rem;padding:.3rem 0;border-bottom:1px dotted rgba(201,169,110,.15)}
+.fpr:last-child{border-bottom:none}
+.fpl{color:var(--stone);font-weight:300}
+.fpv{font-family:var(--display);font-size:.72rem;font-weight:600;color:var(--gold-dark)}
+
+/* ─── DRINKS ─── */
+.dc{font-family:var(--display);font-size:.45rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.55;border-bottom:1px solid rgba(201,169,110,.14);padding-bottom:.35rem;margin:.9rem 0 .5rem}
+.dc:first-child{margin-top:0}
+.dr{display:flex;justify-content:space-between;align-items:center;padding:.42rem 0;border-bottom:1px dotted rgba(201,169,110,.08);font-size:.8rem}
+.dr:last-child{border-bottom:none}
+.drn{font-family:var(--serif);font-style:italic;color:var(--dark)}
+.drp{font-family:var(--display);font-size:.72rem;font-weight:600;color:var(--gold-dark)}
+
+/* ─── QUOTE ─── */
+.quote{font-family:var(--serif);font-size:.8rem;font-style:italic;color:var(--stone);line-height:1.65;text-align:center;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(201,169,110,.1)}
+
+/* ─── ALLERGEN NOTE ─── */
+.aller{margin-top:auto;padding-top:.8rem;border-top:1px solid rgba(201,169,110,.1);font-size:.52rem;color:var(--stone);opacity:.55;line-height:1.75;letter-spacing:.02em}
+
+/* ─── BACK COVER ─── */
+.bc-page{
+  background:var(--dark-2)!important;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:2.5rem;position:relative;
+}
+.bc-page .cover-border{inset:18px}
+
+/* ─── CONTROLS ─── */
+#ctrl{
+  display:flex;align-items:center;gap:2rem;
+  position:relative;z-index:20;
+}
+.cbtn{
+  background:none;border:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:.45rem;
+  transition:opacity .3s;
+}
+.cbtn:disabled{opacity:.18;cursor:default;pointer-events:none}
+.carr{
+  width:50px;height:50px;
+  border:1px solid rgba(201,169,110,.28);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--gold);font-size:1.15rem;
+  transition:background .25s,border-color .25s,transform .2s;
+}
+.cbtn:not(:disabled):hover .carr{background:rgba(201,169,110,.1);border-color:var(--gold);transform:scale(1.06)}
+.clbl{font-family:var(--display);font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.4}
+.pi{
+  font-family:var(--serif);font-size:.82rem;font-style:italic;
+  color:rgba(255,255,255,.28);letter-spacing:.08em;min-width:70px;text-align:center;
+}
+
+/* ─── SOUND BTN ─── */
+#snd{
+  position:fixed;bottom:1.25rem;right:1.25rem;z-index:400;
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.2);
+  color:var(--gold);font-size:.95rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(8px);transition:background .2s;
+}
+#snd:hover{background:rgba(201,169,110,.2)}
+#snd.off{opacity:.3}
+
+/* ─── HINT ANIMATION ─── */
+@keyframes hintPulse{0%,100%{opacity:0}50%{opacity:.7}}
+#hint{
+  font-family:var(--display);font-size:.45rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold);
+  animation:hintPulse 2.5s ease-in-out 1.5s 3 forwards;
+  opacity:0;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:920px){:root{--pw:320px;--ph:520px}}
+@media(max-width:680px){:root{--pw:min(44vw,260px);--ph:460px}}
+@media(max-width:480px){
+  :root{--pw:min(43vw,220px);--ph:400px}
+  .clbl{display:none}
+  .inner{padding:1.5rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<div id="bg"><div id="candles"></div></div>
+
+<nav id="nav">
+  <a href="index.html"><img src="logo.jpg" class="nav-logo" alt="Halle Krumbach" width="32" height="32"></a>
+  <div class="lang-sw">
+    <button class="lb on" id="btn-de" onclick="setLang('de')" aria-pressed="true">DE</button>
+    <span class="ls">|</span>
+    <button class="lb" id="btn-en" onclick="setLang('en')" aria-pressed="false">EN</button>
+  </div>
+  <a href="index.html" class="nav-back">← <span class="lang-de">Zurück</span><span class="lang-en hidden-lang">Back</span></a>
+</nav>
+
+<button id="snd" onclick="toggleSound()" title="Sound">🔊</button>
+
+<div id="scene">
+  <div>
+    <div class="scene-label">Halle Krumbach — Cucina Italiana</div>
+    <div class="scene-title lang-de">Unsere Speisekarte</div>
+    <div class="scene-title lang-en hidden-lang">Our Menu</div>
+  </div>
+
+  <div id="stage" role="region" aria-label="Speisekarte"></div>
+
+  <div id="ctrl">
+    <button class="cbtn" id="bp" onclick="turn(-1)" disabled aria-label="Zurück">
+      <div class="carr">‹</div>
+      <span class="clbl lang-de">Zurück</span><span class="clbl lang-en hidden-lang">Back</span>
+    </button>
+    <div class="pi" id="pi">1 / 5</div>
+    <button class="cbtn" id="bn" onclick="turn(1)" aria-label="Weiter">
+      <div class="carr">›</div>
+      <span class="clbl lang-de">Weiter</span><span class="clbl lang-en hidden-lang">Next</span>
+    </button>
+  </div>
+
+  <div id="hint" class="lang-de">Klicken oder wischen zum Blättern</div>
+  <div id="hint2" class="hidden-lang lang-en" style="font-family:var(--display);font-size:.45rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:0;animation:hintPulse 2.5s ease-in-out 1.5s 3 forwards">Click or swipe to turn pages</div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   DATA — 5 spreads (cover + 3 content + back)
+══════════════════════════════════════════════ */
+const SPREADS = 5; // 0..4
+
+/* ══════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════ */
+let spread = 0;
+let busy = false;
+let mute = false;
+const KEY = 'halle_lang';
+let audioCtx;
+
+function getAudio(){
+  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  return audioCtx;
+}
+
+/* ══════════════════════════════════════════════
+   SOUND — synthesised paper whoosh
+══════════════════════════════════════════════ */
+function playTurn(){
+  if(mute) return;
+  try{
+    const ctx = getAudio();
+    if(ctx.state==='suspended') ctx.resume();
+    const sr = ctx.sampleRate;
+    const dur = 0.38;
+    const buf = ctx.createBuffer(2,sr*dur,sr);
+    for(let c=0;c<2;c++){
+      const d = buf.getChannelData(c);
+      for(let i=0;i<d.length;i++){
+        const t = i/d.length;
+        const env = Math.pow(1-t,1.8)*Math.sqrt(t+.01)*3.5;
+        d[i]=(Math.random()*2-1)*env*.22;
+      }
+    }
+    const src = ctx.createBufferSource(); src.buffer=buf;
+    const lp = ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3500;
+    const hp = ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=600;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(.9,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+dur);
+    src.connect(hp); hp.connect(lp); lp.connect(g); g.connect(ctx.destination);
+    src.start();
+    // second soft rustle
+    setTimeout(()=>{
+      try{
+        const buf2=ctx.createBuffer(1,sr*.15,sr);
+        const d2=buf2.getChannelData(0);
+        for(let i=0;i<d2.length;i++) d2[i]=(Math.random()*2-1)*Math.pow(1-i/d2.length,3)*.12;
+        const s2=ctx.createBufferSource();s2.buffer=buf2;
+        const g2=ctx.createGain();g2.gain.value=.5;
+        s2.connect(g2);g2.connect(ctx.destination);s2.start();
+      }catch(e){}
+    },120);
+  }catch(e){}
+}
+
+function toggleSound(){
+  mute=!mute;
+  const b=document.getElementById('snd');
+  b.textContent=mute?'🔇':'🔊';
+  b.classList.toggle('off',mute);
+}
+
+/* ══════════════════════════════════════════════
+   DOM BUILDERS
+══════════════════════════════════════════════ */
+function frame(){ return '<div class="frame"></div>'; }
+function shine(){ return '<div class="shine"></div>'; }
+
+function coverHTML(){
+  return `
+  <div class="cover-page pf" style="position:absolute;inset:0;">
+    ${frame()}
+    <div class="cover-mono">H</div>
+    <div class="cover-border"></div>
+    <div class="cover-eyebrow">Halle Krumbach</div>
+    <div class="cover-h1 lang-de">Speise-<br>karte</div>
+    <div class="cover-h1 lang-en hidden-lang">Our<br>Menu</div>
+    <div class="cover-rule"></div>
+    <div class="cover-sub">Cucina Italiana · Krumbach</div>
+    <div class="cover-body lang-de">Steinofenpizza · Frischer Fisch<br>Hausgemachte Limonaden</div>
+    <div class="cover-body lang-en hidden-lang">Stone-oven pizza · Fresh fish<br>Homemade lemonades</div>
+  </div>`;
+}
+
+function backCoverHTML(){
+  return `
+  <div class="bc-page pf" style="position:absolute;inset:0;">
+    ${frame()}
+    <div class="cover-border"></div>
+    <div class="cover-eyebrow" style="margin-bottom:1.2rem;">Halle Krumbach</div>
+    <div style="font-family:var(--serif);font-size:1rem;font-style:italic;color:rgba(255,255,255,.45);line-height:1.8">
+      <span class="lang-de">Täglich 11:00 – 22:00 Uhr<br>Warme Küche bis 21:30 Uhr</span>
+      <span class="lang-en hidden-lang">Daily 11AM – 10PM<br>Kitchen closes at 9:30PM</span>
+    </div>
+    <div class="cover-rule"></div>
+    <div class="cover-sub" style="line-height:2">Kultur- u. Sportzentrum · 2851 Krumbach<br>+43 123 456 789 · info@halle-krumbach.at</div>
+  </div>`;
+}
+
+/* page content definitions */
+const PAGE_CONTENT = {
+  /* spread 1 LEFT */
+  '1L':`<div class="inner">
+    <div class="sh"><div class="sl lang-de">Vorspeisen</div><div class="sl lang-en hidden-lang">Starters</div><div class="st lang-de">Antipasti &amp; Salate</div><div class="st lang-en hidden-lang">Starters &amp; Salads</div></div>
+    <div class="mi"><div><div class="mn lang-de">Vegetarische Antipasti<span class="alg">AGH</span></div><div class="mn lang-en hidden-lang">Vegetarian Appetizers<span class="alg">AGH</span></div><div class="md lang-de">Büffelmozzarella, Gemüse-Mix, Oliven, Grana, Rucola</div><div class="md lang-en hidden-lang">Buffalo mozzarella, seasonal vegetables, olives, Grana, arugula</div></div><div class="mp">17.90€</div></div>
+    <div class="mi"><div><div class="mn">Vitello Tonnato<span class="alg">G</span></div><div class="md lang-de">Kalbsfleisch, Thunfischcreme, Kapern</div><div class="md lang-en hidden-lang">Veal, tuna cream, capers</div></div><div class="mp">15.90€</div></div>
+    <div class="mi"><div><div class="mn lang-de">Mediterrane Fischsuppe<span class="alg">ACD</span></div><div class="mn lang-en hidden-lang">Mediterranean Fish Soup<span class="alg">ACD</span></div><div class="md lang-de">Mediterrane Fischsuppe des Tages</div><div class="md lang-en hidden-lang">Mediterranean fish soup of the day</div></div><div class="mp">16.90€</div></div>
+    <div class="aller lang-de">A Gluten · B Krebstiere · C Eier · D Fisch · G Milch</div>
+    <div class="aller lang-en hidden-lang">A Gluten · B Crustaceans · C Eggs · D Fish · G Milk</div>
+  </div>`,
+
+  /* spread 1 RIGHT */
+  '1R':`<div class="inner">
+    <div class="sh"><div class="sl">Dal Forno</div><div class="st">Pizza</div></div>
+    <div class="mi"><div><div class="mn">Margherita</div><div class="md lang-de">Tomaten, Mozzarella, Basilikum</div><div class="md lang-en hidden-lang">Tomatoes, mozzarella, basil</div></div><div class="mp">10.90€</div></div>
+    <div class="mi"><div><div class="mn">San Daniele</div><div class="md lang-de">Mozzarella, Rucola, Cherrytomaten, Prosciutto</div><div class="md lang-en hidden-lang">Mozzarella, arugula, cherry tomatoes, prosciutto</div></div><div class="mp">17.90€</div></div>
+    <div class="mi"><div><div class="mn lang-de">Meeresfrüchte Pizza</div><div class="mn lang-en hidden-lang">Seafood Pizza</div><div class="md lang-de">Tomaten, Mozzarella, frische Meeresfrüchte</div><div class="md lang-en hidden-lang">Tomatoes, mozzarella, fresh mixed seafood</div></div><div class="mp">19.90€</div></div>
+    <div class="mi"><div><div class="mn lang-de">Vegane Pizza</div><div class="mn lang-en hidden-lang">Vegan Pizza</div><div class="md lang-de">Tomaten, Grillgemüse, Pinienkerne, Basilikum</div><div class="md lang-en hidden-lang">Tomatoes, grilled vegetables, pine nuts, basil</div></div><div class="mp">16.90€</div></div>
+    <div class="curl"></div>
+  </div>`,
+
+  /* spread 2 LEFT */
+  '2L':`<div class="inner">
+    <div class="sh"><div class="sl lang-de">Aus dem Meer</div><div class="sl lang-en hidden-lang">From the Sea</div><div class="st lang-de">Fischgerichte</div><div class="st lang-en hidden-lang">Fish Dishes</div></div>
+    <div class="mi"><div><div class="mn lang-de">Wolfsbarsch<span class="alg">DL</span></div><div class="mn lang-en hidden-lang">Sea Bass<span class="alg">DL</span></div><div class="md lang-de">Grillierter Wolfsbarsch, Grillgemüse, Rosmarinkartoffeln</div><div class="md lang-en hidden-lang">Grilled sea bass, vegetables, rosemary potatoes</div></div><div class="mp">24.90€</div></div>
+    <div class="fb">
+      <div class="fbt lang-de">Saisonale Fischplatte</div><div class="fbt lang-en hidden-lang">Seasonal Seafood Platter</div>
+      <div class="fbd lang-de">Fischfilet, Oktopus, Garnelen &amp; Muscheln — der Duft des Meeres</div><div class="fbd lang-en hidden-lang">Fish fillet, octopus, prawns &amp; mussels — the scent of the sea</div>
+      <div class="fpr"><span class="fpl lang-de">Für 1 Person</span><span class="fpl lang-en hidden-lang">For 1 person</span><span class="fpv">36.00€</span></div>
+      <div class="fpr"><span class="fpl lang-de">Für 2 (ganzer Fisch)</span><span class="fpl lang-en hidden-lang">For 2 (whole fish)</span><span class="fpv">79.00€</span></div>
+    </div>
+  </div>`,
+
+  /* spread 2 RIGHT */
+  '2R':`<div class="inner">
+    <div class="sh"><div class="sl lang-de">Vom Grill</div><div class="sl lang-en hidden-lang">From the Grill</div><div class="st lang-de">Fleischgerichte</div><div class="st lang-en hidden-lang">Meat Dishes</div></div>
+    <div class="mi"><div><div class="mn lang-de">Rinderfilet<span class="alg">L</span></div><div class="mn lang-en hidden-lang">Beef Fillet<span class="alg">L</span></div><div class="md lang-de">Rindslungenbraten, Grillgemüse, Rosmarinkartoffeln</div><div class="md lang-en hidden-lang">Beef tenderloin, grilled vegetables, rosemary potatoes</div></div><div class="mp">27.90€</div></div>
+    <div class="quote lang-de">„Jeden Tag wählen wir die frischesten Zutaten — weil gutes Essen Zeit verdient."</div>
+    <div class="quote lang-en hidden-lang">"Every day we choose the freshest ingredients — because good food deserves time."</div>
+    <div class="aller lang-de">H Schalenfrüchte · L Sellerie · R Weichtiere</div>
+    <div class="aller lang-en hidden-lang">H Nuts · L Celery · R Molluscs</div>
+    <div class="curl"></div>
+  </div>`,
+
+  /* spread 3 LEFT */
+  '3L':`<div class="inner">
+    <div class="sh"><div class="sl lang-de">Süßes zum Schluss</div><div class="sl lang-en hidden-lang">Sweet Endings</div><div class="st">Desserts</div></div>
+    <div class="mi"><div><div class="mn">Tiramisu<span class="alg">AG</span></div><div class="md lang-de">Hausgemacht mit Pistazien, nach Familienrezept</div><div class="md lang-en hidden-lang">Homemade with pistachios, family recipe</div></div><div class="mp">8.90€</div></div>
+    <div class="mi"><div><div class="mn">Affogato<span class="alg">AE</span></div><div class="md lang-de">Vanille-Eis, übergossen mit heißem Espresso</div><div class="md lang-en hidden-lang">Vanilla ice cream drowned in hot espresso</div></div><div class="mp">6.90€</div></div>
+    <div style="margin-top:1.5rem;text-align:center;font-size:1.6rem;color:var(--gold);opacity:.12;font-family:var(--display)">✦</div>
+  </div>`,
+
+  /* spread 3 RIGHT */
+  '3R':`<div class="inner">
+    <div class="sh"><div class="sl lang-de">Getränke</div><div class="sl lang-en hidden-lang">Drinks</div><div class="st lang-de">Aperitivi &amp; Caffè</div><div class="st lang-en hidden-lang">Aperitivi &amp; Coffee</div></div>
+    <div class="dc lang-de">Kaffee</div><div class="dc lang-en hidden-lang">Coffee</div>
+    <div class="dr"><span class="drn">Espresso</span><span class="drp">2.80€</span></div>
+    <div class="dr"><span class="drn">Cappuccino</span><span class="drp">4.10€</span></div>
+    <div class="dc lang-de">Hausgemachte Limonaden (0,40l)</div><div class="dc lang-en hidden-lang">Homemade Lemonades (0,40l)</div>
+    <div class="dr"><span class="drn">Strawberry Basil</span><span class="drp">6.90€</span></div>
+    <div class="dr"><span class="drn">Mango Maracuja</span><span class="drp">6.90€</span></div>
+    <div class="dc lang-de">Aperitifs &amp; Spritz</div><div class="dc lang-en hidden-lang">Aperitifs &amp; Spritz</div>
+    <div class="dr"><span class="drn">Limoncello Spritz</span><span class="drp">8.90€</span></div>
+    <div class="dr"><span class="drn"><span class="lang-de">Aperol Spritzer</span><span class="lang-en hidden-lang">Aperol Spritz</span></span><span class="drp">7.90€</span></div>
+    <div class="curl"></div>
+  </div>`
+};
+
+/* ══════════════════════════════════════════════
+   BUILD STAGE
+══════════════════════════════════════════════ */
+function build(){
+  const s = document.getElementById('stage');
+  s.innerHTML = '';
+
+  /* ── COVER: right page, index 0 ── */
+  const cover = el('div','pg rp','page-0');
+  cover.dataset.idx = 0;
+  cover.innerHTML = coverHTML() + `<div class="pb" style="background:var(--ivory-2)">${frame()}</div>`;
+  s.appendChild(cover);
+
+  /* ── SPREAD 1 ── */
+  s.appendChild(makePage('lp',1, PAGE_CONTENT['1L'], 2, false));
+  s.appendChild(makePage('rp',2, PAGE_CONTENT['1R'], 3, true));
+
+  /* ── SPREAD 2 ── */
+  s.appendChild(makePage('lp',3, PAGE_CONTENT['2L'], 4, false));
+  s.appendChild(makePage('rp',4, PAGE_CONTENT['2R'], 5, true));
+
+  /* ── SPREAD 3 ── */
+  s.appendChild(makePage('lp',5, PAGE_CONTENT['3L'], 6, false));
+  s.appendChild(makePage('rp',6, PAGE_CONTENT['3R'], 7, true));
+
+  /* ── BACK COVER: left page, index 7 ── */
+  const back = el('div','pg lp','page-7');
+  back.dataset.idx = 7;
+  back.innerHTML = backCoverHTML() + `<div class="pb" style="background:var(--ivory-2)">${frame()}</div>`;
+  s.appendChild(back);
+
+  applySpread();
+}
+
+function makePage(side, idx, content, num, hasCurl){
+  const p = el('div',`pg ${side}`,`page-${idx}`);
+  p.dataset.idx = idx;
+  const front = document.createElement('div');
+  front.className = 'pf';
+  front.innerHTML = `${frame()}${shine()}${content}<div class="pnum ${side==='lp'?'l':'r'}">${num}</div>`;
+  const back = document.createElement('div');
+  back.className = 'pb';
+  back.innerHTML = frame();
+  p.appendChild(front);
+  p.appendChild(back);
+  return p;
+}
+
+function el(tag,cls,id){
+  const e=document.createElement(tag);
+  e.className=cls;
+  if(id) e.id=id;
+  return e;
+}
+
+/* ══════════════════════════════════════════════
+   SPREAD RENDERING
+   
+   Page index mapping:
+   0 = cover (right page)
+   1 = spread1 left   2 = spread1 right
+   3 = spread2 left   4 = spread2 right
+   5 = spread3 left   6 = spread3 right
+   7 = back (left page)
+
+   Spread 0: only cover visible on right
+   Spread 1: cover flipped→left side, pages 1+2 visible
+   Spread 2: pages 1+2 past, pages 3+4 visible
+   Spread 3: pages 3+4 past, pages 5+6 visible
+   Spread 4: pages 5+6 past, back (7) visible on left
+══════════════════════════════════════════════ */
+function applySpread(){
+  const all = document.querySelectorAll('.pg');
+
+  all.forEach(p=>{
+    const idx = parseInt(p.dataset.idx);
+    p.classList.remove('flipped');
+    p.style.zIndex = 1;
+
+    if(idx===0){
+      // cover
+      if(spread===0){
+        p.style.left='var(--pw)';
+        p.className='pg rp';
+        p.style.zIndex=10;
+      } else {
+        // flipped to left
+        p.className='pg rp flipped';
+        p.style.left='var(--pw)';
+        p.style.zIndex = SPREADS - spread + 1;
+      }
+    } else if(idx===7){
+      // back cover
+      p.className='pg lp';
+      p.style.left='0';
+      if(spread===4){ p.style.zIndex=10; }
+      else { p.style.zIndex=1; }
+    } else {
+      // content pages: 1-6
+      const pageSpread = Math.ceil(idx/2); // 1→s1, 2→s1, 3→s2, etc
+      const isLeft = idx%2===1;
+
+      if(pageSpread === spread){
+        // currently visible
+        p.className = `pg ${isLeft?'lp':'rp'}`;
+        p.style.left = isLeft?'0':'var(--pw)';
+        p.style.zIndex = 10;
+      } else if(pageSpread < spread){
+        // already past — flipped to opposite side
+        if(isLeft){
+          p.className='pg lp flipped';
+          p.style.left='0';
+        } else {
+          p.className='pg rp flipped';
+          p.style.left='var(--pw)';
+        }
+        p.style.zIndex = pageSpread;
+      } else {
+        // future — hidden on their natural side
+        p.className = `pg ${isLeft?'lp':'rp'}`;
+        p.style.left = isLeft?'0':'var(--pw)';
+        p.style.zIndex = 1;
+      }
+    }
+  });
+
+  updateCtrl();
+  // re-apply lang after DOM change
+  const lang = (() => { try{return localStorage.getItem(KEY)||'de'}catch{return'de'} })();
+  applyLangClasses(lang);
+}
+
+/* ══════════════════════════════════════════════
+   TURN
+══════════════════════════════════════════════ */
+function turn(dir){
+  if(busy) return;
+  const next = spread+dir;
+  if(next<0||next>=SPREADS) return;
+  busy=true;
+  playTurn();
+
+  // add turning class for shine
+  const turningEl = getTurningEl(dir);
+  if(turningEl) turningEl.classList.add('turning');
+
+  spread=next;
+  applySpread();
+
+  setTimeout(()=>{
+    busy=false;
+    if(turningEl) turningEl.classList.remove('turning');
+  }, 1050);
+}
+
+function getTurningEl(dir){
+  if(dir>0){
+    if(spread===0) return document.getElementById('page-0');
+    const idx = spread*2;
+    return document.getElementById('page-'+idx);
+  } else {
+    const idx = spread*2+1;
+    return document.getElementById('page-'+idx);
+  }
+}
+
+function updateCtrl(){
+  document.getElementById('bp').disabled = spread===0;
+  document.getElementById('bn').disabled = spread===SPREADS-1;
+  document.getElementById('pi').textContent = (spread+1)+' / '+SPREADS;
+}
+
+/* ══════════════════════════════════════════════
+   INPUT
+══════════════════════════════════════════════ */
+// Click on left/right half
+document.getElementById('stage').addEventListener('click',e=>{
+  const r = document.getElementById('stage').getBoundingClientRect();
+  if(e.clientX - r.left > r.width/2) turn(1); else turn(-1);
+});
+
+// Keyboard
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') turn(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') turn(-1);
+});
+
+// Swipe
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>55) turn(dx<0?1:-1);
+},{passive:true});
+
+// Resume audio on first interaction
+document.addEventListener('pointerdown',()=>{
+  try{ const c=getAudio(); if(c.state==='suspended') c.resume(); }catch(e){}
+},{once:true});
+
+/* ══════════════════════════════════════════════
+   CANDLE DECORATION
+══════════════════════════════════════════════ */
+function buildCandles(){
+  const wrap=document.getElementById('candles');
+  const n=10;
+  for(let i=0;i<n;i++){
+    const c=document.createElement('div');
+    c.className='candle';
+    const h=50+Math.random()*120;
+    c.style.cssText=`left:${3+(i/(n-1))*94}%;height:${h}px;animation-delay:${Math.random()*3}s;animation-duration:${1.8+Math.random()*2.5}s`;
+    wrap.appendChild(c);
+  }
+}
+
+/* ══════════════════════════════════════════════
+   LANGUAGE
+══════════════════════════════════════════════ */
+function applyLangClasses(lang){
+  document.querySelectorAll('.lang-de').forEach(e=>e.classList.toggle('hidden-lang',lang!=='de'));
+  document.querySelectorAll('.lang-en').forEach(e=>e.classList.toggle('hidden-lang',lang!=='en'));
+}
+
+function setLang(lang){
+  if(lang!=='de'&&lang!=='en') lang='de';
+  document.documentElement.lang=lang;
+  applyLangClasses(lang);
+  document.getElementById('btn-de').classList.toggle('on',lang==='de');
+  document.getElementById('btn-en').classList.toggle('on',lang==='en');
+  document.getElementById('btn-de').setAttribute('aria-pressed',String(lang==='de'));
+  document.getElementById('btn-en').setAttribute('aria-pressed',String(lang==='en'));
+  try{localStorage.setItem(KEY,lang)}catch(e){}
+}
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+(function(){
+  buildCandles();
+  build();
+  let lang='de';
+  try{lang=localStorage.getItem(KEY)||'de'}catch(e){}
+  setLang(lang);
+})();
+</script>
+</body>
+</html>

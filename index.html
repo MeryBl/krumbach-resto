@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Primary -->
+    <title>Halle Krumbach | Cucina Italiana – Steinofenpizza & Meeresfrüchte</title>
+    <meta name="description" content="Authentische italienische Küche im Kultur- und Sportzentrum Krumbach. Steinofenpizza, frischer Fisch, hausgemachte Limonaden. Täglich 11–22 Uhr geöffnet.">
+    <meta name="keywords" content="restaurant krumbach, italienisch essen krumbach, pizza krumbach, fisch krumbach, halle krumbach, cucina italiana niederösterreich">
+    <meta name="author" content="Halle Krumbach">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.halle-krumbach.at/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="restaurant">
+    <meta property="og:title" content="Halle Krumbach | Cucina Italiana">
+    <meta property="og:description" content="Steinofenpizza, Meeresfrüchte & hausgemachte Limonaden. Ein Stück Italien in Österreich.">
+    <meta property="og:url" content="https://www.halle-krumbach.at/">
+    <meta property="og:locale" content="de_AT">
+    <meta property="og:locale:alternate" content="en_GB">
+    <meta property="og:image" content="https://www.halle-krumbach.at/og-image.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Halle Krumbach | Cucina Italiana">
+    <meta name="twitter:description" content="Steinofenpizza, frische Meeresfrüchte & Limonaden in Krumbach.">
+
+    <!-- Structured Data – LocalBusiness -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Halle Krumbach",
+      "image": "https://www.halle-krumbach.at/og-image.jpg",
+      "url": "https://www.halle-krumbach.at",
+      "telephone": "+43123456789",
+      "email": "info@halle-krumbach.at",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Kultur- und Sportzentrum",
+        "addressLocality": "Krumbach",
+        "postalCode": "2851",
+        "addressCountry": "AT"
+      },
+      "servesCuisine": "Italian",
+      "priceRange": "€€",
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "11:00",
+        "closes": "22:00"
+      }],
+      "hasMenu": "https://www.halle-krumbach.at/menu.html",
+      "acceptsReservations": "True"
+    }
+    </script>
+
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop">
+
+    <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --orange: #d4622a;
+            --orange-light: #e8824a;
+            --dark: #0f0e0c;
+            --dark-2: #1a1916;
+            --cream: #f7f4ef;
+            --stone: #9a9289;
+            --stone-light: #e8e4dc;
+            --serif: 'Cormorant Garamond', Georgia, serif;
+            --sans: 'DM Sans', system-ui, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body {
+            font-family: var(--sans);
+            background-color: var(--cream);
+            color: var(--dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        img { display: block; max-width: 100%; }
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== UTILITY ===== */
+        .hidden-lang { display: none !important; }
+        .label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; font-weight: 500; }
+        .btn-primary {
+            display: inline-block;
+            background: var(--orange);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            font-family: var(--sans);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            transition: background 0.3s, transform 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary:hover { background: var(--orange-light); transform: translateY(-1px); }
+        .btn-outline {
+            display: inline-block;
+            background: transparent;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            border: 1px solid rgba(255,255,255,0.4);
+            transition: background 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.8); }
+
+        /* ===== NAVBAR ===== */
+        #navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.75rem 3rem;
+            transition: padding 0.4s, background 0.4s, box-shadow 0.4s;
+            color: #fff;
+        }
+        #navbar.scrolled {
+            padding: 1rem 3rem;
+            background: rgba(247, 244, 239, 0.96);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 1px 0 var(--stone-light);
+            color: var(--dark);
+        }
+        .nav-logo { height: 2.75rem; transition: filter 0.4s, height 0.4s; filter: brightness(0) invert(1); }
+        #navbar.scrolled .nav-logo { filter: none; }
+        .nav-brand { font-family: var(--sans); font-weight: 500; font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase; }
+        .nav-links { display: flex; gap: 2.5rem; }
+        .nav-links a { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; opacity: 0.85; transition: opacity 0.2s, color 0.2s; }
+        .nav-links a:hover { opacity: 1; color: var(--orange); }
+        .lang-switch { display: flex; align-items: center; gap: 0.5rem; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.15em; }
+        .lang-btn { background: none; border: none; cursor: pointer; font-family: var(--sans); font-size: 0.65rem; font-weight: 500; letter-spacing: 0.15em; color: inherit; opacity: 0.5; transition: opacity 0.2s; padding: 0; }
+        .lang-btn.active { opacity: 1; border-bottom: 1px solid var(--orange); color: var(--orange); }
+        .lang-sep { opacity: 0.2; }
+
+        @media (max-width: 768px) {
+            #navbar { padding: 1.25rem 1.25rem; }
+            #navbar.scrolled { padding: 0.85rem 1.25rem; }
+            .nav-links { display: none; }
+        }
+
+        /* ===== HERO ===== */
+        #hero {
+            position: relative;
+            height: 100svh;
+            min-height: 600px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            background: var(--dark);
+        }
+        .hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            will-change: transform;
+            animation: heroZoom 20s ease-in-out infinite alternate;
+        }
+        @keyframes heroZoom { from { transform: scale(1); } to { transform: scale(1.08); } }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15,14,12,0.85) 0%, rgba(15,14,12,0.3) 50%, rgba(15,14,12,0.15) 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 0 3rem 5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .hero-tag { color: var(--orange); margin-bottom: 1.25rem; }
+        .hero-title {
+            font-family: var(--serif);
+            font-size: clamp(3.5rem, 10vw, 9rem);
+            font-style: italic;
+            color: #fff;
+            line-height: 0.88;
+            margin-bottom: 2rem;
+        }
+        .hero-sub {
+            color: rgba(255,255,255,0.75);
+            font-size: 1rem;
+            font-weight: 300;
+            line-height: 1.7;
+            max-width: 38rem;
+            margin-bottom: 2.5rem;
+        }
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            right: 3rem;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.6rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        .hero-scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+        @keyframes scrollLine { 0%,100%{opacity:0.3;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(0.6)} }
+
+        @media (max-width: 768px) {
+            .hero-content { padding: 0 1.25rem 4rem; }
+            .hero-scroll { display: none; }
+        }
+
+        /* ===== TICKER ===== */
+        .ticker-wrap {
+            background: var(--orange);
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 0.85rem 0;
+        }
+        .ticker-inner { display: inline-flex; animation: ticker 30s linear infinite; }
+        .ticker-inner span { padding: 0 2.5rem; font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: #fff; font-weight: 500; }
+        .ticker-inner span::after { content: '·'; margin-left: 2.5rem; }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* ===== STORY SECTION ===== */
+        #story {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 80vh;
+        }
+        .story-images { position: relative; overflow: hidden; background: var(--dark); }
+        .story-img-main {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: transform 0.6s ease;
+        }
+        .story-img-overlay {
+            position: absolute;
+            bottom: 2.5rem; right: -2.5rem;
+            width: 55%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            border: 4px solid var(--cream);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: right 0.5s ease;
+        }
+        #story:hover .story-img-overlay { right: 2.5rem; }
+        .story-text {
+            padding: 6rem 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--cream);
+        }
+        .story-label { color: var(--orange); margin-bottom: 1.25rem; }
+        .story-title {
+            font-family: var(--serif);
+            font-size: clamp(2.5rem, 4vw, 4rem);
+            font-style: italic;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        .story-divider { width: 3rem; height: 2px; background: var(--orange); margin-bottom: 1.75rem; }
+        .story-body { color: var(--stone); line-height: 1.85; font-weight: 300; font-size: 1rem; margin-bottom: 2rem; }
+        .story-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--orange);
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: gap 0.3s;
+        }
+        .story-link:hover { gap: 1.25rem; }
+
+        @media (max-width: 900px) {
+            #story { grid-template-columns: 1fr; }
+            .story-images { height: 50vw; min-height: 280px; }
+            .story-img-overlay { display: none; }
+            .story-text { padding: 3rem 1.5rem; }
+        }
+
+        /* ===== HIGHLIGHTS ===== */
+        #highlights { background: var(--dark-2); padding: 6rem 3rem; }
+        .highlights-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+        }
+        .highlights-title {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-style: italic;
+            color: #fff;
+        }
+        .highlights-all {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--stone);
+            border-bottom: 1px solid var(--orange);
+            padding-bottom: 2px;
+            transition: color 0.2s;
+        }
+        .highlights-all:hover { color: var(--orange); }
+        .highlights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .highlight-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            group: true;
+        }
+        .highlight-card-img-wrap { overflow: hidden; height: 420px; }
+        .highlight-card img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform;
+        }
+        .highlight-card:hover img { transform: scale(1.08); }
+        .highlight-card-body { padding: 1.5rem 0 0; }
+        .highlight-card-title {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-style: italic;
+            color: #fff;
+            margin-bottom: 0.4rem;
+        }
+        .highlight-card-desc { color: var(--stone); font-size: 0.85rem; font-weight: 300; line-height: 1.6; }
+        .highlight-tag {
+            position: absolute;
+            top: 1rem; left: 1rem;
+            background: var(--orange);
+            color: #fff;
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.75rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            #highlights { padding: 4rem 1.25rem; }
+            .highlights-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .highlights-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .highlight-card-img-wrap { height: 280px; }
+        }
+
+        /* ===== INFO STRIP ===== */
+        #info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--stone-light);
+            border-bottom: 1px solid var(--stone-light);
+        }
+        .info-cell {
+            padding: 3rem 2.5rem;
+            border-right: 1px solid var(--stone-light);
+            text-align: center;
+        }
+        .info-cell:last-child { border-right: none; }
+        .info-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+        .info-label { color: var(--orange); margin-bottom: 0.5rem; }
+        .info-value { font-family: var(--serif); font-size: 1.3rem; font-style: italic; line-height: 1.5; color: var(--dark); }
+        .info-sub { font-size: 0.8rem; color: var(--stone); margin-top: 0.25rem; }
+
+        @media (max-width: 768px) {
+            #info { grid-template-columns: 1fr; }
+            .info-cell { border-right: none; border-bottom: 1px solid var(--stone-light); }
+        }
+
+        /* ===== GALLERY ===== */
+        #gallery { padding: 5rem 3rem; background: var(--cream); overflow: hidden; }
+        .gallery-header { text-align: center; margin-bottom: 3rem; }
+        .gallery-title { font-family: var(--serif); font-size: 2rem; font-style: italic; color: var(--dark); }
+        .gallery-sub { color: var(--stone); font-size: 0.85rem; font-weight: 300; margin-top: 0.5rem; }
+        .gallery-strip {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            cursor: grab;
+        }
+        .gallery-strip::-webkit-scrollbar { display: none; }
+        .gallery-strip.dragging { cursor: grabbing; }
+        .gallery-strip img {
+            height: 300px;
+            width: auto;
+            flex-shrink: 0;
+            object-fit: cover;
+            filter: grayscale(20%);
+            transition: filter 0.4s, transform 0.4s;
+        }
+        .gallery-strip img:hover { filter: grayscale(0%); transform: scale(1.01); }
+
+        @media (max-width: 768px) {
+            #gallery { padding: 3rem 1.25rem; }
+            .gallery-strip img { height: 200px; }
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--dark);
+            color: #fff;
+            border-top: 3px solid var(--orange);
+        }
+        .footer-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            padding: 5rem 3rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .footer-logo { height: 3rem; filter: brightness(0) invert(1); margin-bottom: 1.25rem; }
+        .footer-tagline { color: var(--stone); font-size: 0.875rem; font-weight: 300; line-height: 1.75; }
+        .footer-reserve {
+            display: inline-block;
+            margin-top: 1.25rem;
+            color: var(--orange);
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-weight: 500;
+            border-bottom: 1px solid var(--orange);
+            padding-bottom: 2px;
+            cursor: pointer;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            transition: color 0.2s;
+        }
+        .footer-reserve:hover { color: var(--orange-light); }
+        .footer-col-title { font-family: var(--serif); font-size: 1.3rem; font-style: italic; color: var(--orange); margin-bottom: 1.25rem; }
+        .footer-col p { color: var(--stone); font-size: 0.85rem; font-weight: 300; line-height: 2; }
+        .footer-col a { color: var(--stone); transition: color 0.2s; }
+        .footer-col a:hover { color: var(--orange); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding: 1.5rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--stone);
+        }
+        .footer-bottom-links { display: flex; gap: 2rem; }
+        .footer-bottom-links a:hover { color: #fff; }
+
+        @media (max-width: 900px) {
+            .footer-main { grid-template-columns: 1fr 1fr; gap: 2rem; padding: 3rem 1.25rem 2rem; }
+            .footer-bottom { flex-direction: column; gap: 1rem; padding: 1.5rem 1.25rem; text-align: center; }
+        }
+        @media (max-width: 560px) {
+            .footer-main { grid-template-columns: 1fr; }
+        }
+
+        /* ===== BOOKING MODAL ===== */
+        #modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(15,14,12,0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s;
+        }
+        #modal-overlay.open { opacity: 1; pointer-events: all; }
+        #modal-box {
+            background: var(--cream);
+            max-width: 440px;
+            width: 90%;
+            padding: 3rem;
+            position: relative;
+            border-top: 3px solid var(--orange);
+            transform: translateY(20px);
+            transition: transform 0.35s;
+        }
+        #modal-overlay.open #modal-box { transform: translateY(0); }
+        .modal-close {
+            position: absolute;
+            top: 1rem; right: 1rem;
+            background: none; border: none;
+            cursor: pointer;
+            color: var(--stone);
+            font-size: 1.25rem;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--dark); }
+        .modal-label { color: var(--orange); margin-bottom: 0.75rem; }
+        .modal-title {
+            font-family: var(--serif);
+            font-size: 2.25rem;
+            font-style: italic;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+        }
+        .modal-body { color: var(--stone); font-size: 0.9rem; font-weight: 300; line-height: 1.7; margin-bottom: 2rem; }
+        .modal-phone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            background: var(--dark);
+            color: #fff;
+            padding: 1.1rem;
+            font-size: 1.05rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.25rem;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .modal-phone:hover { background: var(--orange); }
+        .modal-email { text-align: center; font-size: 0.75rem; color: var(--stone); letter-spacing: 0.1em; text-transform: uppercase; }
+        .modal-email a { color: var(--orange); font-weight: 500; }
+
+        /* ===== REVEAL ANIMATION ===== */
+        .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar" role="navigation" aria-label="Main navigation">
+    <a href="#" class="flex items-center gap" style="display:flex;align-items:center;gap:0.85rem;">
+        <img src="logo.jpg" alt="Halle Krumbach logo" class="nav-logo" id="nav-logo" width="44" height="44">
+        <span class="nav-brand" id="nav-brand" style="display:none;opacity:0;transition:opacity 0.4s;">Halle</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Site sections">
+        <a href="#story"><span class="lang-de">Story</span><span class="lang-en hidden-lang">Story</span></a>
+        <a href="#highlights">Highlights</a>
+        <a href="menu.html"><span class="lang-de">Speisekarte</span><span class="lang-en hidden-lang">Menu</span></a>
+        <a href="#info"><span class="lang-de">Info</span><span class="lang-en hidden-lang">Info</span></a>
+    </nav>
+
+    <div class="lang-switch" role="group" aria-label="Language selection">
+        <button class="lang-btn active" id="btn-de" onclick="setLang('de')" aria-label="Deutsch" aria-pressed="true">DE</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')" aria-label="English" aria-pressed="false">EN</button>
+    </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header id="hero" role="banner">
+    <img
+        src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop"
+        alt="Elegante Atmosphäre im Restaurant Halle Krumbach"
+        class="hero-img"
+        loading="eager"
+        fetchpriority="high"
+    >
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+        <p class="label hero-tag">
+            <span class="lang-de">Kultur- u. Sportzentrum Krumbach</span>
+            <span class="lang-en hidden-lang">Krumbach Sports & Culture Center</span>
+        </p>
+        <h1 class="hero-title">Taste the<br>Passion.</h1>
+        <p class="hero-sub">
+            <span class="lang-de">Authentische Steinofenpizza, frische Meeresfrüchte und hausgemachte Limonaden — ein Stück Italien mitten in Österreich.</span>
+            <span class="lang-en hidden-lang">Authentic stone-oven pizza, fresh seafood, and handmade lemonades — a piece of Italy in the heart of Austria.</span>
+        </p>
+        <div class="hero-actions">
+            <a href="menu.html" class="btn-primary">
+                <span class="lang-de">Speisekarte</span><span class="lang-en hidden-lang">View Menu</span>
+            </a>
+            <button class="btn-outline" onclick="openModal()">
+                <span class="lang-de">Tisch Reservieren</span><span class="lang-en hidden-lang">Reserve a Table</span>
+            </button>
+        </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+        <span class="lang-de">Scroll</span>
+        <div class="hero-scroll-line"></div>
+    </div>
+</header>
+
+<!-- ===== TICKER ===== -->
+<div class="ticker-wrap" aria-hidden="true">
+    <div class="ticker-inner" id="ticker">
+        <span>Cucina Italiana</span>
+        <span>Steinofenpizza</span>
+        <span>Frischer Fisch</span>
+        <span>Meeresfrüchte</span>
+        <span>Hausgemachte Limonaden</span>
+        <span>Täglich 11–22 Uhr</span>
+        <span>Krumbach, Niederösterreich</span>
+        <span>Cucina Italiana</span>
+        <span>Steinofenpizza</span>
+        <span>Frischer Fisch</span>
+        <span>Meeresfrüchte</span>
+        <span>Hausgemachte Limonaden</span>
+        <span>Täglich 11–22 Uhr</span>
+        <span>Krumbach, Niederösterreich</span>
+    </div>
+</div>
+
+<!-- ===== STORY ===== -->
+<section id="story" aria-label="Notre histoire">
+    <div class="story-images">
+        <img
+            src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=2069&auto=format&fit=crop"
+            alt="Préparation de pizza dans notre cuisine"
+            class="story-img-main"
+            loading="lazy"
+            width="800" height="600"
+        >
+        <img
+            src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1974&auto=format&fit=crop"
+            alt="Intérieur du restaurant Halle"
+            class="story-img-overlay"
+            loading="lazy"
+            width="400" height="300"
+        >
+    </div>
+    <div class="story-text">
+        <p class="label story-label">
+            <span class="lang-de">Unsere Geschichte</span>
+            <span class="lang-en hidden-lang">Our Story</span>
+        </p>
+        <h2 class="story-title reveal">
+            <span class="lang-de">Ehrliches Handwerk, echter Geschmack.</span>
+            <span class="lang-en hidden-lang">Honest craft, real flavour.</span>
+        </h2>
+        <div class="story-divider" aria-hidden="true"></div>
+        <p class="story-body reveal">
+            <span class="lang-de">Im <strong>Halle Krumbach</strong> glauben wir an die Kraft guter Zutaten. Ob unsere klassische Margherita, ein frischer Branzino vom Grill oder ein hausgemachtes Tiramisu — jedes Gericht wird mit Leidenschaft und Sorgfalt zubereitet.</span>
+            <span class="lang-en hidden-lang">At <strong>Halle Krumbach</strong>, we believe in the power of good ingredients. Whether our classic Margherita, fresh grilled Branzino, or homemade Tiramisu — every dish is prepared with passion and care.</span>
+        </p>
+        <a href="menu.html" class="story-link reveal" aria-label="Speisekarte ansehen">
+            <span class="lang-de">Speisekarte entdecken</span>
+            <span class="lang-en hidden-lang">Explore the menu</span>
+            <span aria-hidden="true">→</span>
+        </a>
+    </div>
+</section>
+
+<!-- ===== HIGHLIGHTS ===== -->
+<section id="highlights" aria-label="Unsere Klassiker">
+    <div class="highlights-header reveal">
+        <div>
+            <p class="label" style="color:var(--stone);margin-bottom:0.75rem;">Highlights</p>
+            <h2 class="highlights-title">
+                <span class="lang-de">Unsere Klassiker</span>
+                <span class="lang-en hidden-lang">Our Classics</span>
+            </h2>
+        </div>
+        <a href="menu.html" class="highlights-all">
+            <span class="lang-de">Ganzes Menü →</span>
+            <span class="lang-en hidden-lang">Full Menu →</span>
+        </a>
+    </div>
+
+    <div class="highlights-grid">
+        <article class="highlight-card reveal" onclick="window.location.href='menu.html'" role="button" tabindex="0" aria-label="Pizza dal Forno - Zur Speisekarte">
+            <span class="highlight-tag lang-de">Bestseller</span>
+            <span class="highlight-tag lang-en hidden-lang">Bestseller</span>
+            <div class="highlight-card-img-wrap">
+                <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop" alt="Pizza San Daniele aus dem Steinofen" loading="lazy" width="600" height="420">
+            </div>
+            <div class="highlight-card-body">
+                <h3 class="highlight-card-title">Pizza dal Forno</h3>
+                <p class="highlight-card-desc">
+                    <span class="lang-de">Hausgemachter Teig, San Daniele, Rucola, Cherrytomaten.</span>
+                    <span class="lang-en hidden-lang">Homemade dough, San Daniele, arugula, cherry tomatoes.</span>
+                </p>
+            </div>
+        </article>
+
+        <article class="highlight-card reveal" onclick="window.location.href='menu.html'" role="button" tabindex="0" aria-label="Pesce Fresco - Zur Speisekarte">
+            <span class="highlight-tag lang-de">Saison</span>
+            <span class="highlight-tag lang-en hidden-lang">Seasonal</span>
+            <div class="highlight-card-img-wrap">
+                <img src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?q=80&w=800&auto=format&fit=crop" alt="Frische Meeresfrüchte und Wolfsbarsch" loading="lazy" width="600" height="420">
+            </div>
+            <div class="highlight-card-body">
+                <h3 class="highlight-card-title">Pesce Fresco</h3>
+                <p class="highlight-card-desc">
+                    <span class="lang-de">Gegrillter Oktopus, frischer Wolfsbarsch & saisonale Fischplatte.</span>
+                    <span class="lang-en hidden-lang">Grilled octopus, fresh sea bass & seasonal seafood platter.</span>
+                </p>
+            </div>
+        </article>
+
+        <article class="highlight-card reveal" onclick="window.location.href='menu.html'" role="button" tabindex="0" aria-label="Aperitivi - Zur Speisekarte">
+            <div class="highlight-card-img-wrap">
+                <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?q=80&w=1887&auto=format&fit=crop" alt="Aperitivi und hausgemachte Limonaden" loading="lazy" width="600" height="420">
+            </div>
+            <div class="highlight-card-body">
+                <h3 class="highlight-card-title">Aperitivi & Spritz</h3>
+                <p class="highlight-card-desc">
+                    <span class="lang-de">Limoncello Spritz, Aperol & hausgemachte Limonaden.</span>
+                    <span class="lang-en hidden-lang">Limoncello Spritz, Aperol & homemade lemonades.</span>
+                </p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<!-- ===== INFO STRIP ===== -->
+<section id="info" aria-label="Restaurant information">
+    <div class="info-cell reveal">
+        <div class="info-icon" aria-hidden="true">🕐</div>
+        <p class="label info-label">
+            <span class="lang-de">Öffnungszeiten</span>
+            <span class="lang-en hidden-lang">Opening Hours</span>
+        </p>
+        <p class="info-value">
+            <span class="lang-de">Mo – So<br>11:00 – 22:00</span>
+            <span class="lang-en hidden-lang">Mon – Sun<br>11 AM – 10 PM</span>
+        </p>
+        <p class="info-sub">
+            <span class="lang-de">Warme Küche bis 21:30</span>
+            <span class="lang-en hidden-lang">Kitchen until 9:30 PM</span>
+        </p>
+    </div>
+    <div class="info-cell reveal">
+        <div class="info-icon" aria-hidden="true">📍</div>
+        <p class="label info-label">
+            <span class="lang-de">Adresse</span>
+            <span class="lang-en hidden-lang">Address</span>
+        </p>
+        <p class="info-value">Kultur- u. Sportzentrum<br>2851 Krumbach</p>
+        <p class="info-sub">Niederösterreich, Austria</p>
+    </div>
+    <div class="info-cell reveal">
+        <div class="info-icon" aria-hidden="true">📞</div>
+        <p class="label info-label">
+            <span class="lang-de">Reservierung</span>
+            <span class="lang-en hidden-lang">Reservation</span>
+        </p>
+        <p class="info-value"><a href="tel:+43123456789" style="color:inherit;">+43 123 456 789</a></p>
+        <p class="info-sub"><a href="mailto:info@halle-krumbach.at" style="color:var(--stone);">info@halle-krumbach.at</a></p>
+    </div>
+</section>
+
+<!-- ===== GALLERY ===== -->
+<section id="gallery" aria-label="Galerie">
+    <div class="gallery-header">
+        <h2 class="gallery-title">@Halle_Krumbach</h2>
+        <p class="gallery-sub">
+            <span class="lang-de">Teile deine Momente mit uns</span>
+            <span class="lang-en hidden-lang">Share your moments with us</span>
+        </p>
+    </div>
+    <div class="gallery-strip" id="gallery-strip" role="list">
+        <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=800&auto=format&fit=crop" alt="Restaurantgericht" loading="lazy" role="listitem" width="400" height="300">
+        <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?q=80&w=800&auto=format&fit=crop" alt="Tisch Dekoration" loading="lazy" role="listitem" width="400" height="300">
+        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop" alt="Ambiente Halle" loading="lazy" role="listitem" width="400" height="300">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop" alt="Café und Getränke" loading="lazy" role="listitem" width="400" height="300">
+        <img src="https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?q=80&w=800&auto=format&fit=crop" alt="Desserts Tiramisu" loading="lazy" role="listitem" width="400" height="300">
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="contact" role="contentinfo">
+    <div class="footer-main">
+        <div>
+            <img src="logo.jpg" alt="Halle Krumbach" class="footer-logo" width="64" height="64">
+            <p class="footer-tagline">
+                <span class="lang-de">Authentische italienische Küche im Kultur- und Sportzentrum Krumbach.</span>
+                <span class="lang-en hidden-lang">Authentic Italian cuisine at the Krumbach Culture & Sports Center.</span>
+            </p>
+            <button class="footer-reserve" onclick="openModal()">
+                <span class="lang-de">Tisch Reservieren →</span>
+                <span class="lang-en hidden-lang">Book a Table →</span>
+            </button>
+        </div>
+        <div class="footer-col">
+            <h3 class="footer-col-title">Location</h3>
+            <p>Kultur- und Sportzentrum<br>2851 Krumbach<br>Niederösterreich<br>Österreich</p>
+        </div>
+        <div class="footer-col">
+            <h3 class="footer-col-title">Contact</h3>
+            <p>
+                <a href="tel:+43123456789">T: +43 123 456 789</a><br>
+                <a href="mailto:info@halle-krumbach.at">info@halle-krumbach.at</a><br>
+                <a href="https://instagram.com/halle_krumbach" target="_blank" rel="noopener">@Halle_Krumbach</a>
+            </p>
+        </div>
+        <div class="footer-col">
+            <h3 class="footer-col-title">Hours</h3>
+            <p>
+                <span class="lang-de">Mo – So: 11:00 – 22:00<br><em style="color:var(--stone);font-size:0.8rem;">Warme Küche bis 21:30</em></span>
+                <span class="lang-en hidden-lang">Mon – Sun: 11AM – 10PM<br><em style="color:var(--stone);font-size:0.8rem;">Kitchen until 9:30 PM</em></span>
+            </p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 Halle Restaurant Krumbach</p>
+        <div class="footer-bottom-links">
+            <a href="#">Impressum</a>
+            <a href="#">Datenschutz</a>
+        </div>
+    </div>
+</footer>
+
+<!-- ===== BOOKING MODAL ===== -->
+<div id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+    <div id="modal-box">
+        <button class="modal-close" onclick="closeModal()" aria-label="Schließen">✕</button>
+        <p class="label modal-label">Halle Krumbach</p>
+        <h2 class="modal-title" id="modal-title">
+            <span class="lang-de">Tisch reservieren</span>
+            <span class="lang-en hidden-lang">Reserve a Table</span>
+        </h2>
+        <p class="modal-body">
+            <span class="lang-de">Rufen Sie uns bitte direkt an oder schreiben Sie uns eine E-Mail — wir freuen uns darauf, Sie bei uns begrüßen zu dürfen!</span>
+            <span class="lang-en hidden-lang">Please call us directly or send us an email — we look forward to welcoming you!</span>
+        </p>
+        <a href="tel:+43123456789" class="modal-phone">📞 +43 123 456 789</a>
+        <p class="modal-email">
+            <span class="lang-de">Oder per E-Mail:</span>
+            <span class="lang-en hidden-lang">Or via email:</span><br>
+            <a href="mailto:info@halle-krumbach.at">info@halle-krumbach.at</a>
+        </p>
+    </div>
+</div>
+
+<script>
+/* ===== LANGUAGE MANAGEMENT ===== */
+const STORAGE_KEY = 'halle_lang';
+
+function setLang(lang) {
+    const isValid = lang === 'de' || lang === 'en';
+    if (!isValid) lang = 'de';
+
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('.lang-de').forEach(el => {
+        el.classList.toggle('hidden-lang', lang !== 'de');
+    });
+    document.querySelectorAll('.lang-en').forEach(el => {
+        el.classList.toggle('hidden-lang', lang !== 'en');
+    });
+
+    const btnDe = document.getElementById('btn-de');
+    const btnEn = document.getElementById('btn-en');
+    btnDe.classList.toggle('active', lang === 'de');
+    btnEn.classList.toggle('active', lang === 'en');
+    btnDe.setAttribute('aria-pressed', String(lang === 'de'));
+    btnEn.setAttribute('aria-pressed', String(lang === 'en'));
+
+    try { localStorage.setItem(STORAGE_KEY, lang); } catch(e) {}
+}
+
+/* ===== NAVBAR SCROLL ===== */
+const navbar = document.getElementById('navbar');
+const navBrand = document.getElementById('nav-brand');
+
+function handleScroll() {
+    const scrolled = window.scrollY > 60;
+    navbar.classList.toggle('scrolled', scrolled);
+    if (navBrand) {
+        navBrand.style.display = scrolled ? 'block' : 'none';
+        navBrand.style.opacity = scrolled ? '1' : '0';
+    }
+}
+window.addEventListener('scroll', handleScroll, { passive: true });
+
+/* ===== MODAL ===== */
+const modalOverlay = document.getElementById('modal-overlay');
+
+function openModal() {
+    modalOverlay.classList.add('open');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    modalOverlay.classList.remove('open');
+    modalOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+modalOverlay.addEventListener('click', function(e) {
+    if (e.target === modalOverlay) closeModal();
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+});
+
+/* ===== REVEAL ON SCROLL ===== */
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ===== GALLERY DRAG-TO-SCROLL ===== */
+const galleryStrip = document.getElementById('gallery-strip');
+let isDown = false, startX, scrollLeft;
+
+galleryStrip.addEventListener('mousedown', e => {
+    isDown = true;
+    galleryStrip.classList.add('dragging');
+    startX = e.pageX - galleryStrip.offsetLeft;
+    scrollLeft = galleryStrip.scrollLeft;
+});
+galleryStrip.addEventListener('mouseleave', () => { isDown = false; galleryStrip.classList.remove('dragging'); });
+galleryStrip.addEventListener('mouseup', () => { isDown = false; galleryStrip.classList.remove('dragging'); });
+galleryStrip.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - galleryStrip.offsetLeft;
+    galleryStrip.scrollLeft = scrollLeft - (x - startX) * 1.5;
+});
+
+/* ===== KEYBOARD: highlight cards ===== */
+document.querySelectorAll('.highlight-card').forEach(card => {
+    card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            window.location.href = 'menu.html';
+        }
+    });
+});
+
+/* ===== INIT ===== */
+(function init() {
+    let savedLang = 'de';
+    try { savedLang = localStorage.getItem(STORAGE_KEY) || 'de'; } catch(e) {}
+    setLang(savedLang);
+    handleScroll();
+})();
+</script>
+
+</body>
+</html>

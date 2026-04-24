@@ -2,9 +2,9 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Speisekarte — Halle Krumbach</title>
-<meta name="description" content="Die Speisekarte der Halle Krumbach. Cucina Italiana – Steinofenpizza, Fisch, Pasta, Fleisch, Desserts.">
+<meta name="description" content="Die Speisekarte der Halle Krumbach. Italienische Küche – Steinofenpizza, Fisch, Nudeln, Fleisch, Desserts.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
@@ -116,10 +116,10 @@ body { font-family: var(--sans); background: var(--bg-deep); color: var(--ink-ti
 .right-page .page-face::after { content: ''; position: absolute; left: 0; top: 0; width: 40px; height: 100%; background: linear-gradient(to right, rgba(0,0,0,0.1), transparent); pointer-events: none; }
 
 /* ═══════════════════════════════════════════════════════
-   5. COUVERTURE CORRIGÉE (Prend 100% de l'espace)
+   5. COUVERTURE & DESIGN INTÉRIEUR
 ═══════════════════════════════════════════════════════ */
 .cover-face { 
-  position: absolute; inset: 0; /* LA CORRECTION EST ICI : Force la taille max */
+  position: absolute; inset: 0; 
   display: flex; flex-direction: column; align-items: center; justify-content: center; 
   text-align: center; background: #0A0A0A !important; color: var(--gold); z-index: 10; 
 }
@@ -165,7 +165,7 @@ body { font-family: var(--sans); background: var(--bg-deep); color: var(--ink-ti
 .feature-price-label { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; color: var(--ink-title); }
 
 /* ═══════════════════════════════════════════════════════
-   6. CONTRÔLES & RESPONSIVITÉ PARFAITE
+   6. CONTRÔLES 
 ═══════════════════════════════════════════════════════ */
 #controls { position: fixed; bottom: 2rem; display: flex; align-items: center; justify-content: center; gap: 2rem; z-index: 20; width: 100%; left: 0; pointer-events: none; }
 .ctrl-btn { background: #0A0A0A; border: 1px solid var(--gold-dark); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; color: var(--gold); font-size: 1.2rem; transition: all 0.3s ease; pointer-events: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
@@ -173,6 +173,9 @@ body { font-family: var(--sans); background: var(--bg-deep); color: var(--ink-ti
 .ctrl-btn:disabled { opacity: 0.2; cursor: default; border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.2); }
 .page-indicator { font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.6); padding: 5px 15px; border-radius: 20px; pointer-events: auto; }
 
+/* ═══════════════════════════════════════════════════════
+   7. RESPONSIVITÉ PARFAITE (MOBILE & PORTABLE)
+═══════════════════════════════════════════════════════ */
 /* GESTION DE LA HAUTEUR */
 @media (max-height: 850px) and (min-width: 769px) {
   :root { --page-w: 400px; --page-h: 620px; }
@@ -186,24 +189,31 @@ body { font-family: var(--sans); background: var(--bg-deep); color: var(--ink-ti
   #scene { padding-top: 120px; }
 }
 
-/* GESTION DE LA LARGEUR */
+/* GESTION DE LA LARGEUR (Tablettes) */
 @media (max-width: 900px) { 
   :root { --page-w: 44vw; --page-h: 65vh; } 
   html { font-size: 12px; }
 }
 
+/* GESTION DU SMARTPHONE (Taille bloquée, centrage strict) */
 @media (max-width: 768px) {
-  :root { --page-w: 48vw; --page-h: 62vh; }
-  html { font-size: 9px; }
+  :root { --page-w: 47vw; --page-h: 66vh; }
+  html { font-size: 8.5px; } 
   
-  #scene { padding-top: 140px; }
-  #magnetic-wrapper { transform: none !important; }
-  #book-stage { perspective: 2500px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+  #scene { padding-top: 130px; padding-left: 0; padding-right: 0; width: 100vw; overflow-x: hidden; }
   
-  .s-tab { padding: 0.5rem; gap: 0.2rem; }
+  .page-inner { padding: 2rem 1.2rem 1rem; }
+  .menu-item-desc { padding-right: 0.2rem; }
+  .menu-dots { margin: 0 4px; }
+  
+  #magnetic-wrapper { transform: none !important; margin-top: 0; }
+  #book-stage { perspective: 2000px; box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
+  
+  .s-tab { padding: 0.5rem 0.4rem; gap: 0.1rem; }
   .s-tab-label { display: none; }
-  .s-tab-icon { font-size: 1.5rem; }
-  #controls { bottom: 1rem; transform: scale(0.8); }
+  .s-tab-icon { font-size: 1.4rem; }
+  
+  #controls { bottom: 1rem; transform: scale(0.85); width: 100vw; left: 0; justify-content: center; }
 }
 </style>
 </head>
@@ -218,14 +228,18 @@ body { font-family: var(--sans); background: var(--bg-deep); color: var(--ink-ti
 
 <div id="section-tabs">
   <button class="s-tab active" onclick="goToSpread(1)" data-target="1"><span class="s-tab-icon">🥣</span><span class="s-tab-label">Suppen & Salate</span></button>
-  <button class="s-tab" onclick="goToSpread(2)" data-target="2"><span class="s-tab-icon">🥗</span><span class="s-tab-label">Antipasti</span></button>
+  <button class="s-tab" onclick="goToSpread(2)" data-target="2"><span class="s-tab-icon">🥗</span><span class="s-tab-label">Vorspeisen</span></button>
   <button class="s-tab" onclick="goToSpread(3)" data-target="3"><span class="s-tab-icon">🍕</span><span class="s-tab-label">Pizza</span></button>
-  <button class="s-tab" onclick="goToSpread(5)" data-target="5"><span class="s-tab-icon">🍝</span><span class="s-tab-label">Pasta</span></button>
+  <button class="s-tab" onclick="goToSpread(5)" data-target="5"><span class="s-tab-icon">🍝</span><span class="s-tab-label">Nudeln</span></button>
   <button class="s-tab" onclick="goToSpread(6)" data-target="6"><span class="s-tab-icon">🐟</span><span class="s-tab-label">Hauptspeisen</span></button>
   <button class="s-tab" onclick="goToSpread(7)" data-target="7"><span class="s-tab-icon">⭐</span><span class="s-tab-label">Kinder</span></button>
 </div>
 
 <div id="scene">
+  <header style="position:absolute; top:-9999px;">
+    <h1>Italienische Küche - Speisekarte</h1>
+  </header>
+
   <div id="magnetic-wrapper">
     <div id="book-stage" role="region" aria-label="Speisekarte"></div>
   </div>
@@ -253,7 +267,7 @@ const BOOK_SPREADS = [
   /* ── SPREAD 1 : ZUPPE & SALATE ── */
   {
     left: {
-      type: 'items', grandTitle: 'Zuppe & Insalate', grandSubtitle: 'Hausgemachte Suppen & Frische Salate',
+      type: 'items', grandTitle: 'Suppen & Salate', grandSubtitle: 'Hausgemachte Suppen & Frische Salate',
       items: [
         { name: 'CREMA DI POMODORO', alg: 'ACL', desc: 'Tomatencremesuppe | frisch Basilikum', price: '5.90' },
         { name: 'MINESTRONE', alg: 'ACGL', desc: 'Gemüsesuppe saisonal', price: '5.90' },
@@ -263,7 +277,7 @@ const BOOK_SPREADS = [
       ], side: 'left'
     },
     right: {
-      type: 'items', sl: 'Frische Salate', st: 'Insalate Speciale',
+      type: 'items', sl: 'Frische Salate', st: 'Besondere Salate',
       items: [
         { name: 'MISTA', alg: 'A', desc: 'Gemischter Blattsalat | Tomaten | Gurken', price: '6.40' },
         { name: 'DI POLLO', alg: 'A', desc: 'Gemischter Salat | Tomaten | Gurken | gegrillten Hühnerbruststreifen', price: '12.90' },
@@ -278,7 +292,7 @@ const BOOK_SPREADS = [
   /* ── SPREAD 2 : ANTIPASTI & BROT ── */
   {
     left: {
-      type: 'items', grandTitle: 'Antipasti', grandSubtitle: 'Vorspeisen aus Italien',
+      type: 'items', grandTitle: 'Vorspeisen', grandSubtitle: 'Vorspeisen aus Italien',
       items: [
         { name: 'ANTIPASTI VEGETARIANA', alg: 'AGH', desc: 'Büffelmozzarella | saisonales Gemüse | Oliven | Grana | Rucola', price: '15.90' },
         { name: 'CAPRESE ALL\' AMORE', alg: 'AGH', desc: 'Büffelmozzarella | Basilikumpesto | Tomaten', price: '10.90' },
@@ -287,7 +301,7 @@ const BOOK_SPREADS = [
       ], side: 'left'
     },
     right: {
-      type: 'items', sl: 'Vorspeisen & Brot', st: 'Pane e Specialità',
+      type: 'items', sl: 'Vorspeisen', st: 'Brot & Spezialitäten',
       items: [
         { name: 'VITELLO TONNATO', alg: 'G', desc: 'Kalbsfleisch | Thunfischcreme | Kapern | Cherrytomaten', price: '14.90' },
         { name: 'ANTIPASTO MISTO DELLA CASA', alg: 'AGH', bestseller: true, desc: 'Gemischte Vorspeisenplatte nach Art des Hauses', price: '15.90' },
@@ -301,7 +315,7 @@ const BOOK_SPREADS = [
   /* ── SPREAD 3 : PIZZA (1/4) et PIZZA (2/4) ── */
   {
     left: {
-      type: 'items', grandTitle: 'Pizza dal Forno', grandSubtitle: 'Traditionell im Steinofen gebacken',
+      type: 'items', grandTitle: 'Pizza aus dem Ofen', grandSubtitle: 'Traditionell im Steinofen gebacken',
       items: [
         { name: 'MAGERITA', alg: 'AG', desc: 'Tomaten | Mozzarella | Basilikum', price: '10.90' },
         { name: 'BUFFALO', alg: 'AG', bestseller: true, desc: 'Tomaten | Mozzarella | Buffalo Mozzarella | Basilikum | Cherrytomaten | Grana', price: '15.90' },
@@ -312,7 +326,7 @@ const BOOK_SPREADS = [
       ], side: 'left'
     },
     right: {
-      type: 'items', sl: 'Dal Forno', st: 'Pizza Speciale',
+      type: 'items', sl: 'Aus dem Ofen', st: 'Spezial-Pizza',
       items: [
         { name: 'REGINA', alg: 'AG', desc: 'Tomaten | Mozzarella | Schinken | Champignon', price: '13.90' },
         { name: 'HAWAII', alg: 'AG', desc: 'Tomaten | Mozzarella | Schinken | Ananas', price: '12.90' },
@@ -327,7 +341,7 @@ const BOOK_SPREADS = [
   /* ── SPREAD 4 : PIZZA (3/4) et PIZZA (4/4) + EXTRAS ── */
   {
     left: {
-      type: 'items', sl: 'Dal Forno', st: 'Pizza Mare & Terra',
+      type: 'items', sl: 'Aus dem Ofen', st: 'Pizza Meer & Land',
       items: [
         { name: 'ΤΟΝΝΟ', alg: 'AGD', desc: 'Tomaten | Mozzarella | Thunfisch | Zwiebeln | Oliven', price: '14.90' },
         { name: 'PESCATORE', alg: 'AGDBR', desc: 'Tomaten | Mozzarella | Meeresfrüchte', price: '17.90' },
@@ -338,7 +352,7 @@ const BOOK_SPREADS = [
       ], side: 'left'
     },
     right: {
-      type: 'items', sl: 'Dal Forno', st: 'Pizza Gourmet & Extras',
+      type: 'items', sl: 'Aus dem Ofen', st: 'Gourmet-Pizza & Extras',
       items: [
         { name: 'PROVENCIALE', alg: 'TAG', desc: 'Tomaten | Mozzarella | Speck | Schinken | Mais | Mild Pfefferoni', price: '14.90' },
         { name: 'RUCCOLA', alg: 'AG', desc: 'Tomaten | Mozzarella | Ruccola | Cherrytomaten | Grana', price: '14.90' },
@@ -356,7 +370,7 @@ const BOOK_SPREADS = [
   /* ── SPREAD 5 : PASTA (1/2) et PASTA (2/2) ── */
   {
     left: {
-      type: 'items', grandTitle: 'Pasta Fresca', grandSubtitle: 'Unsere Nudeln sind auch Glutenfrei möglich',
+      type: 'items', grandTitle: 'Nudelgerichte', grandSubtitle: 'Unsere Nudeln sind auch glutenfrei möglich',
       items: [
         { name: 'SPAGHETTI AGLIO OLIO', alg: 'A', desc: 'Knoblauch | Olivenöl | Pepperoncino | Petersilie (Vegan)', price: '10.90' },
         { name: 'PENNE ALL\'ARRABIATA', alg: 'A', desc: 'Tomatensauce | Pepperoncino (Vegan)', price: '11.90' },
@@ -366,7 +380,7 @@ const BOOK_SPREADS = [
       ], side: 'left'
     },
     right: {
-      type: 'items', sl: 'Pasta Fresca', st: 'Specialità della Casa',
+      type: 'items', sl: 'Nudeln', st: 'Spezialitäten des Hauses',
       items: [
         { name: 'LINGUINE FRUTTI DI MARE', alg: 'ABCDG', desc: 'Tomatensugo | Garnelen | Muscheln | Oktopus | Petersilie | Knoblauch', price: '21.90' },
         { name: 'TAGLIATELLE AL SALMONE', alg: 'ADG', desc: 'Lachs filet | Babyspinat | Tomatensauce | Crema', price: '18.90' },
@@ -380,7 +394,7 @@ const BOOK_SPREADS = [
   /* ── SPREAD 6 : SEAFOOD et FISCHPLATTE ── */
   {
     left: {
-      type: 'items', grandTitle: 'Pesce & Carne', grandSubtitle: 'Meeresfrüchte & Fleisch vom Grill',
+      type: 'items', grandTitle: 'Fisch & Fleisch', grandSubtitle: 'Meeresfrüchte & Fleisch vom Grill',
       items: [
         { name: 'BRANZINOFILET', alg: 'DL', desc: 'Wolfsbarschfilet | Grill Gemüse | Rosmarinkartoffel', price: '24.90' },
         { name: 'CALAMARI ALLA GRIGLIA', alg: 'R', desc: 'Kalamari | Babyspinat | Rote Zwiebel | Kartoffel | Tomaten', price: '21.90' },
@@ -412,7 +426,7 @@ const BOOK_SPREADS = [
       ], side: 'left'
     },
     right: {
-      type: 'items', grandTitle: 'Bambini', grandSubtitle: 'Spaß Menü für die Kleinen',
+      type: 'items', grandTitle: 'Kindermenü', grandSubtitle: 'Spaß Menü für die Kleinen',
       items: [
         { name: 'MINI HAMBURGER', alg: 'AM', desc: 'Rindfleisch gegrillt | Salat | Essiggurken | Zwiebel | Pommes', price: '5.90' },
         { name: 'SCHNITZEL SANDWICH NORMAL', alg: 'AC', desc: 'Ketchup | Mayonaise | Pommes', price: '6.90' },
@@ -479,7 +493,7 @@ function buildPageContent(data) {
           <div class="cover-ornament">✦</div>
           <h1 class="cover-main-title">Halle<br>Krumbach</h1>
           <div class="cover-divider"></div>
-          <p class="cover-subtitle">Ristorante & Pizzeria</p>
+          <p class="cover-subtitle">Restaurant & Pizzeria</p>
           <div class="cover-bottom-text">SPEISEKARTE</div>
         </div>`;
     case 'back': return `
@@ -494,7 +508,7 @@ function buildPageContent(data) {
         </div>`;
     case 'items':
       const items = (data.items || []).map(item => {
-        const bestsellerTag = item.bestseller ? `<span class="bestseller-tag">Empfehlung</span>` : '';
+        const bestsellerTag = item.bestseller ? `<span class="bestseller-tag">Empfehlung des Hauses</span>` : '';
         return `
         <div class="menu-item">
           ${bestsellerTag}

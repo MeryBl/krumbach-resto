@@ -3,839 +3,715 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Speisekarte | Halle Krumbach</title>
-<meta name="description" content="Unsere Speisekarte – Pizza, Fisch, Fleisch, Desserts & Getränke. Halle Krumbach, Cucina Italiana.">
-<link rel="canonical" href="https://www.halle-krumbach.at/menu.html">
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Menu","name":"Speisekarte Halle Krumbach","url":"https://www.halle-krumbach.at/menu.html"}
-</script>
+<title>Speisekarte — Halle Krumbach</title>
+<meta name="description" content="Die Speisekarte der Halle Krumbach. Cucina Italiana – Steinofenpizza, Fisch, Pasta, Fleisch, Desserts.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --gold:#c9a96e;
-  --gold-hover:#e0c48a;
-  --gold-dark:#7a5c10;
-  --ivory:#f4ede0;
-  --ivory-2:#ede3cf;
-  --dark:#12100d;
-  --dark-2:#1e180f;
-  --stone:#9a8a76;
-  --serif:'Cormorant Garamond',Georgia,serif;
-  --display:'Cinzel',serif;
-  --sans:'DM Sans',sans-serif;
-  --pw:420px;
-  --ph:600px;
-}
-html,body{height:100%}
-body{
-  font-family:var(--sans);
-  background:var(--dark);
-  color:var(--dark);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  user-select:none;
-}
-a{text-decoration:none;color:inherit}
-.hidden-lang{display:none!important}
+/* ═══════════════════════════════════════════════════════
+   1. TOKENS & VARIABLES
+═══════════════════════════════════════════════════════ */
+:root {
+  --gold:        #d4af37; 
+  --gold-light:  #f9e596;
+  --gold-dark:   #aa8222;
+  --gold-subtle: rgba(212, 175, 55, 0.2);
 
-/* ─── ATMOSPHERIC BACKGROUND ─── */
-#bg{
-  position:fixed;inset:0;z-index:0;
-  background:radial-gradient(ellipse 80% 80% at 50% 30%,#2a1a08 0%,#0d0905 60%,#000 100%);
-  overflow:hidden;
-}
-.candle{
-  position:absolute;bottom:0;
-  width:1px;
-  background:linear-gradient(to top,rgba(201,169,110,.35) 0%,transparent 100%);
-  animation:cflicker 3s ease-in-out infinite alternate;
-}
-.candle::after{
-  content:'';position:absolute;top:-14px;left:50%;transform:translateX(-50%);
-  width:12px;height:18px;
-  background:radial-gradient(ellipse at 50% 70%,rgba(255,230,100,.95) 0%,rgba(255,120,0,.5) 50%,transparent 80%);
-  border-radius:50% 50% 40% 40%;filter:blur(2px);
-  animation:cflame 2.4s ease-in-out infinite alternate;
-}
-@keyframes cflicker{0%{opacity:.4}100%{opacity:.9}}
-@keyframes cflame{0%{transform:translateX(-50%) scale(1,.9) rotate(-3deg)}100%{transform:translateX(-50%) scale(1.15,1.1) rotate(4deg)}}
+  --paper:       #FDFCF0; 
+  --paper-alt:   #F4F1E1;
+  --ink-title:   #111111; 
+  --ink-text:    #444444;
+  --ink-light:   #888888;
 
-/* subtle vignette */
-#bg::after{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(0,0,0,.7) 100%);
-  pointer-events:none;
+  --bg-deep:     #080808;
+
+  --serif: 'Playfair Display', serif;
+  --sans:  'Montserrat', sans-serif;
+
+  --page-w:  450px; 
+  --page-h:  700px; 
+  --turn-speed: 0.8s;
 }
 
-/* ─── NAVBAR ─── */
-#nav{
-  position:fixed;top:0;left:0;right:0;z-index:300;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1rem 2.5rem;
-  background:rgba(8,6,3,.8);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(201,169,110,.12);
-}
-.nav-logo{height:2rem;filter:brightness(0) invert(1);opacity:.8}
-.nav-back{
-  display:flex;align-items:center;gap:.4rem;
-  font-family:var(--display);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;
-  color:var(--gold);opacity:.65;transition:opacity .2s;
-}
-.nav-back:hover{opacity:1}
-.lang-sw{display:flex;align-items:center;gap:.5rem}
-.lb{
-  background:none;border:none;cursor:pointer;padding:0;
-  font-family:var(--display);font-size:.55rem;letter-spacing:.2em;
-  color:rgba(255,255,255,.3);transition:color .2s;
-}
-.lb.on{color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:1px}
-.ls{color:rgba(255,255,255,.1)}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
+html { font-size: 16px; } 
+body { font-family: var(--sans); background: var(--bg-deep); color: var(--ink-title); user-select: none; }
 
-/* ─── SCENE ─── */
-#scene{
-  position:relative;z-index:10;
-  min-height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:90px 1rem 2rem;gap:1.75rem;
+/* ═══════════════════════════════════════════════════════
+   2. FOND AMBIANCE
+═══════════════════════════════════════════════════════ */
+#atmosphere {
+  position: fixed; inset: 0; z-index: 0; background: var(--bg-deep); overflow: hidden;
+}
+#atmosphere::before {
+  content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 80vw; height: 80vh; border-radius: 50%; 
+  background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.scene-label{
-  text-align:center;
-  font-family:var(--display);font-size:.55rem;letter-spacing:.45em;text-transform:uppercase;
-  color:var(--gold);opacity:.55;
+/* ═══════════════════════════════════════════════════════
+   3. NAVIGATION
+═══════════════════════════════════════════════════════ */
+#nav { 
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500; display: flex; align-items: center; justify-content: center; 
+  padding: 1rem; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--gold-subtle); 
 }
-.scene-title{
-  text-align:center;
-  font-family:var(--serif);font-size:clamp(1.6rem,3.5vw,2.5rem);font-style:italic;
-  color:rgba(255,255,255,.85);margin-top:.3rem;
+.nav-logo { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+
+#section-tabs { 
+  position: fixed; top: 60px; left: 0; right: 0; z-index: 400; display: flex; justify-content: center; 
+  background: rgba(10, 10, 10, 0.95); border-bottom: 1px solid var(--gold-subtle); flex-wrap: wrap; 
+}
+.s-tab { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; padding: 0.8rem 1.2rem; position: relative; transition: all 0.3s ease; }
+.s-tab:hover { background: rgba(212,175,55,0.05); }
+.s-tab-icon { font-size: 1.2rem; opacity: 0.5; transition: all 0.3s; filter: grayscale(100%); }
+.s-tab.active .s-tab-icon { opacity: 1; filter: grayscale(0%); transform: scale(1.1) translateY(-2px); }
+.s-tab-label { font-family: var(--sans); font-size: 0.55rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); transition: color 0.3s; }
+.s-tab.active .s-tab-label { color: var(--gold); }
+.s-tab::after { content: ''; position: absolute; bottom: 0; left: 50%; width: 0; height: 2px; background: var(--gold); transform: translateX(-50%); transition: width 0.3s ease; }
+.s-tab.active::after { width: 100%; }
+
+/* ═══════════════════════════════════════════════════════
+   4. SCÈNE & LIVRE 3D
+═══════════════════════════════════════════════════════ */
+#scene { 
+  position: relative; z-index: 10; height: 100vh; display: flex; flex-direction: column; align-items: center; 
+  justify-content: flex-start; padding-top: 150px; perspective: 2000px; 
 }
 
-/* ─── BOOK STAGE ─── */
-#stage{
-  position:relative;
-  width:calc(var(--pw)*2);
-  height:var(--ph);
-  perspective:2800px;
-  cursor:pointer;
+#magnetic-wrapper { transition: transform 0.1s ease-out; transform-style: preserve-3d; }
+
+#book-stage { 
+  position: relative; width: calc(var(--page-w) * 2); height: var(--page-h); 
+  perspective: 3000px; cursor: grab; touch-action: none;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 10px 20px rgba(0,0,0,0.5);
+  border-radius: 4px;
+}
+#book-stage:active { cursor: grabbing; }
+
+#book-stage::before { 
+  content: ''; position: absolute; left: calc(50% - 1px); top: 0; width: 2px; height: 100%; 
+  background: linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0,0.3), rgba(0,0,0,0.1)); z-index: 90; pointer-events: none; 
 }
 
-/* spine shadow */
-#stage::after{
-  content:'';position:absolute;
-  left:50%;top:4%;width:14px;height:92%;transform:translateX(-50%);
-  background:linear-gradient(to right,rgba(0,0,0,.55),rgba(201,169,110,.12),rgba(0,0,0,.45));
-  z-index:80;pointer-events:none;
+.page { position: absolute; top: 0; width: var(--page-w); height: var(--page-h); transform-style: preserve-3d; transition: transform var(--turn-speed) cubic-bezier(0.645, 0.045, 0.355, 1.000), z-index 0s linear var(--turn-speed); z-index: 1; }
+.page.left-page { left: 0; transform-origin: right center; border-radius: 4px 0 0 4px; }
+.page.right-page { left: var(--page-w); transform-origin: left center; border-radius: 0 4px 4px 0; }
+.page.left-page.flipped { transform: rotateY(180deg); }
+.page.right-page.flipped { transform: rotateY(-180deg); }
+
+.page-face, .page-back { position: absolute; inset: 0; backface-visibility: hidden; overflow: hidden; background: var(--paper); }
+.page.left-page .page-face { border-radius: 4px 0 0 4px; }
+.page.right-page .page-face { border-radius: 0 4px 4px 0; }
+.page.left-page .page-back { border-radius: 0 4px 4px 0; }
+.page.right-page .page-back { border-radius: 4px 0 0 4px; }
+.page-back { background: var(--paper-alt); transform: rotateY(180deg); }
+
+.page-face::before, .page-back::before { content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.02; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: multiply; }
+.left-page .page-face::after { content: ''; position: absolute; right: 0; top: 0; width: 40px; height: 100%; background: linear-gradient(to left, rgba(0,0,0,0.1), transparent); pointer-events: none; }
+.right-page .page-face::after { content: ''; position: absolute; left: 0; top: 0; width: 40px; height: 100%; background: linear-gradient(to right, rgba(0,0,0,0.1), transparent); pointer-events: none; }
+
+/* ═══════════════════════════════════════════════════════
+   5. COUVERTURE CORRIGÉE (Prend 100% de l'espace)
+═══════════════════════════════════════════════════════ */
+.cover-face { 
+  position: absolute; inset: 0; /* LA CORRECTION EST ICI : Force la taille max */
+  display: flex; flex-direction: column; align-items: center; justify-content: center; 
+  text-align: center; background: #0A0A0A !important; color: var(--gold); z-index: 10; 
+}
+.cover-border-double { position: absolute; inset: 15px; border: 1px solid var(--gold-dark); border-radius: 2px; }
+.cover-border-double::before { content: ''; position: absolute; inset: 5px; border: 1px solid var(--gold-subtle); }
+.cover-ornament { font-size: 2rem; margin-bottom: 1.5rem; color: var(--gold-light); }
+.cover-main-title { font-family: var(--serif); font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 2px 2px 15px rgba(0,0,0,0.8); }
+.cover-divider { width: 60px; height: 2px; background: var(--gold-dark); margin: 0 auto 1.5rem; }
+.cover-subtitle { font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold-light); }
+.cover-bottom-text { position: absolute; bottom: 40px; font-family: var(--sans); font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-subtle); }
+
+.page-inner { padding: 3rem 2.5rem 1.5rem; height: 100%; display: flex; flex-direction: column; position: relative; pointer-events: none; }
+
+.grand-category-title { font-family: var(--serif); font-size: 2.2rem; font-weight: 700; color: var(--ink-title); text-align: center; margin-bottom: 0.2rem; }
+.grand-category-subtitle { font-family: var(--sans); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-dark); text-align: center; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 1rem; }
+
+.section-heading { margin-bottom: 1.2rem; text-align: left; }
+.section-label { font-family: var(--sans); font-size: 0.55rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-dark); margin-bottom: 0.2rem; }
+.section-title { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; color: var(--ink-title); line-height: 1.1;}
+
+.menu-item { margin-bottom: 1.2rem; display: flex; flex-direction: column; }
+.menu-header { display: flex; align-items: baseline; width: 100%; margin-bottom: 0.2rem; }
+.menu-item-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--ink-title); flex-shrink: 0; }
+.allergen-tag { font-family: var(--sans); font-size: 0.5rem; color: var(--ink-light); margin-left: 5px; vertical-align: super; }
+.menu-dots { flex-grow: 1; border-bottom: 2px dotted rgba(0,0,0,0.2); margin: 0 10px; position: relative; top: -5px; }
+.menu-item-price { font-family: var(--sans); font-size: 1rem; font-weight: 700; color: var(--ink-title); flex-shrink: 0; }
+.menu-item-desc { font-family: var(--sans); font-size: 0.75rem; font-weight: 400; color: var(--ink-text); line-height: 1.4; padding-right: 2rem;}
+
+.bestseller-tag { display: inline-block; font-family: var(--sans); font-size: 0.45rem; font-weight: 700; color: var(--gold-dark); border: 1px solid var(--gold-dark); padding: 2px 6px; border-radius: 3px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; align-self: flex-start; }
+
+.page-footer { margin-top: auto; padding-top: 1rem; font-family: var(--sans); font-size: 0.5rem; font-weight: 500; color: var(--ink-light); text-align: center; line-height: 1.5; border-top: 1px solid rgba(0,0,0,0.1); }
+
+.extras-box { margin-top: 0.5rem; font-family: var(--sans); font-size: 0.7rem; color: var(--ink-text); }
+.extras-title { font-weight: 700; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--gold-dark); margin-bottom: 0.5rem; text-transform: uppercase; }
+.extra-row { display: flex; justify-content: space-between; margin-bottom: 0.3rem; }
+.extra-row span { font-weight: 600; color: var(--ink-title); }
+
+.feature-box { background: rgba(212, 175, 55, 0.05); border-radius: 4px; padding: 1.5rem; margin-top: 1rem; border: 1px solid var(--gold-subtle); }
+.feature-title { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--gold-dark); margin-bottom: 0.5rem; }
+.feature-desc { font-family: var(--sans); font-size: 0.75rem; color: var(--ink-text); margin-bottom: 1rem; line-height: 1.5; }
+.feature-price-row { display: flex; justify-content: space-between; align-items: baseline; padding: 0.4rem 0; border-bottom: 1px dotted rgba(0,0,0,0.1); }
+.feature-price-row:last-child { border-bottom: none; }
+.feature-price-label { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; color: var(--ink-title); }
+
+/* ═══════════════════════════════════════════════════════
+   6. CONTRÔLES & RESPONSIVITÉ PARFAITE
+═══════════════════════════════════════════════════════ */
+#controls { position: fixed; bottom: 2rem; display: flex; align-items: center; justify-content: center; gap: 2rem; z-index: 20; width: 100%; left: 0; pointer-events: none; }
+.ctrl-btn { background: #0A0A0A; border: 1px solid var(--gold-dark); border-radius: 50%; width: 50px; height: 50px; cursor: pointer; color: var(--gold); font-size: 1.2rem; transition: all 0.3s ease; pointer-events: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+.ctrl-btn:not(:disabled):hover { background: var(--gold); color: #000; transform: scale(1.1); }
+.ctrl-btn:disabled { opacity: 0.2; cursor: default; border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.2); }
+.page-indicator { font-family: var(--sans); font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.6); padding: 5px 15px; border-radius: 20px; pointer-events: auto; }
+
+/* GESTION DE LA HAUTEUR */
+@media (max-height: 850px) and (min-width: 769px) {
+  :root { --page-w: 400px; --page-h: 620px; }
+  html { font-size: 14px; }
+  #scene { padding-top: 140px; }
 }
 
-/* floor shadow */
-#stage::before{
-  content:'';position:absolute;
-  bottom:-30px;left:5%;width:90%;height:30px;
-  background:radial-gradient(ellipse,rgba(0,0,0,.7) 0%,transparent 70%);
-  pointer-events:none;
+@media (max-height: 700px) and (min-width: 769px) {
+  :root { --page-w: 360px; --page-h: 560px; }
+  html { font-size: 12px; }
+  #scene { padding-top: 120px; }
 }
 
-/* ─── PAGE BASE ─── */
-.pg{
-  position:absolute;
-  width:var(--pw);height:var(--ph);
-  transform-style:preserve-3d;
-  transition:transform 1s cubic-bezier(.645,.045,.355,1);
-  z-index:1;
-}
-.pg .pf,.pg .pb{
-  position:absolute;inset:0;
-  backface-visibility:hidden;
-  background:var(--ivory);
-  overflow:hidden;
-}
-.pg .pb{transform:rotateY(180deg);background:var(--ivory-2)}
-
-/* paper grain overlay */
-.pg .pf::before,.pg .pb::before{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:2;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.045'/%3E%3C/svg%3E");
-  mix-blend-mode:multiply;
+/* GESTION DE LA LARGEUR */
+@media (max-width: 900px) { 
+  :root { --page-w: 44vw; --page-h: 65vh; } 
+  html { font-size: 12px; }
 }
 
-/* page edge depth */
-.pg.rp .pf::after{
-  content:'';position:absolute;left:0;top:0;width:20px;height:100%;
-  background:linear-gradient(to right,rgba(0,0,0,.1),transparent);z-index:3;pointer-events:none;
-}
-.pg.lp .pf::after{
-  content:'';position:absolute;right:0;top:0;width:20px;height:100%;
-  background:linear-gradient(to left,rgba(0,0,0,.08),transparent);z-index:3;pointer-events:none;
-}
-
-/* gold frame */
-.frame{
-  position:absolute;inset:14px;
-  border:1px solid rgba(201,169,110,.22);
-  pointer-events:none;z-index:4;
-}
-.frame::before,.frame::after{
-  content:'';position:absolute;width:10px;height:10px;border-color:rgba(201,169,110,.4);border-style:solid;
-}
-.frame::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
-.frame::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
-
-/* shine sweep on turn */
-.shine{
-  position:absolute;inset:0;
-  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.09) 50%,transparent 70%);
-  opacity:0;pointer-events:none;z-index:5;
-  transition:opacity .2s;
-}
-.pg.turning .shine{opacity:1}
-
-/* page number */
-.pnum{
-  position:absolute;bottom:1.2rem;
-  font-family:var(--display);font-size:.45rem;letter-spacing:.2em;
-  color:var(--stone);opacity:.4;z-index:5;
-}
-.pnum.l{left:1.8rem}
-.pnum.r{right:1.8rem}
-
-/* page curl hint */
-.curl{
-  position:absolute;bottom:0;right:0;z-index:6;pointer-events:none;
-  width:0;height:0;border-style:solid;
-  border-width:0 0 0 0;
-  border-color:transparent transparent rgba(201,169,110,.18) transparent;
-  transition:border-width .35s ease;
-}
-.pg.rp:not(.flipped):hover .pf .curl{border-width:0 0 40px 40px}
-
-/* right pages sit on right side */
-.pg.rp{left:var(--pw);transform-origin:left center}
-/* left pages sit on left side */
-.pg.lp{left:0;transform-origin:right center}
-
-/* flipped states */
-.pg.rp.flipped{transform:rotateY(-180deg)}
-.pg.lp.flipped{transform:rotateY(180deg)}
-
-/* ─── INNER CONTENT ─── */
-.inner{
-  padding:2.2rem 2rem;height:100%;
-  display:flex;flex-direction:column;
-  position:relative;z-index:1;
-  overflow:hidden;
-}
-
-/* ─── COVER ─── */
-.cover-page{
-  background:var(--dark-2)!important;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;padding:2.5rem 2.2rem;
-  position:relative;
-}
-.cover-page::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(201,169,110,.07) 0%,transparent 70%);
-}
-.cover-border{position:absolute;inset:18px;border:1px solid rgba(201,169,110,.28)}
-.cover-border::before,.cover-border::after{
-  content:'';position:absolute;width:14px;height:14px;border-color:rgba(201,169,110,.5);border-style:solid;
-}
-.cover-border::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
-.cover-border::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
-.cover-mono{
-  font-family:var(--display);font-size:3.5rem;
-  color:var(--gold);opacity:.08;letter-spacing:.05em;
-  position:absolute;top:1.5rem;left:50%;transform:translateX(-50%);
-}
-.cover-eyebrow{
-  font-family:var(--display);font-size:.48rem;letter-spacing:.5em;text-transform:uppercase;
-  color:var(--gold);opacity:.55;margin-bottom:1.2rem;
-  position:relative;z-index:1;
-}
-.cover-h1{
-  font-family:var(--serif);font-size:3rem;font-style:italic;
-  color:rgba(255,255,255,.9);line-height:1;
-  position:relative;z-index:1;
-}
-.cover-rule{
-  width:36px;height:1px;background:var(--gold);opacity:.35;
-  margin:1.1rem auto;position:relative;z-index:1;
-}
-.cover-sub{
-  font-family:var(--display);font-size:.42rem;letter-spacing:.4em;
-  color:var(--gold);opacity:.4;text-transform:uppercase;
-  position:relative;z-index:1;
-}
-.cover-body{
-  font-family:var(--serif);font-size:.82rem;font-style:italic;
-  color:rgba(255,255,255,.3);line-height:1.7;margin-top:.8rem;
-  position:relative;z-index:1;
-}
-
-/* ─── SECTION HEADING ─── */
-.sh{margin-bottom:1.4rem;padding-bottom:.65rem;border-bottom:1px solid rgba(201,169,110,.18)}
-.sh .sl{font-family:var(--display);font-size:.45rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);opacity:.6;margin-bottom:.3rem}
-.sh .st{font-family:var(--serif);font-size:1.7rem;font-style:italic;color:var(--dark);line-height:1.1}
-
-/* ─── MENU ITEM ─── */
-.mi{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem;padding:.7rem 0;border-bottom:1px solid rgba(201,169,110,.09)}
-.mi:last-of-type{border-bottom:none}
-.mn{font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--dark);margin-bottom:.18rem;line-height:1.2}
-.alg{font-family:var(--sans);font-size:.45rem;font-style:normal;color:var(--stone);opacity:.55;margin-left:.3rem;letter-spacing:.05em}
-.md{font-size:.68rem;color:var(--stone);font-weight:300;line-height:1.5}
-.mp{font-family:var(--display);font-size:.8rem;font-weight:600;color:var(--gold-dark);white-space:nowrap;padding-top:.1rem}
-
-/* ─── FEATURE BOX ─── */
-.fb{background:linear-gradient(135deg,rgba(201,169,110,.07),transparent);border:1px solid rgba(201,169,110,.22);padding:1.1rem;margin-top:.9rem}
-.fbt{font-family:var(--serif);font-size:1.1rem;font-style:italic;color:var(--gold-dark);margin-bottom:.25rem}
-.fbd{font-size:.65rem;color:var(--stone);font-weight:300;line-height:1.5;margin-bottom:.7rem}
-.fpr{display:flex;justify-content:space-between;font-size:.7rem;padding:.3rem 0;border-bottom:1px dotted rgba(201,169,110,.15)}
-.fpr:last-child{border-bottom:none}
-.fpl{color:var(--stone);font-weight:300}
-.fpv{font-family:var(--display);font-size:.72rem;font-weight:600;color:var(--gold-dark)}
-
-/* ─── DRINKS ─── */
-.dc{font-family:var(--display);font-size:.45rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);opacity:.55;border-bottom:1px solid rgba(201,169,110,.14);padding-bottom:.35rem;margin:.9rem 0 .5rem}
-.dc:first-child{margin-top:0}
-.dr{display:flex;justify-content:space-between;align-items:center;padding:.42rem 0;border-bottom:1px dotted rgba(201,169,110,.08);font-size:.8rem}
-.dr:last-child{border-bottom:none}
-.drn{font-family:var(--serif);font-style:italic;color:var(--dark)}
-.drp{font-family:var(--display);font-size:.72rem;font-weight:600;color:var(--gold-dark)}
-
-/* ─── QUOTE ─── */
-.quote{font-family:var(--serif);font-size:.8rem;font-style:italic;color:var(--stone);line-height:1.65;text-align:center;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(201,169,110,.1)}
-
-/* ─── ALLERGEN NOTE ─── */
-.aller{margin-top:auto;padding-top:.8rem;border-top:1px solid rgba(201,169,110,.1);font-size:.52rem;color:var(--stone);opacity:.55;line-height:1.75;letter-spacing:.02em}
-
-/* ─── BACK COVER ─── */
-.bc-page{
-  background:var(--dark-2)!important;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:2.5rem;position:relative;
-}
-.bc-page .cover-border{inset:18px}
-
-/* ─── CONTROLS ─── */
-#ctrl{
-  display:flex;align-items:center;gap:2rem;
-  position:relative;z-index:20;
-}
-.cbtn{
-  background:none;border:none;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:.45rem;
-  transition:opacity .3s;
-}
-.cbtn:disabled{opacity:.18;cursor:default;pointer-events:none}
-.carr{
-  width:50px;height:50px;
-  border:1px solid rgba(201,169,110,.28);border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  color:var(--gold);font-size:1.15rem;
-  transition:background .25s,border-color .25s,transform .2s;
-}
-.cbtn:not(:disabled):hover .carr{background:rgba(201,169,110,.1);border-color:var(--gold);transform:scale(1.06)}
-.clbl{font-family:var(--display);font-size:.42rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:.4}
-.pi{
-  font-family:var(--serif);font-size:.82rem;font-style:italic;
-  color:rgba(255,255,255,.28);letter-spacing:.08em;min-width:70px;text-align:center;
-}
-
-/* ─── SOUND BTN ─── */
-#snd{
-  position:fixed;bottom:1.25rem;right:1.25rem;z-index:400;
-  width:42px;height:42px;border-radius:50%;
-  background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.2);
-  color:var(--gold);font-size:.95rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(8px);transition:background .2s;
-}
-#snd:hover{background:rgba(201,169,110,.2)}
-#snd.off{opacity:.3}
-
-/* ─── HINT ANIMATION ─── */
-@keyframes hintPulse{0%,100%{opacity:0}50%{opacity:.7}}
-#hint{
-  font-family:var(--display);font-size:.45rem;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--gold);
-  animation:hintPulse 2.5s ease-in-out 1.5s 3 forwards;
-  opacity:0;
-}
-
-/* ─── RESPONSIVE ─── */
-@media(max-width:920px){:root{--pw:320px;--ph:520px}}
-@media(max-width:680px){:root{--pw:min(44vw,260px);--ph:460px}}
-@media(max-width:480px){
-  :root{--pw:min(43vw,220px);--ph:400px}
-  .clbl{display:none}
-  .inner{padding:1.5rem 1.2rem}
+@media (max-width: 768px) {
+  :root { --page-w: 48vw; --page-h: 62vh; }
+  html { font-size: 9px; }
+  
+  #scene { padding-top: 140px; }
+  #magnetic-wrapper { transform: none !important; }
+  #book-stage { perspective: 2500px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+  
+  .s-tab { padding: 0.5rem; gap: 0.2rem; }
+  .s-tab-label { display: none; }
+  .s-tab-icon { font-size: 1.5rem; }
+  #controls { bottom: 1rem; transform: scale(0.8); }
 }
 </style>
 </head>
+
 <body>
 
-<div id="bg"><div id="candles"></div></div>
+<div id="atmosphere"></div>
 
 <nav id="nav">
-  <a href="index.html"><img src="logo.jpg" class="nav-logo" alt="Halle Krumbach" width="32" height="32"></a>
-  <div class="lang-sw">
-    <button class="lb on" id="btn-de" onclick="setLang('de')" aria-pressed="true">DE</button>
-    <span class="ls">|</span>
-    <button class="lb" id="btn-en" onclick="setLang('en')" aria-pressed="false">EN</button>
-  </div>
-  <a href="index.html" class="nav-back">← <span class="lang-de">Zurück</span><span class="lang-en hidden-lang">Back</span></a>
+  <div class="nav-logo">Halle Krumbach</div>
 </nav>
 
-<button id="snd" onclick="toggleSound()" title="Sound">🔊</button>
+<div id="section-tabs">
+  <button class="s-tab active" onclick="goToSpread(1)" data-target="1"><span class="s-tab-icon">🥣</span><span class="s-tab-label">Suppen & Salate</span></button>
+  <button class="s-tab" onclick="goToSpread(2)" data-target="2"><span class="s-tab-icon">🥗</span><span class="s-tab-label">Antipasti</span></button>
+  <button class="s-tab" onclick="goToSpread(3)" data-target="3"><span class="s-tab-icon">🍕</span><span class="s-tab-label">Pizza</span></button>
+  <button class="s-tab" onclick="goToSpread(5)" data-target="5"><span class="s-tab-icon">🍝</span><span class="s-tab-label">Pasta</span></button>
+  <button class="s-tab" onclick="goToSpread(6)" data-target="6"><span class="s-tab-icon">🐟</span><span class="s-tab-label">Hauptspeisen</span></button>
+  <button class="s-tab" onclick="goToSpread(7)" data-target="7"><span class="s-tab-icon">⭐</span><span class="s-tab-label">Kinder</span></button>
+</div>
 
 <div id="scene">
-  <div>
-    <div class="scene-label">Halle Krumbach — Cucina Italiana</div>
-    <div class="scene-title lang-de">Unsere Speisekarte</div>
-    <div class="scene-title lang-en hidden-lang">Our Menu</div>
+  <div id="magnetic-wrapper">
+    <div id="book-stage" role="region" aria-label="Speisekarte"></div>
   </div>
 
-  <div id="stage" role="region" aria-label="Speisekarte"></div>
-
-  <div id="ctrl">
-    <button class="cbtn" id="bp" onclick="turn(-1)" disabled aria-label="Zurück">
-      <div class="carr">‹</div>
-      <span class="clbl lang-de">Zurück</span><span class="clbl lang-en hidden-lang">Back</span>
-    </button>
-    <div class="pi" id="pi">1 / 5</div>
-    <button class="cbtn" id="bn" onclick="turn(1)" aria-label="Weiter">
-      <div class="carr">›</div>
-      <span class="clbl lang-de">Weiter</span><span class="clbl lang-en hidden-lang">Next</span>
-    </button>
+  <div id="controls">
+    <button class="ctrl-btn" id="btn-prev" onclick="turn(-1)" disabled>&#8249;</button>
+    <span class="page-indicator" id="page-indicator">1 / 1</span>
+    <button class="ctrl-btn" id="btn-next" onclick="turn(1)">&#8250;</button>
   </div>
-
-  <div id="hint" class="lang-de">Klicken oder wischen zum Blättern</div>
-  <div id="hint2" class="hidden-lang lang-en" style="font-family:var(--display);font-size:.45rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);opacity:0;animation:hintPulse 2.5s ease-in-out 1.5s 3 forwards">Click or swipe to turn pages</div>
 </div>
 
 <script>
-/* ══════════════════════════════════════════════
-   DATA — 5 spreads (cover + 3 content + back)
-══════════════════════════════════════════════ */
-const SPREADS = 5; // 0..4
+'use strict';
 
-/* ══════════════════════════════════════════════
-   STATE
-══════════════════════════════════════════════ */
-let spread = 0;
-let busy = false;
-let mute = false;
-const KEY = 'halle_lang';
-let audioCtx;
+const ALLERGEN_LINE = 'A-Gluten, B-Krebstiere, C-Eier, D-Fisch, E-Erdnüsse, F-Soja, G-Milch, H-Schalenfrüchte, L-Sellerie, M-Senf, N-Sesam, O-Sulfite, P-Lupine, R-Weichtiere';
+const PRICING_LINE = 'Alle Preise in € • Trinkgeld nicht inkludiert<br>Inkl. Steuern & Abgaben • Alle Angaben ohne Gewähr';
 
-function getAudio(){
-  if(!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+const BOOK_SPREADS = [
+  /* ── SPREAD 0 : COVER ── */
+  {
+    left: { type: 'blank_dark' },
+    right: { type: 'cover' }
+  },
+
+  /* ── SPREAD 1 : ZUPPE & SALATE ── */
+  {
+    left: {
+      type: 'items', grandTitle: 'Zuppe & Insalate', grandSubtitle: 'Hausgemachte Suppen & Frische Salate',
+      items: [
+        { name: 'CREMA DI POMODORO', alg: 'ACL', desc: 'Tomatencremesuppe | frisch Basilikum', price: '5.90' },
+        { name: 'MINESTRONE', alg: 'ACGL', desc: 'Gemüsesuppe saisonal', price: '5.90' },
+        { name: 'ZUPPA DI PESCE', alg: 'ACD', bestseller: true, desc: 'Mediteranische Fischsuppe | Tomaten', price: '14.90' },
+        { name: 'VERDE', alg: 'A', desc: 'Italienischer Blattsalat | Ruccola | Balsamico Dressing', price: '5.40' },
+        { name: 'TOMATENSALAT', alg: 'A', desc: 'Tomaten | Zwiebeln', price: '5.90' }
+      ], side: 'left'
+    },
+    right: {
+      type: 'items', sl: 'Frische Salate', st: 'Insalate Speciale',
+      items: [
+        { name: 'MISTA', alg: 'A', desc: 'Gemischter Blattsalat | Tomaten | Gurken', price: '6.40' },
+        { name: 'DI POLLO', alg: 'A', desc: 'Gemischter Salat | Tomaten | Gurken | gegrillten Hühnerbruststreifen', price: '12.90' },
+        { name: 'RUCOLA', alg: 'A', desc: 'Ruccola | Cherrytomaten | Parmesan | Balsamico Dressing', price: '8.90' },
+        { name: 'ΤΟΝΝΟ', alg: 'DL', desc: 'Blattsalat | Thunfisch | Zwiebeln | Tomaten | Oliven', price: '12.90' },
+        { name: 'FETA', alg: 'AG', desc: 'Bunter Salat | Feta | Oliven | Zwiebel', price: '12.90' },
+        { name: 'BACKHENDL SALAT', alg: 'ACG', bestseller: true, desc: 'Knusprige Hühnerstreifen auf frischem Blattsalat | Gurken | Tomaten', price: '12.90' }
+      ], side: 'right'
+    }
+  },
+
+  /* ── SPREAD 2 : ANTIPASTI & BROT ── */
+  {
+    left: {
+      type: 'items', grandTitle: 'Antipasti', grandSubtitle: 'Vorspeisen aus Italien',
+      items: [
+        { name: 'ANTIPASTI VEGETARIANA', alg: 'AGH', desc: 'Büffelmozzarella | saisonales Gemüse | Oliven | Grana | Rucola', price: '15.90' },
+        { name: 'CAPRESE ALL\' AMORE', alg: 'AGH', desc: 'Büffelmozzarella | Basilikumpesto | Tomaten', price: '10.90' },
+        { name: 'CARPACCIO DI MANZO', alg: 'AG', bestseller: true, desc: 'Rinderfilet | Rucola | Cherrytomaten | Parmigiano | Olivenöl', price: '14.90' },
+        { name: 'PROSCIUTTO DI SAN DANIELE E MELONE', alg: 'AG', desc: 'Parmaschinken | Melone', price: '14.90' }
+      ], side: 'left'
+    },
+    right: {
+      type: 'items', sl: 'Vorspeisen & Brot', st: 'Pane e Specialità',
+      items: [
+        { name: 'VITELLO TONNATO', alg: 'G', desc: 'Kalbsfleisch | Thunfischcreme | Kapern | Cherrytomaten', price: '14.90' },
+        { name: 'ANTIPASTO MISTO DELLA CASA', alg: 'AGH', bestseller: true, desc: 'Gemischte Vorspeisenplatte nach Art des Hauses', price: '15.90' },
+        { name: 'PIZZA BROT', alg: 'A', desc: 'Klassisches Pizzabrot', price: '3.90' },
+        { name: 'FOCACCIA AL ROSMARINO', alg: 'A', desc: 'Focaccia mit Rosmarin', price: '4.40' },
+        { name: 'BRUSCHETTA', alg: 'A', desc: 'Cherrytomatenwürfel | Basilikum | Knoblauch | Olivenöl', price: '5.90' }
+      ], side: 'right'
+    }
+  },
+
+  /* ── SPREAD 3 : PIZZA (1/4) et PIZZA (2/4) ── */
+  {
+    left: {
+      type: 'items', grandTitle: 'Pizza dal Forno', grandSubtitle: 'Traditionell im Steinofen gebacken',
+      items: [
+        { name: 'MAGERITA', alg: 'AG', desc: 'Tomaten | Mozzarella | Basilikum', price: '10.90' },
+        { name: 'BUFFALO', alg: 'AG', bestseller: true, desc: 'Tomaten | Mozzarella | Buffalo Mozzarella | Basilikum | Cherrytomaten | Grana', price: '15.90' },
+        { name: 'CARDINALE', alg: 'AG', desc: 'Tomaten | Mozzarella | Schinken', price: '12.90' },
+        { name: 'SALAMI', alg: 'AG', desc: 'Tomaten | Mozzarella | Salami', price: '12.90' },
+        { name: 'SICILIANA', alg: 'ADG', desc: 'Sardellen | Kapern | Oliven', price: '13.50' },
+        { name: 'FUNGHI', alg: 'AG', desc: 'Tomaten | Mozzarella | Champignon', price: '11.90' }
+      ], side: 'left'
+    },
+    right: {
+      type: 'items', sl: 'Dal Forno', st: 'Pizza Speciale',
+      items: [
+        { name: 'REGINA', alg: 'AG', desc: 'Tomaten | Mozzarella | Schinken | Champignon', price: '13.90' },
+        { name: 'HAWAII', alg: 'AG', desc: 'Tomaten | Mozzarella | Schinken | Ananas', price: '12.90' },
+        { name: 'DIAVOLO', alg: 'AG', desc: 'Tomaten | Mozzarella | Salami Pikante | Rote Zwiebeln | Jungszwiebel', price: '15.90' },
+        { name: 'TOSCANA', alg: 'AG', desc: 'Tomaten | Mozzarella | Schinken | Salami | Speck', price: '14.90' },
+        { name: 'QUATRO STAGIONE', alg: 'AG', desc: 'Tomaten | Mozzarella | Schinken | Champignon | Artischoken', price: '14.90' },
+        { name: 'RUSTICANA', alg: 'ACG', desc: 'Tomaten | Mozzarella | Schinken | Champignon | Artischocken | Eier | Oliven', price: '15.90' }
+      ], side: 'right'
+    }
+  },
+
+  /* ── SPREAD 4 : PIZZA (3/4) et PIZZA (4/4) + EXTRAS ── */
+  {
+    left: {
+      type: 'items', sl: 'Dal Forno', st: 'Pizza Mare & Terra',
+      items: [
+        { name: 'ΤΟΝΝΟ', alg: 'AGD', desc: 'Tomaten | Mozzarella | Thunfisch | Zwiebeln | Oliven', price: '14.90' },
+        { name: 'PESCATORE', alg: 'AGDBR', desc: 'Tomaten | Mozzarella | Meeresfrüchte', price: '17.90' },
+        { name: 'VEGETARIAN', alg: 'AL', desc: 'Tomaten | Mozzarella | Grillgemüse (Melanzani, Zucchini, Paprika, Champignon)', price: '14.90' },
+        { name: 'QUATTRO FORMAGGI', alg: 'AG', desc: 'Tomaten | Mozarella | 4 Sorten Käse', price: '14.90' },
+        { name: 'CALZONE', alg: 'AG', desc: 'Gefüllte Pizza', price: '15.90' },
+        { name: 'CAPRICCIOSA', alg: 'ACG', desc: 'Artischocken | Schinken | Champignon | Oliven', price: '14.90' }
+      ], side: 'left'
+    },
+    right: {
+      type: 'items', sl: 'Dal Forno', st: 'Pizza Gourmet & Extras',
+      items: [
+        { name: 'PROVENCIALE', alg: 'TAG', desc: 'Tomaten | Mozzarella | Speck | Schinken | Mais | Mild Pfefferoni', price: '14.90' },
+        { name: 'RUCCOLA', alg: 'AG', desc: 'Tomaten | Mozzarella | Ruccola | Cherrytomaten | Grana', price: '14.90' },
+        { name: 'SAN DANIELE', alg: 'AG', bestseller: true, desc: 'Tomaten | Mozzarella | Ruccola | Cherrytomaten | Procuittocrudo | Grana', price: '17.90' },
+        { name: 'FETA', alg: 'AG', desc: 'Tomaten | Mozzarella | Spinat | Feta', price: '14.90' }
+      ], 
+      extras: [
+        { desc: 'Schinken, Salami, Speck, Ei, Oliven, Sardellen, Thunfisch, Gemüse', price: '1.70' },
+        { desc: 'Mozzarella, Hühnerfleisch, Schafkäse', price: '3.00' },
+        { desc: 'Meeresfrüchte, Shrimps', price: '3.50' }
+      ], side: 'right'
+    }
+  },
+
+  /* ── SPREAD 5 : PASTA (1/2) et PASTA (2/2) ── */
+  {
+    left: {
+      type: 'items', grandTitle: 'Pasta Fresca', grandSubtitle: 'Unsere Nudeln sind auch Glutenfrei möglich',
+      items: [
+        { name: 'SPAGHETTI AGLIO OLIO', alg: 'A', desc: 'Knoblauch | Olivenöl | Pepperoncino | Petersilie (Vegan)', price: '10.90' },
+        { name: 'PENNE ALL\'ARRABIATA', alg: 'A', desc: 'Tomatensauce | Pepperoncino (Vegan)', price: '11.90' },
+        { name: 'SPAGHETTI BOLOGNESE', alg: 'AB', desc: 'Faschiertes Rindfleisch | Tomaten Sugo | Basilikum', price: '12.90' },
+        { name: 'SPAGHETTI ALLA CARBONARA', alg: 'ACG', desc: 'Eidotter | Guanciale | Butter | Pecorino | Grana | Sahne', price: '13.90' },
+        { name: 'LINGUINE AI GAMBERI', alg: 'ABH', desc: 'Tomatensugo | Knoblauch | Garnelen | Schmelztomaten | Grana', price: '21.90' }
+      ], side: 'left'
+    },
+    right: {
+      type: 'items', sl: 'Pasta Fresca', st: 'Specialità della Casa',
+      items: [
+        { name: 'LINGUINE FRUTTI DI MARE', alg: 'ABCDG', desc: 'Tomatensugo | Garnelen | Muscheln | Oktopus | Petersilie | Knoblauch', price: '21.90' },
+        { name: 'TAGLIATELLE AL SALMONE', alg: 'ADG', desc: 'Lachs filet | Babyspinat | Tomatensauce | Crema', price: '18.90' },
+        { name: 'GNOCCHI AL TARTUFO', alg: 'AG', bestseller: true, desc: 'Gefüllte Gnocchi mit Trüffel | Trüffelbutter | Grana | Sahne', price: '19.90' },
+        { name: 'LASAGNE', alg: 'AGO', desc: 'Rindsragout | Tomaten | Mozzarella', price: '14.90' },
+        { name: 'GNOCCHI ALLA SORRENTINA', alg: 'A', desc: 'Tomatensauce | Büffelmozzarella | Basilikum', price: '13.90' }
+      ], side: 'right'
+    }
+  },
+
+  /* ── SPREAD 6 : SEAFOOD et FISCHPLATTE ── */
+  {
+    left: {
+      type: 'items', grandTitle: 'Pesce & Carne', grandSubtitle: 'Meeresfrüchte & Fleisch vom Grill',
+      items: [
+        { name: 'BRANZINOFILET', alg: 'DL', desc: 'Wolfsbarschfilet | Grill Gemüse | Rosmarinkartoffel', price: '24.90' },
+        { name: 'CALAMARI ALLA GRIGLIA', alg: 'R', desc: 'Kalamari | Babyspinat | Rote Zwiebel | Kartoffel | Tomaten', price: '21.90' },
+        { name: 'SALMONE ALLA GRIGLIA', alg: 'D', desc: 'Lachsfilet | Babyspinat | Rotzwiebel | Kartoffel | Tomaten | Zitronen Sauce', price: '20.90' },
+        { name: 'GAMBERONI ALLA GRIGLIA', alg: 'RL', desc: 'Riesengarnelen | Grillgemüse | Rosemarinkartoffel', price: '25.90' },
+        { name: 'POLIPO ALLA GRIGLIA', alg: 'R', desc: 'Oktopus | Bunter Blattsalat | Cherrytomaten | Rosemarinkartoffel', price: '27.90' }
+      ], side: 'left'
+    },
+    right: {
+      type: 'feature', sl: 'Spezialität', st: 'Fischplatte',
+      feature: {
+        title: 'Grillplatte je nach Saison',
+        desc: 'Fischfilet | Oktopus | Garnelen | Calamari | Muscheln.<br>Serviert mit Gemüsemix und Babykartoffeln.<br><br><i>Wartezeit minimum 35 minuten.</i>',
+        prices: [ { label: 'Für 1 Person', value: '29.90' }, { label: 'Für 2 Personen', value: '55.90' } ]
+      }, side: 'right'
+    }
+  },
+
+  /* ── SPREAD 7 : MEAT et KIDS ── */
+  {
+    left: {
+      type: 'items', sl: 'Vom Grill', st: 'Fleischgerichte',
+      items: [
+        { name: 'COSTALETTO DI ANELLO', alg: 'L', desc: 'Lammkrone | Grill Gemüse | Rosemarinkartoffel', price: '28.90' },
+        { name: 'FILETTO DI MANZO', alg: 'L', bestseller: true, desc: 'Rindslungenbraten | Grill Gemüse | Rosemarinkartoffel', price: '27.90' },
+        { name: 'PICCATA MILANESE', alg: 'AG', desc: 'Hühnerbrustfilet | Parmesanteig | Spaghetti Pomodoro', price: '21.90' },
+        { name: 'PETTI DI POLLO', alg: 'AG', desc: 'Naturschnitzel Gegrillt vom Huhn | Champignon-sauce | Reis', price: '16.90' },
+        { name: 'POLLO ANGELLO', alg: 'G', desc: 'Naturschnitzel Gegrillt vom Huhn | Schimmelkäsesauce | Reis', price: '16.10' }
+      ], side: 'left'
+    },
+    right: {
+      type: 'items', grandTitle: 'Bambini', grandSubtitle: 'Spaß Menü für die Kleinen',
+      items: [
+        { name: 'MINI HAMBURGER', alg: 'AM', desc: 'Rindfleisch gegrillt | Salat | Essiggurken | Zwiebel | Pommes', price: '5.90' },
+        { name: 'SCHNITZEL SANDWICH NORMAL', alg: 'AC', desc: 'Ketchup | Mayonaise | Pommes', price: '6.90' },
+        { name: 'SCHNITZEL SANDWICH SPEZIAL', alg: 'AC', desc: 'Salat Tomaten | Zwiebel | Ketchup | Mayonaise | Pommes', price: '7.90' },
+        { name: 'CHIKEN WINGS', alg: 'AG', desc: '5 Stk | Pommes', price: '6.90' },
+        { name: 'CHIKEN NUGGETS', alg: 'AL', desc: '6 Stk | Pömmes', price: '5.90' },
+        { name: 'MOZZARELLA STICK', alg: 'ACG', desc: '6 Stk | Pömmes', price: '6.90' },
+        { name: 'Hot Dog', alg: 'AC', desc: 'Ketchup | Mayonaise | Pommes', price: '5.90' }
+      ], side: 'right'
+    }
+  },
+
+  /* ── SPREAD 8 : BACK COVER ── */
+  {
+    left: { type: 'back' },
+    right: { type: 'blank_dark' }
+  }
+];
+
+let currentSpread = 0;
+let isTurning = false;
+let audioCtx = null;
+
+function getAudioContext() {
+  if (!audioCtx) { const Ctx = window.AudioContext || window.webkitAudioContext; if (Ctx) audioCtx = new Ctx(); }
   return audioCtx;
 }
 
-/* ══════════════════════════════════════════════
-   SOUND — synthesised paper whoosh
-══════════════════════════════════════════════ */
-function playTurn(){
-  if(mute) return;
-  try{
-    const ctx = getAudio();
-    if(ctx.state==='suspended') ctx.resume();
-    const sr = ctx.sampleRate;
-    const dur = 0.38;
-    const buf = ctx.createBuffer(2,sr*dur,sr);
-    for(let c=0;c<2;c++){
-      const d = buf.getChannelData(c);
-      for(let i=0;i<d.length;i++){
-        const t = i/d.length;
-        const env = Math.pow(1-t,1.8)*Math.sqrt(t+.01)*3.5;
-        d[i]=(Math.random()*2-1)*env*.22;
-      }
-    }
-    const src = ctx.createBufferSource(); src.buffer=buf;
-    const lp = ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3500;
-    const hp = ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=600;
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(.9,ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+dur);
-    src.connect(hp); hp.connect(lp); lp.connect(g); g.connect(ctx.destination);
-    src.start();
-    // second soft rustle
-    setTimeout(()=>{
-      try{
-        const buf2=ctx.createBuffer(1,sr*.15,sr);
-        const d2=buf2.getChannelData(0);
-        for(let i=0;i<d2.length;i++) d2[i]=(Math.random()*2-1)*Math.pow(1-i/d2.length,3)*.12;
-        const s2=ctx.createBufferSource();s2.buffer=buf2;
-        const g2=ctx.createGain();g2.gain.value=.5;
-        s2.connect(g2);g2.connect(ctx.destination);s2.start();
-      }catch(e){}
-    },120);
-  }catch(e){}
+function playPageTurn() {
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') ctx.resume();
+    
+    const sr = ctx.sampleRate, dur = 0.3; 
+    const buf = ctx.createBuffer(1, sr * dur, sr);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1);
+    
+    const src = ctx.createBufferSource(); src.buffer = buf;
+    const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 600; 
+    const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 80;
+    
+    const gain = ctx.createGain(); 
+    gain.gain.setValueAtTime(0, ctx.currentTime); 
+    gain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 0.05); 
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur);
+    
+    src.connect(hp); hp.connect(lp); lp.connect(gain); gain.connect(ctx.destination); src.start();
+  } catch (e) { }
 }
 
-function toggleSound(){
-  mute=!mute;
-  const b=document.getElementById('snd');
-  b.textContent=mute?'🔇':'🔊';
-  b.classList.toggle('off',mute);
-}
+function price(val) { return `<span class="price-val">${val}</span><span class="price-curr">€</span>`; }
 
-/* ══════════════════════════════════════════════
-   DOM BUILDERS
-══════════════════════════════════════════════ */
-function frame(){ return '<div class="frame"></div>'; }
-function shine(){ return '<div class="shine"></div>'; }
+function buildPageContent(data) {
+  if (!data) return '';
+  switch (data.type) {
+    case 'blank_dark': return `
+        <div class="cover-face" style="background:#0A0A0A!important;"></div>
+    `;
+    case 'cover': return `
+        <div class="cover-face">
+          <div class="cover-border-double"></div>
+          <div class="cover-ornament">✦</div>
+          <h1 class="cover-main-title">Halle<br>Krumbach</h1>
+          <div class="cover-divider"></div>
+          <p class="cover-subtitle">Ristorante & Pizzeria</p>
+          <div class="cover-bottom-text">SPEISEKARTE</div>
+        </div>`;
+    case 'back': return `
+        <div class="cover-face" style="background:#0A0A0A!important; color:var(--gold);">
+          <div class="cover-border-double"></div>
+          <div class="cover-ornament" style="font-size: 1.5rem; opacity: 0.5;">✦</div>
+          <p class="cover-main-title" style="font-size:2rem; margin-bottom: 2rem;">Halle Krumbach</p>
+          <p style="font-family:var(--sans); font-size:0.8rem; line-height: 2; color: #fff;">
+            Kultur- und Sportzentrum<br>2851 Krumbach<br><br>
+            Täglich 11:00 – 22:00 Uhr
+          </p>
+        </div>`;
+    case 'items':
+      const items = (data.items || []).map(item => {
+        const bestsellerTag = item.bestseller ? `<span class="bestseller-tag">Empfehlung</span>` : '';
+        return `
+        <div class="menu-item">
+          ${bestsellerTag}
+          <div class="menu-header">
+            <span class="menu-item-name">${item.name} <span class="allergen-tag">${item.alg || ''}</span></span>
+            <span class="menu-dots"></span>
+            <span class="menu-item-price">${price(item.price)}</span>
+          </div>
+          <div class="menu-item-desc">${item.desc}</div>
+        </div>`;
+      }).join('');
+      
+      const extras = data.extras ? data.extras.map(ex => `
+        <div class="extra-row">${ex.desc} <span>${price(ex.price)}</span></div>
+      `).join('') : '';
+      const extrasHTML = extras ? `<div class="extras-box"><div class="extras-title">EXTRAS</div>${extras}</div>` : '';
 
-function coverHTML(){
-  return `
-  <div class="cover-page pf" style="position:absolute;inset:0;">
-    ${frame()}
-    <div class="cover-mono">H</div>
-    <div class="cover-border"></div>
-    <div class="cover-eyebrow">Halle Krumbach</div>
-    <div class="cover-h1 lang-de">Speise-<br>karte</div>
-    <div class="cover-h1 lang-en hidden-lang">Our<br>Menu</div>
-    <div class="cover-rule"></div>
-    <div class="cover-sub">Cucina Italiana · Krumbach</div>
-    <div class="cover-body lang-de">Steinofenpizza · Frischer Fisch<br>Hausgemachte Limonaden</div>
-    <div class="cover-body lang-en hidden-lang">Stone-oven pizza · Fresh fish<br>Homemade lemonades</div>
-  </div>`;
-}
-
-function backCoverHTML(){
-  return `
-  <div class="bc-page pf" style="position:absolute;inset:0;">
-    ${frame()}
-    <div class="cover-border"></div>
-    <div class="cover-eyebrow" style="margin-bottom:1.2rem;">Halle Krumbach</div>
-    <div style="font-family:var(--serif);font-size:1rem;font-style:italic;color:rgba(255,255,255,.45);line-height:1.8">
-      <span class="lang-de">Täglich 11:00 – 22:00 Uhr<br>Warme Küche bis 21:30 Uhr</span>
-      <span class="lang-en hidden-lang">Daily 11AM – 10PM<br>Kitchen closes at 9:30PM</span>
-    </div>
-    <div class="cover-rule"></div>
-    <div class="cover-sub" style="line-height:2">Kultur- u. Sportzentrum · 2851 Krumbach<br>+43 123 456 789 · info@halle-krumbach.at</div>
-  </div>`;
-}
-
-/* page content definitions */
-const PAGE_CONTENT = {
-  /* spread 1 LEFT */
-  '1L':`<div class="inner">
-    <div class="sh"><div class="sl lang-de">Vorspeisen</div><div class="sl lang-en hidden-lang">Starters</div><div class="st lang-de">Antipasti &amp; Salate</div><div class="st lang-en hidden-lang">Starters &amp; Salads</div></div>
-    <div class="mi"><div><div class="mn lang-de">Vegetarische Antipasti<span class="alg">AGH</span></div><div class="mn lang-en hidden-lang">Vegetarian Appetizers<span class="alg">AGH</span></div><div class="md lang-de">Büffelmozzarella, Gemüse-Mix, Oliven, Grana, Rucola</div><div class="md lang-en hidden-lang">Buffalo mozzarella, seasonal vegetables, olives, Grana, arugula</div></div><div class="mp">17.90€</div></div>
-    <div class="mi"><div><div class="mn">Vitello Tonnato<span class="alg">G</span></div><div class="md lang-de">Kalbsfleisch, Thunfischcreme, Kapern</div><div class="md lang-en hidden-lang">Veal, tuna cream, capers</div></div><div class="mp">15.90€</div></div>
-    <div class="mi"><div><div class="mn lang-de">Mediterrane Fischsuppe<span class="alg">ACD</span></div><div class="mn lang-en hidden-lang">Mediterranean Fish Soup<span class="alg">ACD</span></div><div class="md lang-de">Mediterrane Fischsuppe des Tages</div><div class="md lang-en hidden-lang">Mediterranean fish soup of the day</div></div><div class="mp">16.90€</div></div>
-    <div class="aller lang-de">A Gluten · B Krebstiere · C Eier · D Fisch · G Milch</div>
-    <div class="aller lang-en hidden-lang">A Gluten · B Crustaceans · C Eggs · D Fish · G Milk</div>
-  </div>`,
-
-  /* spread 1 RIGHT */
-  '1R':`<div class="inner">
-    <div class="sh"><div class="sl">Dal Forno</div><div class="st">Pizza</div></div>
-    <div class="mi"><div><div class="mn">Margherita</div><div class="md lang-de">Tomaten, Mozzarella, Basilikum</div><div class="md lang-en hidden-lang">Tomatoes, mozzarella, basil</div></div><div class="mp">10.90€</div></div>
-    <div class="mi"><div><div class="mn">San Daniele</div><div class="md lang-de">Mozzarella, Rucola, Cherrytomaten, Prosciutto</div><div class="md lang-en hidden-lang">Mozzarella, arugula, cherry tomatoes, prosciutto</div></div><div class="mp">17.90€</div></div>
-    <div class="mi"><div><div class="mn lang-de">Meeresfrüchte Pizza</div><div class="mn lang-en hidden-lang">Seafood Pizza</div><div class="md lang-de">Tomaten, Mozzarella, frische Meeresfrüchte</div><div class="md lang-en hidden-lang">Tomatoes, mozzarella, fresh mixed seafood</div></div><div class="mp">19.90€</div></div>
-    <div class="mi"><div><div class="mn lang-de">Vegane Pizza</div><div class="mn lang-en hidden-lang">Vegan Pizza</div><div class="md lang-de">Tomaten, Grillgemüse, Pinienkerne, Basilikum</div><div class="md lang-en hidden-lang">Tomatoes, grilled vegetables, pine nuts, basil</div></div><div class="mp">16.90€</div></div>
-    <div class="curl"></div>
-  </div>`,
-
-  /* spread 2 LEFT */
-  '2L':`<div class="inner">
-    <div class="sh"><div class="sl lang-de">Aus dem Meer</div><div class="sl lang-en hidden-lang">From the Sea</div><div class="st lang-de">Fischgerichte</div><div class="st lang-en hidden-lang">Fish Dishes</div></div>
-    <div class="mi"><div><div class="mn lang-de">Wolfsbarsch<span class="alg">DL</span></div><div class="mn lang-en hidden-lang">Sea Bass<span class="alg">DL</span></div><div class="md lang-de">Grillierter Wolfsbarsch, Grillgemüse, Rosmarinkartoffeln</div><div class="md lang-en hidden-lang">Grilled sea bass, vegetables, rosemary potatoes</div></div><div class="mp">24.90€</div></div>
-    <div class="fb">
-      <div class="fbt lang-de">Saisonale Fischplatte</div><div class="fbt lang-en hidden-lang">Seasonal Seafood Platter</div>
-      <div class="fbd lang-de">Fischfilet, Oktopus, Garnelen &amp; Muscheln — der Duft des Meeres</div><div class="fbd lang-en hidden-lang">Fish fillet, octopus, prawns &amp; mussels — the scent of the sea</div>
-      <div class="fpr"><span class="fpl lang-de">Für 1 Person</span><span class="fpl lang-en hidden-lang">For 1 person</span><span class="fpv">36.00€</span></div>
-      <div class="fpr"><span class="fpl lang-de">Für 2 (ganzer Fisch)</span><span class="fpl lang-en hidden-lang">For 2 (whole fish)</span><span class="fpv">79.00€</span></div>
-    </div>
-  </div>`,
-
-  /* spread 2 RIGHT */
-  '2R':`<div class="inner">
-    <div class="sh"><div class="sl lang-de">Vom Grill</div><div class="sl lang-en hidden-lang">From the Grill</div><div class="st lang-de">Fleischgerichte</div><div class="st lang-en hidden-lang">Meat Dishes</div></div>
-    <div class="mi"><div><div class="mn lang-de">Rinderfilet<span class="alg">L</span></div><div class="mn lang-en hidden-lang">Beef Fillet<span class="alg">L</span></div><div class="md lang-de">Rindslungenbraten, Grillgemüse, Rosmarinkartoffeln</div><div class="md lang-en hidden-lang">Beef tenderloin, grilled vegetables, rosemary potatoes</div></div><div class="mp">27.90€</div></div>
-    <div class="quote lang-de">„Jeden Tag wählen wir die frischesten Zutaten — weil gutes Essen Zeit verdient."</div>
-    <div class="quote lang-en hidden-lang">"Every day we choose the freshest ingredients — because good food deserves time."</div>
-    <div class="aller lang-de">H Schalenfrüchte · L Sellerie · R Weichtiere</div>
-    <div class="aller lang-en hidden-lang">H Nuts · L Celery · R Molluscs</div>
-    <div class="curl"></div>
-  </div>`,
-
-  /* spread 3 LEFT */
-  '3L':`<div class="inner">
-    <div class="sh"><div class="sl lang-de">Süßes zum Schluss</div><div class="sl lang-en hidden-lang">Sweet Endings</div><div class="st">Desserts</div></div>
-    <div class="mi"><div><div class="mn">Tiramisu<span class="alg">AG</span></div><div class="md lang-de">Hausgemacht mit Pistazien, nach Familienrezept</div><div class="md lang-en hidden-lang">Homemade with pistachios, family recipe</div></div><div class="mp">8.90€</div></div>
-    <div class="mi"><div><div class="mn">Affogato<span class="alg">AE</span></div><div class="md lang-de">Vanille-Eis, übergossen mit heißem Espresso</div><div class="md lang-en hidden-lang">Vanilla ice cream drowned in hot espresso</div></div><div class="mp">6.90€</div></div>
-    <div style="margin-top:1.5rem;text-align:center;font-size:1.6rem;color:var(--gold);opacity:.12;font-family:var(--display)">✦</div>
-  </div>`,
-
-  /* spread 3 RIGHT */
-  '3R':`<div class="inner">
-    <div class="sh"><div class="sl lang-de">Getränke</div><div class="sl lang-en hidden-lang">Drinks</div><div class="st lang-de">Aperitivi &amp; Caffè</div><div class="st lang-en hidden-lang">Aperitivi &amp; Coffee</div></div>
-    <div class="dc lang-de">Kaffee</div><div class="dc lang-en hidden-lang">Coffee</div>
-    <div class="dr"><span class="drn">Espresso</span><span class="drp">2.80€</span></div>
-    <div class="dr"><span class="drn">Cappuccino</span><span class="drp">4.10€</span></div>
-    <div class="dc lang-de">Hausgemachte Limonaden (0,40l)</div><div class="dc lang-en hidden-lang">Homemade Lemonades (0,40l)</div>
-    <div class="dr"><span class="drn">Strawberry Basil</span><span class="drp">6.90€</span></div>
-    <div class="dr"><span class="drn">Mango Maracuja</span><span class="drp">6.90€</span></div>
-    <div class="dc lang-de">Aperitifs &amp; Spritz</div><div class="dc lang-en hidden-lang">Aperitifs &amp; Spritz</div>
-    <div class="dr"><span class="drn">Limoncello Spritz</span><span class="drp">8.90€</span></div>
-    <div class="dr"><span class="drn"><span class="lang-de">Aperol Spritzer</span><span class="lang-en hidden-lang">Aperol Spritz</span></span><span class="drp">7.90€</span></div>
-    <div class="curl"></div>
-  </div>`
-};
-
-/* ══════════════════════════════════════════════
-   BUILD STAGE
-══════════════════════════════════════════════ */
-function build(){
-  const s = document.getElementById('stage');
-  s.innerHTML = '';
-
-  /* ── COVER: right page, index 0 ── */
-  const cover = el('div','pg rp','page-0');
-  cover.dataset.idx = 0;
-  cover.innerHTML = coverHTML() + `<div class="pb" style="background:var(--ivory-2)">${frame()}</div>`;
-  s.appendChild(cover);
-
-  /* ── SPREAD 1 ── */
-  s.appendChild(makePage('lp',1, PAGE_CONTENT['1L'], 2, false));
-  s.appendChild(makePage('rp',2, PAGE_CONTENT['1R'], 3, true));
-
-  /* ── SPREAD 2 ── */
-  s.appendChild(makePage('lp',3, PAGE_CONTENT['2L'], 4, false));
-  s.appendChild(makePage('rp',4, PAGE_CONTENT['2R'], 5, true));
-
-  /* ── SPREAD 3 ── */
-  s.appendChild(makePage('lp',5, PAGE_CONTENT['3L'], 6, false));
-  s.appendChild(makePage('rp',6, PAGE_CONTENT['3R'], 7, true));
-
-  /* ── BACK COVER: left page, index 7 ── */
-  const back = el('div','pg lp','page-7');
-  back.dataset.idx = 7;
-  back.innerHTML = backCoverHTML() + `<div class="pb" style="background:var(--ivory-2)">${frame()}</div>`;
-  s.appendChild(back);
-
-  applySpread();
-}
-
-function makePage(side, idx, content, num, hasCurl){
-  const p = el('div',`pg ${side}`,`page-${idx}`);
-  p.dataset.idx = idx;
-  const front = document.createElement('div');
-  front.className = 'pf';
-  front.innerHTML = `${frame()}${shine()}${content}<div class="pnum ${side==='lp'?'l':'r'}">${num}</div>`;
-  const back = document.createElement('div');
-  back.className = 'pb';
-  back.innerHTML = frame();
-  p.appendChild(front);
-  p.appendChild(back);
-  return p;
-}
-
-function el(tag,cls,id){
-  const e=document.createElement(tag);
-  e.className=cls;
-  if(id) e.id=id;
-  return e;
-}
-
-/* ══════════════════════════════════════════════
-   SPREAD RENDERING
-   
-   Page index mapping:
-   0 = cover (right page)
-   1 = spread1 left   2 = spread1 right
-   3 = spread2 left   4 = spread2 right
-   5 = spread3 left   6 = spread3 right
-   7 = back (left page)
-
-   Spread 0: only cover visible on right
-   Spread 1: cover flipped→left side, pages 1+2 visible
-   Spread 2: pages 1+2 past, pages 3+4 visible
-   Spread 3: pages 3+4 past, pages 5+6 visible
-   Spread 4: pages 5+6 past, back (7) visible on left
-══════════════════════════════════════════════ */
-function applySpread(){
-  const all = document.querySelectorAll('.pg');
-
-  all.forEach(p=>{
-    const idx = parseInt(p.dataset.idx);
-    p.classList.remove('flipped');
-    p.style.zIndex = 1;
-
-    if(idx===0){
-      // cover
-      if(spread===0){
-        p.style.left='var(--pw)';
-        p.className='pg rp';
-        p.style.zIndex=10;
+      const footerText = data.side === 'left' ? `ALLERGENE: ${ALLERGEN_LINE}` : PRICING_LINE;
+      
+      let headingHTML = '';
+      if (data.grandTitle) {
+        headingHTML = `<div class="grand-category-title">${data.grandTitle}</div><div class="grand-category-subtitle">${data.grandSubtitle}</div>`;
       } else {
-        // flipped to left
-        p.className='pg rp flipped';
-        p.style.left='var(--pw)';
-        p.style.zIndex = SPREADS - spread + 1;
+        headingHTML = `<div class="section-heading"><p class="section-label">${data.sl}</p><h3 class="section-title">${data.st}</h3></div>`;
       }
-    } else if(idx===7){
-      // back cover
-      p.className='pg lp';
-      p.style.left='0';
-      if(spread===4){ p.style.zIndex=10; }
-      else { p.style.zIndex=1; }
-    } else {
-      // content pages: 1-6
-      const pageSpread = Math.ceil(idx/2); // 1→s1, 2→s1, 3→s2, etc
-      const isLeft = idx%2===1;
 
-      if(pageSpread === spread){
-        // currently visible
-        p.className = `pg ${isLeft?'lp':'rp'}`;
-        p.style.left = isLeft?'0':'var(--pw)';
-        p.style.zIndex = 10;
-      } else if(pageSpread < spread){
-        // already past — flipped to opposite side
-        if(isLeft){
-          p.className='pg lp flipped';
-          p.style.left='0';
-        } else {
-          p.className='pg rp flipped';
-          p.style.left='var(--pw)';
-        }
-        p.style.zIndex = pageSpread;
-      } else {
-        // future — hidden on their natural side
-        p.className = `pg ${isLeft?'lp':'rp'}`;
-        p.style.left = isLeft?'0':'var(--pw)';
-        p.style.zIndex = 1;
-      }
-    }
+      return `
+        <div class="page-inner">
+          ${headingHTML}
+          ${items}
+          ${extrasHTML}
+          <div class="page-footer">${footerText}</div>
+        </div>`;
+    case 'feature':
+      const prices = (data.feature.prices || []).map(p => `<div class="feature-price-row"><span class="feature-price-label">${p.label}</span><span class="feature-price-value">${p.value} €</span></div>`).join('');
+      return `<div class="page-inner">
+                <div class="section-heading"><p class="section-label">${data.sl}</p><h3 class="section-title">${data.st}</h3></div>
+                <div class="feature-box"><p class="feature-title">${data.feature.title}</p><p class="feature-desc">${data.feature.desc}</p>${prices}</div>
+                <div class="page-footer">${PRICING_LINE}</div>
+              </div>`;
+  }
+  return '';
+}
+
+function buildPage(data, side) {
+  const isCoverOrBack = data && (data.type === 'cover' || data.type === 'back' || data.type === 'blank_dark');
+  const page = document.createElement('div'); page.className = `page ${side}-page`;
+  const face = document.createElement('div'); face.className = 'page-face'; 
+  
+  if (isCoverOrBack) { face.innerHTML = buildPageContent(data); } else { face.innerHTML = buildPageContent(data); }
+  
+  const back = document.createElement('div'); back.className = 'page-back'; back.innerHTML = '';
+  page.appendChild(face); page.appendChild(back); return page;
+}
+
+function buildBlankPage(side) {
+  const page = document.createElement('div'); page.className = `page ${side}-page`; page.style.zIndex = '0';
+  const face = document.createElement('div'); face.className = 'page-face'; face.innerHTML = '';
+  const back = document.createElement('div'); back.className = 'page-back'; back.innerHTML = '';
+  page.appendChild(face); page.appendChild(back); return page;
+}
+
+function render() {
+  const stage = document.getElementById('book-stage'); 
+  stage.innerHTML = '';
+  BOOK_SPREADS.forEach((spread, spreadIndex) => {
+    const leftPage = spread.left ? buildPage(spread.left, 'left') : buildBlankPage('left');
+    const rightPage = spread.right ? buildPage(spread.right, 'right') : buildBlankPage('right');
+    leftPage.dataset.spread = spreadIndex; leftPage.dataset.side = 'left';
+    rightPage.dataset.spread = spreadIndex; rightPage.dataset.side = 'right';
+    stage.appendChild(leftPage); stage.appendChild(rightPage);
   });
-
-  updateCtrl();
-  // re-apply lang after DOM change
-  const lang = (() => { try{return localStorage.getItem(KEY)||'de'}catch{return'de'} })();
-  applyLangClasses(lang);
+  applySpread(false);
 }
 
-/* ══════════════════════════════════════════════
-   TURN
-══════════════════════════════════════════════ */
-function turn(dir){
-  if(busy) return;
-  const next = spread+dir;
-  if(next<0||next>=SPREADS) return;
-  busy=true;
-  playTurn();
-
-  // add turning class for shine
-  const turningEl = getTurningEl(dir);
-  if(turningEl) turningEl.classList.add('turning');
-
-  spread=next;
-  applySpread();
-
-  setTimeout(()=>{
-    busy=false;
-    if(turningEl) turningEl.classList.remove('turning');
-  }, 1050);
+function applySpread(animate) {
+  const total = BOOK_SPREADS.length, pages = document.querySelectorAll('.page');
+  pages.forEach(page => {
+    const spreadIndex = parseInt(page.dataset.spread, 10);
+    if (!animate) { page.style.transition = 'none'; requestAnimationFrame(() => { page.style.transition = ''; }); }
+    page.classList.remove('flipped');
+    if (spreadIndex < currentSpread) { page.classList.add('flipped'); page.style.zIndex = spreadIndex + 1; } 
+    else if (spreadIndex === currentSpread) { page.style.zIndex = total + 5; } 
+    else { page.style.zIndex = 1; }
+  });
+  document.getElementById('btn-prev').disabled = currentSpread === 0;
+  document.getElementById('btn-next').disabled = currentSpread === total - 1;
+  document.getElementById('page-indicator').textContent = (currentSpread + 1) + ' / ' + total;
+  
+  document.querySelectorAll('.s-tab').forEach(tab => {
+    const target = parseInt(tab.dataset.target);
+    tab.classList.toggle('active', currentSpread === target || (currentSpread === target - 1 && target > 1));
+  });
 }
 
-function getTurningEl(dir){
-  if(dir>0){
-    if(spread===0) return document.getElementById('page-0');
-    const idx = spread*2;
-    return document.getElementById('page-'+idx);
+function turn(direction) {
+  if (isTurning) return;
+  const next = currentSpread + direction;
+  if (next < 0 || next >= BOOK_SPREADS.length) return;
+  isTurning = true; currentSpread = next; playPageTurn(); applySpread(true);
+  setTimeout(() => { isTurning = false; }, 850);
+}
+
+function goToSpread(target) {
+  if (currentSpread === target) return;
+  currentSpread = target;
+  playPageTurn();
+  applySpread(true);
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOTEUR TACTILE (FINGER TRACKING)
+═══════════════════════════════════════════════════════ */
+const stage = document.getElementById('book-stage');
+let isDragging = false;
+let dragStartX = 0;
+let dragTarget = null;
+let dragDir = 0;
+
+stage.addEventListener('pointerdown', e => {
+  if (isTurning || (e.pointerType === 'mouse' && e.button !== 0)) return;
+  
+  const rect = stage.getBoundingClientRect();
+  const pageW = rect.width / 2;
+  const clickX = e.clientX - rect.left;
+  
+  dragStartX = e.clientX;
+  
+  if (clickX > pageW && currentSpread < BOOK_SPREADS.length - 1) {
+    dragDir = 1;
+    dragTarget = document.querySelector(`.page[data-spread="${currentSpread}"][data-side="right"]`);
+  } else if (clickX <= pageW && currentSpread > 0) {
+    dragDir = -1;
+    dragTarget = document.querySelector(`.page[data-spread="${currentSpread - 1}"][data-side="left"]`);
+  }
+
+  if (dragTarget) {
+    isDragging = true;
+    stage.setPointerCapture(e.pointerId);
+    dragTarget.style.transition = 'none'; 
+    dragTarget.style.zIndex = BOOK_SPREADS.length + 10; 
+  }
+});
+
+stage.addEventListener('pointermove', e => {
+  if (!isDragging || !dragTarget) return;
+  
+  const rect = stage.getBoundingClientRect();
+  const pageW = rect.width / 2;
+  let deltaX = e.clientX - dragStartX;
+  
+  if (dragDir === 1) {
+    if (deltaX > 0) deltaX = 0;
+    let angle = (deltaX / pageW) * 180;
+    angle = Math.max(-180, Math.min(0, angle));
+    dragTarget.style.transform = `rotateY(${angle}deg)`;
+  } else if (dragDir === -1) {
+    if (deltaX < 0) deltaX = 0;
+    let angle = 180 - (deltaX / pageW) * 180;
+    angle = Math.min(180, Math.max(0, angle));
+    dragTarget.style.transform = `rotateY(${angle}deg)`;
+  }
+});
+
+function endDrag(e) {
+  if (!isDragging || !dragTarget) return;
+  isDragging = false;
+  
+  const rect = stage.getBoundingClientRect();
+  const pageW = rect.width / 2;
+  const deltaX = e.clientX - dragStartX;
+  
+  const target = dragTarget;
+  const dir = dragDir;
+  
+  dragTarget = null;
+  dragDir = 0;
+  
+  target.style.transition = ''; 
+  target.style.transform = ''; 
+  
+  if (Math.abs(deltaX) < 15) {
+    turn(dir);
+  } else if (dir === 1 && deltaX < -pageW * 0.15) {
+    turn(1);
+  } else if (dir === -1 && deltaX > pageW * 0.15) {
+    turn(-1);
   } else {
-    const idx = spread*2+1;
-    return document.getElementById('page-'+idx);
+    applySpread(true);
   }
 }
 
-function updateCtrl(){
-  document.getElementById('bp').disabled = spread===0;
-  document.getElementById('bn').disabled = spread===SPREADS-1;
-  document.getElementById('pi').textContent = (spread+1)+' / '+SPREADS;
-}
+stage.addEventListener('pointerup', endDrag);
+stage.addEventListener('pointercancel', endDrag);
 
-/* ══════════════════════════════════════════════
-   INPUT
-══════════════════════════════════════════════ */
-// Click on left/right half
-document.getElementById('stage').addEventListener('click',e=>{
-  const r = document.getElementById('stage').getBoundingClientRect();
-  if(e.clientX - r.left > r.width/2) turn(1); else turn(-1);
+/* ═══════════════════════════════════════════════════════
+   EFFET MAGNÉTIQUE (PARALLAX 3D SOURIS)
+═══════════════════════════════════════════════════════ */
+const magneticWrapper = document.getElementById('magnetic-wrapper');
+document.addEventListener('mousemove', e => {
+  if (isTurning || isDragging || window.innerWidth <= 768) return; 
+  
+  const x = (e.clientX / window.innerWidth - 0.5) * 8; 
+  const y = (e.clientY / window.innerHeight - 0.5) * -8;
+  magneticWrapper.style.transform = `rotateX(${y}deg) rotateY(${x}deg)`;
+});
+document.addEventListener('mouseleave', () => {
+  magneticWrapper.style.transform = `rotateX(0deg) rotateY(0deg)`;
 });
 
-// Keyboard
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowRight'||e.key==='ArrowDown') turn(1);
-  if(e.key==='ArrowLeft'||e.key==='ArrowUp') turn(-1);
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') turn(1);
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') turn(-1);
 });
 
-// Swipe
-let tx=0;
-document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
-document.addEventListener('touchend',e=>{
-  const dx=e.changedTouches[0].clientX-tx;
-  if(Math.abs(dx)>55) turn(dx<0?1:-1);
-},{passive:true});
-
-// Resume audio on first interaction
-document.addEventListener('pointerdown',()=>{
-  try{ const c=getAudio(); if(c.state==='suspended') c.resume(); }catch(e){}
-},{once:true});
-
-/* ══════════════════════════════════════════════
-   CANDLE DECORATION
-══════════════════════════════════════════════ */
-function buildCandles(){
-  const wrap=document.getElementById('candles');
-  const n=10;
-  for(let i=0;i<n;i++){
-    const c=document.createElement('div');
-    c.className='candle';
-    const h=50+Math.random()*120;
-    c.style.cssText=`left:${3+(i/(n-1))*94}%;height:${h}px;animation-delay:${Math.random()*3}s;animation-duration:${1.8+Math.random()*2.5}s`;
-    wrap.appendChild(c);
-  }
-}
-
-/* ══════════════════════════════════════════════
-   LANGUAGE
-══════════════════════════════════════════════ */
-function applyLangClasses(lang){
-  document.querySelectorAll('.lang-de').forEach(e=>e.classList.toggle('hidden-lang',lang!=='de'));
-  document.querySelectorAll('.lang-en').forEach(e=>e.classList.toggle('hidden-lang',lang!=='en'));
-}
-
-function setLang(lang){
-  if(lang!=='de'&&lang!=='en') lang='de';
-  document.documentElement.lang=lang;
-  applyLangClasses(lang);
-  document.getElementById('btn-de').classList.toggle('on',lang==='de');
-  document.getElementById('btn-en').classList.toggle('on',lang==='en');
-  document.getElementById('btn-de').setAttribute('aria-pressed',String(lang==='de'));
-  document.getElementById('btn-en').setAttribute('aria-pressed',String(lang==='en'));
-  try{localStorage.setItem(KEY,lang)}catch(e){}
-}
-
-/* ══════════════════════════════════════════════
-   INIT
-══════════════════════════════════════════════ */
-(function(){
-  buildCandles();
-  build();
-  let lang='de';
-  try{lang=localStorage.getItem(KEY)||'de'}catch(e){}
-  setLang(lang);
-})();
+(function init() { render(); })();
 </script>
+
 </body>
 </html>

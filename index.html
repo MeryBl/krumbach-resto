@@ -1,304 +1,804 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gastro HALLE | Taste the Passion</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="page-title">Gastro HALLE Krumbach | Italienisches Esserlebnis</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,500&family=Plus+Jakarta+Sans:wght@200;400;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,500&family=Plus+Jakarta+Sans:wght@200;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    :root {
+      --accent: #c96a2b;
+      --gold: #d4af37;
+      --cream: #f8f4ee;
+      --dark: #111111;
+      --stone: #7d7468;
+      --glass: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.12);
+      --serif: 'Cormorant Garamond', serif;
+      --sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    .hidden-lang { display: none !important; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* NAVBAR */
+    #navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1.5rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      transition: 0.4s ease;
+    }
+
+    #navbar.scrolled {
+      background: rgba(17,17,17,0.78);
+      backdrop-filter: blur(18px);
+      padding: 1rem 5%;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+    }
+
+    .nav-logo {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .nav-links a {
+      position: relative;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-weight: 600;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: 0.35s ease;
+    }
+
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      padding: 0.9rem 1.6rem;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px;
+      transition: 0.3s ease;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .lang-switch button {
+      background: none;
+      border: none;
+      color: white;
+      margin-left: 0.6rem;
+      cursor: pointer;
+      opacity: 0.45;
+      font-weight: 700;
+    }
+
+    .lang-switch .active { opacity: 1; color: var(--accent); }
+
+    /* HERO */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 5%;
+      background: black;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      animation: zoomHero 18s ease-in-out infinite alternate;
+    }
+
+    @keyframes zoomHero {
+      from { transform: scale(1.05); }
+      to { transform: scale(1.18); }
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,0.72), rgba(0,0,0,0.25)),
+        linear-gradient(to top, rgba(0,0,0,0.7), transparent 45%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 760px;
+      color: white;
+    }
+
+    .hero-tag {
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      margin-bottom: 1.4rem;
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(4rem, 11vw, 9rem);
+      line-height: 0.9;
+      font-style: italic;
+      font-weight: 300;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.88);
+      max-width: 580px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn-main, .btn-outline {
+      padding: 1.15rem 2.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: 0.35s ease;
+      cursor: pointer;
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-main i, .btn-outline i {
+      margin-right: 0.6rem;
+      font-size: 1rem;
+    }
+
+    .btn-main {
+      background: var(--accent);
+      color: white;
+      border: none;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(201,106,43,0.35);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.4);
+      color: white;
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: black;
+    }
+
+    .hero-proof {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.8rem 1.2rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      backdrop-filter: blur(14px);
+      border-radius: 50px;
+      font-size: 0.85rem;
+    }
+
+    /* SECTION GENERIC */
+    section { padding: 8rem 5%; }
+
+    .section-head {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 4rem;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc { color: var(--stone); }
+
+    /* SPECIALTIES */
+    #specialties { background: #f1ece4; }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1450px;
+      margin: auto;
+    }
+
+    .spec-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 560px;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    .spec-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.8s ease;
+    }
+
+    .spec-card:hover img { transform: scale(1.08); }
+
+    .spec-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.82), transparent 55%);
+    }
+
+    .spec-content {
+      position: absolute;
+      bottom: 0;
+      padding: 2.2rem;
+      color: white;
+      z-index: 2;
+    }
+
+    .spec-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .spec-content h3 {
+      font-family: var(--serif);
+      font-size: 2.7rem;
+      font-style: italic;
+      margin: 0.5rem 0;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      max-width: 1450px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-image img {
+      height: 780px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .about-quote {
+      font-family: var(--serif);
+      font-size: 2rem;
+      color: var(--accent);
+      font-style: italic;
+      margin: 2rem 0;
+    }
+
+    /* INSTAGRAM WALL */
+    #instagram-wall { background: var(--dark); color: white; }
+
+    .insta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      max-width: 1450px;
+      margin: auto;
+    }
+
+    .insta-grid img {
+      height: 320px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+      transition: 0.5s ease;
+    }
+
+    .insta-grid img:hover {
+      transform: translateY(-8px);
+    }
+
+    /* TESTIMONIALS */
+    .testimonials {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .testimonial {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+    }
+
+    .testimonial p:first-child {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    /* CTA / RESERVATION */
+    #reservation-cta {
+      background: linear-gradient(135deg, #1a1a1a, #111);
+      color: white;
+      text-align: center;
+    }
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    .res-methods {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
+    }
 
-    <style>
-        :root {
-            --accent: #d4622a;
-            --dark: #0f0f0f;
-            --bg: #faf9f6; 
-            --stone: #8e8a82;
-            --serif: 'Cormorant Garamond', serif;
-            --sans: 'Plus Jakarta Sans', sans-serif;
-        }
+    /* FOOTER */
+    footer {
+      background: #0c0c0c;
+      color: white;
+      padding: 5rem 5% 2rem;
+    }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--sans); background-color: var(--bg); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1450px;
+      margin: auto;
+    }
 
-        .hidden-lang { display: none !important; }
+    footer h4 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.75rem;
+    }
 
-        /* REVEAL ANIMATION */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+    footer a, footer p {
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 0.7rem;
+      display: block;
+    }
 
-        /* NAVBAR */
-        #navbar {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 2rem 5%; transition: all 0.5s ease; color: white;
-        }
-        #navbar.scrolled {
-            padding: 1rem 5%; background: rgba(250, 249, 246, 0.96); backdrop-filter: blur(15px);
-            color: var(--dark); border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        .nav-logo { height: 2.5rem; filter: brightness(0) invert(1); transition: 0.3s; }
-        #navbar.scrolled .nav-logo { filter: none; }
-        .nav-links { display: flex; gap: 3rem; }
-        .nav-links a { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 600; text-decoration: none; color: inherit; position: relative; }
-        .nav-links a:hover { color: var(--accent); }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.45);
+      font-size: 0.8rem;
+    }
 
-        .lang-switch .lang-btn { background: none; border: none; color: inherit; cursor: pointer; font-size: 0.75rem; font-weight: 700; opacity: 0.4; margin: 0 8px; transition: 0.3s; }
-        .lang-btn.active { opacity: 1; color: var(--accent); }
-
-        /* HERO - TEXT ALIGNED LEFT */
-        #hero { position: relative; height: 100vh; display: flex; align-items: center; overflow: hidden; background: var(--dark); padding-top: 80px; }
-        .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); transform: scale(1.05); animation: slowZoom 20s infinite alternate; }
-        @keyframes slowZoom { to { transform: scale(1.15); } }
-        
-        .hero-content { position: relative; z-index: 10; width: 90%; max-width: 1400px; margin-left: 5%; color: white; text-align: left; }
-        .hero-tag { font-size: 0.8rem; letter-spacing: 0.4em; text-transform: uppercase; margin-bottom: 1.5rem; display: block; color: rgba(255,255,255,0.8); }
-        .hero-title { font-family: var(--serif); font-size: clamp(3.5rem, 12vw, 8.5rem); font-style: italic; font-weight: 300; line-height: 0.85; margin-bottom: 2rem; }
-
-        .slogan-box { max-width: 600px; margin-bottom: 3.5rem; }
-        .slogan-title { font-family: var(--serif); font-size: 2.2rem; color: var(--accent); font-style: italic; margin-bottom: 1rem; }
-
-        /* BUTTONS */
-        .btn-main { background: var(--accent); color: white; padding: 1.2rem 3rem; border: none; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: 0.4s; text-decoration: none; display: inline-block; }
-        .btn-main:hover { background: white; color: var(--dark); transform: translateY(-5px); }
-        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.4); color: white; padding: 1.2rem 3rem; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; transition: 0.4s; margin-left: 1.5rem; cursor: pointer; }
-        .btn-outline:hover { background: white; color: var(--dark); border-color: white; }
-
-        /* SPECIALTIES */
-        #specialties { padding: 10rem 5%; background: #f2f0eb; }
-        .spec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; max-width: 1400px; margin: 0 auto; }
-        .spec-item { background: white; transition: 0.5s; overflow: hidden; border-radius: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
-        .spec-item img { width: 100%; height: 450px; object-fit: cover; transition: 1s; }
-        .spec-item:hover img { transform: scale(1.08); }
-        .spec-info { padding: 2.5rem; }
-        .spec-info h3 { font-family: var(--serif); font-size: 2.2rem; font-style: italic; margin-bottom: 1rem; color: var(--dark); }
-        .spec-info p { font-size: 0.95rem; color: var(--stone); line-height: 1.6; }
-
-        /* ABOUT */
-        #about { padding: 10rem 5%; background: var(--bg); }
-        .about-wrap { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-        .about-img img { width: 100%; height: 700px; object-fit: cover; box-shadow: 30px 30px 0px white; }
-        .about-text h2 { font-family: var(--serif); font-size: 4rem; font-style: italic; font-weight: 300; line-height: 1.1; margin-bottom: 2rem; }
-
-        /* FOOTER */
-        footer { background: var(--dark); color: white; padding: 6rem 5% 3rem; border-top: 4px solid var(--accent); }
-        .f-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 4rem; }
-        .f-col h4 { font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 2.5rem; color: var(--accent); }
-        .f-col a, .f-col p { color: rgba(255,255,255,0.6); text-decoration: none; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px; transition: 0.3s; font-size: 0.9rem; }
-        .f-col a i { font-size: 1.2rem; color: var(--accent); width: 20px; text-align: center; }
-        .f-col a:hover { color: white; transform: translateX(5px); }
-        .f-bottom { max-width: 1400px; margin: 5rem auto 0; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; font-size: 0.7rem; opacity: 0.5; }
-
-        /* RESERVATION MODAL */
-        #modal-reservation { 
-            position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.95); 
-            display: none; align-items: center; justify-content: center; backdrop-filter: blur(15px); 
-        }
-        .modal-content { 
-            background: white; padding: 5rem; width: 90%; max-width: 550px; 
-            text-align: center; border-top: 8px solid var(--accent); position: relative; 
-        }
-        .close-modal { position: absolute; top: 1.5rem; right: 1.5rem; font-size: 1.8rem; border: none; background: none; cursor: pointer; }
-
-        @media (max-width: 1100px) {
-            #hero { padding-top: 120px; align-items: flex-start; }
-            .hero-content { margin-left: 0; text-align: center; }
-            .hero-title { font-size: 4rem; }
-            .spec-grid, .f-grid, .about-wrap { grid-template-columns: 1fr; }
-            .btn-outline { margin-left: 0; margin-top: 1rem; }
-            .nav-links { display: none; }
-        }
-    </style>
+    /* MOBILE */
+    @media (max-width: 1100px) {
+      .nav-links { display: none; }
+      .spec-grid, .about-grid, .insta-grid, .testimonials, .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-title { font-size: 4.5rem; }
+      .about-image img { height: auto; }
+      .res-methods { flex-direction: column; align-items: center; }
+      .res-methods a { width: 100%; max-width: 300px; }
+    }
+  </style>
 </head>
 <body>
 
 <nav id="navbar">
-    <a href="#" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem;">
-        <img src="logo.jpg" alt="Logo" class="nav-logo">
-        <span style="font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.8rem;">Gastro HALLE</span>
-    </a>
-    <div class="nav-links">
-        <a href="#about"><span class="lang-de">Story</span><span class="lang-en hidden-lang">Story</span></a>
-        <a href="#specialties"><span class="lang-de">Speisen</span><span class="lang-en hidden-lang">Cuisine</span></a>
-        <a href="menu.html"><span class="lang-de">Speisekarte</span><span class="lang-en hidden-lang">Menu</span></a>
-    </div>
-    <div class="lang-switch">
-        <button class="lang-btn active" id="btn-de" onclick="setLanguage('de')">DE</button>
-        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
-    </div>
+  <a href="#" class="brand">
+    <img src="logo.jpg" alt="Gastro HALLE" class="nav-logo">
+    <span>Gastro HALLE</span>
+  </a>
+
+  <div class="nav-links">
+    <a href="#about"><span class="lang-de">Geschichte</span><span class="lang-en hidden-lang">Story</span></a>
+    <a href="#specialties"><span class="lang-de">Küche</span><span class="lang-en hidden-lang">Cuisine</span></a>
+    <a href="#instagram-wall"><span class="lang-de">Galerie</span><span class="lang-en hidden-lang">Gallery</span></a>
+    <a href="menu.html"><span class="lang-de">Speisekarte</span><span class="lang-en hidden-lang">Menu</span></a>
+    <a href="#reservation-cta" class="nav-cta"><span class="lang-de">Reservieren</span><span class="lang-en hidden-lang">Reserve</span></a>
+  </div>
+
+  <div class="lang-switch">
+    <button id="btn-de" class="active" onclick="setLanguage('de')">DE</button>
+    <button id="btn-en" onclick="setLanguage('en')">EN</button>
+  </div>
 </nav>
 
 <header id="hero">
-    <img src="image_1.avif" class="hero-img" alt="Gastro HALLE Hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content reveal">
-        <span class="hero-tag">Kultur- u. Sportzentrum Krumbach</span>
-        <h1 class="hero-title">Taste the<br>Passion.</h1>
-        <div class="slogan-box">
-            <h2 class="slogan-title">L'Arte della Cucina Italiana</h2>
-            <p class="slogan-desc">
-                <span class="lang-de">Erleben Sie kulinarische Exzellenz im Herzen von Krumbach. Wir vereinen traditionelle italienische Rezepturen mit modernem Flair.</span>
-                <span class="lang-en hidden-lang">Experience culinary excellence in the heart of Krumbach. We combine traditional Italian recipes with modern flair.</span>
-            </p>
-        </div>
-        <div>
-            <a href="menu.html" class="btn-main">
-                <span class="lang-de">Speisekarte</span><span class="lang-en hidden-lang">Menu</span>
-            </a>
-            <button class="btn-outline" onclick="openModal()">
-                <span class="lang-de">Reservieren</span><span class="lang-en hidden-lang">Booking</span>
-            </button>
-        </div>
+  <img src="image_1.avif" alt="Hero" class="hero-bg">
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content reveal">
+    <span class="hero-tag">
+      <span class="lang-de">Kultur- u. Sportzentrum Krumbach</span>
+      <span class="lang-en hidden-lang">Cultural & Sports Center Krumbach</span>
+    </span>
+    <h1 class="hero-title">
+      <span class="lang-de">Schmecke die Leidenschaft.</span>
+      <span class="lang-en hidden-lang">Taste the Passion.</span>
+    </h1>
+    <p class="hero-subtitle">
+      <span class="lang-de">Feine italienische Emotionen, gehobene Gastronomie, unvergleichliche Momente – wo Krumbach auf la dolce vita trifft.</span>
+      <span class="lang-en hidden-lang">Fine Italian emotion, elevated dining, signature moments — where Krumbach meets la dolce vita.</span>
+    </p>
+
+    <div class="hero-buttons">
+      <a href="menu.html" class="btn-main">
+        <span class="lang-de">Speisekarte ansehen</span>
+        <span class="lang-en hidden-lang">Explore Menu</span>
+      </a>
+      <a href="#reservation-cta" class="btn-outline">
+        <span class="lang-de">Erlebnis buchen</span>
+        <span class="lang-en hidden-lang">Book Experience</span>
+      </a>
     </div>
+
+    <div class="hero-proof">
+      <span>★ 4.9</span>
+      <span>
+        <span class="lang-de">Beliebtestes italienisches Restaurant in Krumbach</span>
+        <span class="lang-en hidden-lang">Most Loved Italian Spot in Krumbach</span>
+      </span>
+    </div>
+  </div>
 </header>
 
 <section id="specialties">
-    <div class="spec-grid">
-        <article class="spec-item reveal">
-            <img src="image_2.avif" alt="Pizza">
-            <div class="spec-info">
-                <h3>Pizza</h3>
-                <p>
-                    <span class="lang-de">Frisch aus dem Steinofen mit feinstem Mozzarella und italienischen Kräutern.</span>
-                    <span class="lang-en hidden-lang">Fresh from the stone oven with the finest mozzarella and Italian herbs.</span>
-                </p>
-            </div>
-        </article>
-        <article class="spec-item reveal">
-            <img src="image_3.webp" alt="Pasta">
-            <div class="spec-info">
-                <h3>Pasta</h3>
-                <p>
-                    <span class="lang-de">Hausgemachte Nudelspezialitäten, serviert mit al dente Perfektion.</span>
-                    <span class="lang-en hidden-lang">Homemade pasta specialties, served with al dente perfection.</span>
-                </p>
-            </div>
-        </article>
-        <article class="spec-item reveal">
-            <img src="image_4.avif" alt="Drinks">
-            <div class="spec-info">
-                <h3>Drinks</h3>
-                <p>
-                    <span class="lang-de">Erfrischende Aperitivi für den perfekten italienischen Moment.</span>
-                    <span class="lang-en hidden-lang">Refreshing aperitivi for the perfect Italian moment.</span>
-                </p>
-            </div>
-        </article>
-    </div>
+  <div class="section-head reveal">
+    <span class="eyebrow">
+      <span class="lang-de">Unsere Spezialitäten</span>
+      <span class="lang-en hidden-lang">Signature Selection</span>
+    </span>
+    <h2 class="section-title">
+      <span class="lang-de">Kreiert, um in Erinnerung zu bleiben</span>
+      <span class="lang-en hidden-lang">Crafted to Be Remembered</span>
+    </h2>
+    <p class="section-desc">
+      <span class="lang-de">Von handgemachter Pizza über hausgemachte Pasta bis hin zur gepflegten Aperitivo-Kultur.</span>
+      <span class="lang-en hidden-lang">From artisan pizza to handcrafted pasta and refined aperitivo culture.</span>
+    </p>
+  </div>
+
+  <div class="spec-grid">
+    <article class="spec-card reveal">
+      <img src="image_2.avif" alt="Pizza">
+      <div class="spec-content">
+        <span class="spec-label">
+          <span class="lang-de">Heiß begehrt</span>
+          <span class="lang-en hidden-lang">Most Loved</span>
+        </span>
+        <h3>Pizza</h3>
+        <p>
+          <span class="lang-de">Aus dem Steinofen mit authentisch italienischer Seele.</span>
+          <span class="lang-en hidden-lang">Stone-fired elegance with authentic Italian soul.</span>
+        </p>
+      </div>
+    </article>
+
+    <article class="spec-card reveal">
+      <img src="image_3.webp" alt="Pasta">
+      <div class="spec-content">
+        <span class="spec-label">
+          <span class="lang-de">Handgemacht</span>
+          <span class="lang-en hidden-lang">Handmade</span>
+        </span>
+        <h3>Pasta</h3>
+        <p>
+          <span class="lang-de">Al dente Perfektion mit moderner Raffinesse.</span>
+          <span class="lang-en hidden-lang">Al dente perfection with modern sophistication.</span>
+        </p>
+      </div>
+    </article>
+
+    <article class="spec-card reveal">
+      <img src="image_4.avif" alt="Drinks">
+      <div class="spec-content">
+        <span class="spec-label">Aperitivo</span>
+        <h3>Drinks</h3>
+        <p>
+          <span class="lang-de">Kreiert für unvergessliche Abende.</span>
+          <span class="lang-en hidden-lang">Designed for unforgettable evenings.</span>
+        </p>
+      </div>
+    </article>
+  </div>
 </section>
 
 <section id="about">
-    <div class="about-wrap">
-        <div class="about-img reveal"><img src="image_5.jfif" alt="Interior"></div>
-        <div class="about-text reveal">
-            <h2>
-                <span class="lang-de">Italienische Seele in Krumbach</span>
-                <span class="lang-en hidden-lang">Italian Soul in Krumbach</span>
-            </h2>
-            <p>
-                <span class="lang-de">Gastro HALLE steht für eine Küche ohne Maske. Im modernen Ambiente des Kultur- und Sportzentrums bieten wir Ihnen einen Rückzugsort für echte Genussmomente.</span>
-                <span class="lang-en hidden-lang">Gastro HALLE stands for a cuisine without masks. In the modern atmosphere of the cultural center, we offer you a retreat for real moments of enjoyment.</span>
-            </p>
-            <p style="font-family: var(--serif); font-size: 1.6rem; color: var(--accent); font-style: italic; margin-top: 2rem;">Qualität. Geschmack. Tradition.</p>
-        </div>
+  <div class="about-grid">
+    <div class="about-image reveal">
+      <img src="image_5.jfif" alt="Interior">
     </div>
+    <div class="reveal">
+      <span class="eyebrow">
+        <span class="lang-de">Unsere Philosophie</span>
+        <span class="lang-en hidden-lang">Our Philosophy</span>
+      </span>
+      <h2 class="section-title">
+        <span class="lang-de">Italienische Seele. Moderne Präsenz.</span>
+        <span class="lang-en hidden-lang">Italian Soul. Modern Presence.</span>
+      </h2>
+      <p>
+        <span class="lang-de">Die Gastro HALLE ist mehr als nur Essen – sie ist Atmosphäre, Emotion und kuratierter Geschmack. Wir vereinen zeitlose italienische Rezepte mit gehobener Präsentation im kulturellen Herzen von Krumbach.</span>
+        <span class="lang-en hidden-lang">Gastro HALLE is more than dining — it is atmosphere, emotion, and curated taste. We unite timeless Italian recipes with elevated presentation inside Krumbach’s cultural heart.</span>
+      </p>
+      <div class="about-quote">“Non serviamo solo cibo. Creiamo emozioni.”</div>
+      <p>
+        <span class="lang-de">Qualität. Leidenschaft. Tradition.</span>
+        <span class="lang-en hidden-lang">Quality. Passion. Tradition.</span>
+      </p>
+    </div>
+  </div>
 </section>
 
-<footer id="contact-footer">
-    <div class="f-grid reveal">
-        <div class="f-col">
-            <div style="font-family: var(--serif); font-size: 2rem; color: var(--accent); font-style: italic; margin-bottom: 1rem;">Gastro HALLE</div>
-            <p>Pizza, Pasta & Passion.</p>
-        </div>
-        <div class="f-col">
-            <h4 class="lang-de">Menü</h4><h4 class="lang-en hidden-lang">Menu</h4>
-            <a href="#about">Story</a>
-            <a href="#specialties">Cuisine</a>
-            <a href="menu.html">Speisekarte</a>
-        </div>
-        <div class="f-col">
-            <h4>Contact</h4>
-            <p>2851 Krumbach<br>Österreich</p>
-            <p style="color: white; font-weight: 700;">+43 676 5257257</p>
-            <a href="mailto:rs.pz.halle.krumbach@gmail.com">Email Us</a>
-        </div>
-        <div class="f-col">
-            <h4 class="lang-de">Folgen</h4><h4 class="lang-en hidden-lang">Follow</h4>
-            <a href="https://www.instagram.com/gastro_halle_krumbach" target="_blank">
-                <i class="fab fa-instagram"></i> Instagram
-            </a>
-            <a href="https://www.facebook.com/people/Gastro-Halle-Krumbach/61588670996878/" target="_blank">
-                <i class="fab fa-facebook-f"></i> Facebook
-            </a>
-        </div>
+<section id="instagram-wall">
+  <div class="section-head reveal">
+    <span class="eyebrow">#TasteThePassion</span>
+    <h2 class="section-title">
+      <span class="lang-de">Folge unserem Lifestyle</span>
+      <span class="lang-en hidden-lang">Follow Our Lifestyle</span>
+    </h2>
+  </div>
+
+  <div class="insta-grid reveal">
+    <img src="image_2.avif" alt="Gallery 1">
+    <img src="image_3.webp" alt="Gallery 2">
+    <img src="image_4.avif" alt="Gallery 3">
+    <img src="image_5.jfif" alt="Gallery 4">
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="section-head reveal">
+    <span class="eyebrow">
+      <span class="lang-de">Gästestimmen</span>
+      <span class="lang-en hidden-lang">Guest Love</span>
+    </span>
+    <h2 class="section-title">
+      <span class="lang-de">Was sie erleben</span>
+      <span class="lang-en hidden-lang">What They Feel</span>
+    </h2>
+  </div>
+
+  <div class="testimonials">
+    <div class="testimonial reveal">
+      <p>
+        <span class="lang-de">„Ein unvergessliches italienisches Erlebnis.“</span>
+        <span class="lang-en hidden-lang">“An unforgettable Italian experience.”</span>
+      </p>
+      <span>— Sarah M.</span>
     </div>
-    <div class="f-bottom">
-        <p>© 2026 Gastro HALLE Krumbach. All rights reserved.</p>
-        <p>Pizza Pasta E Basta.</p>
+    <div class="testimonial reveal">
+      <p>
+        <span class="lang-de">„Wunderschönes Ambiente, fantastisches Essen.“</span>
+        <span class="lang-en hidden-lang">“Beautiful ambiance, amazing food.”</span>
+      </p>
+      <span>— Daniel K.</span>
     </div>
+    <div class="testimonial reveal">
+      <p>
+        <span class="lang-de">„Krumbachs verstecktes Juwel.“</span>
+        <span class="lang-en hidden-lang">“Krumbach’s hidden luxury gem.”</span>
+      </p>
+      <span>— Elena T.</span>
+    </div>
+  </div>
+</section>
+
+<section id="reservation-cta">
+  <div class="section-head reveal">
+    <span class="eyebrow">
+      <span class="lang-de">Reserviere deinen Moment</span>
+      <span class="lang-en hidden-lang">Reserve Your Moment</span>
+    </span>
+    <h2 class="section-title">
+      <span class="lang-de">Buche heute deinen Tisch</span>
+      <span class="lang-en hidden-lang">Book Your Table Today</span>
+    </h2>
+    <p class="section-desc">
+      <span class="lang-de">Ein Tisch wartet auf dich, wo Geschmack auf Atmosphäre trifft.</span>
+      <span class="lang-en hidden-lang">A table awaits where flavor meets atmosphere.</span>
+    </p>
+    
+    <div class="res-methods">
+      <a href="tel:+436765257257" class="btn-main">
+        <i class="fa-solid fa-phone"></i> +43 676 5257257
+      </a>
+      <a href="https://www.instagram.com/gastro_halle_krumbach" target="_blank" class="btn-outline">
+        <i class="fa-brands fa-instagram"></i> Instagram
+      </a>
+      <a href="https://www.facebook.com/people/Gastro-Halle-Krumbach/61588670996878/" target="_blank" class="btn-outline">
+        <i class="fa-brands fa-facebook-f"></i> Facebook
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4>Gastro HALLE</h4>
+      <p>
+        <span class="lang-de">Pizza, Pasta & Leidenschaft.</span>
+        <span class="lang-en hidden-lang">Pizza, Pasta & Passion.</span>
+      </p>
+    </div>
+    <div>
+      <h4>
+        <span class="lang-de">Standort</span>
+        <span class="lang-en hidden-lang">Location</span>
+      </h4>
+      <p>2851 Krumbach, Österreich</p>
+    </div>
+    <div>
+      <h4>
+        <span class="lang-de">Kontakt</span>
+        <span class="lang-en hidden-lang">Contact</span>
+      </h4>
+      <p>+43 676 5257257</p>
+      <p>rs.pz.halle.krumbach@gmail.com</p>
+    </div>
+    <div>
+      <h4>
+        <span class="lang-de">Folgen</span>
+        <span class="lang-en hidden-lang">Follow</span>
+      </h4>
+      <a href="https://www.instagram.com/gastro_halle_krumbach" target="_blank">Instagram</a>
+      <a href="https://www.facebook.com/people/Gastro-Halle-Krumbach/61588670996878/" target="_blank">Facebook</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 Gastro HALLE Krumbach — Pizza Pasta E Basta.
+  </div>
 </footer>
 
-<div id="modal-reservation">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModal()">✕</button>
-        <div style="font-family: var(--serif); font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;">Booking</div>
-        <h2 style="font-family: var(--serif); font-size: 3rem; font-style: italic; margin-bottom: 2rem;">
-            <span class="lang-de">Tisch buchen</span><span class="lang-en hidden-lang">Book a Table</span>
-        </h2>
-        <p style="color: var(--stone); margin-bottom: 3rem;">
-            <span class="lang-de">Rufen Sie uns direkt an, um Ihren Platz zu reservieren:</span>
-            <span class="lang-en hidden-lang">Please call us directly to reserve your table:</span>
-        </p>
-        <a href="tel:+436765257257" class="btn-main" style="display: block; text-align: center;">+43 676 5257257</a>
-        <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--stone);">rs.pz.halle.krumbach@gmail.com</p>
-    </div>
-</div>
-
 <script>
-    function setLanguage(lang) {
-        const isDe = lang === 'de';
-        document.querySelectorAll('.lang-de').forEach(el => el.classList.toggle('hidden-lang', !isDe));
-        document.querySelectorAll('.lang-en').forEach(el => el.classList.toggle('hidden-lang', isDe));
-        document.getElementById('btn-de').classList.toggle('active', isDe);
-        document.getElementById('btn-en').classList.toggle('active', !isDe);
-        localStorage.setItem('halle_lang', lang);
-    }
-
-    window.addEventListener('scroll', () => {
-        const nav = document.getElementById('navbar');
-        nav.classList.toggle('scrolled', window.scrollY > 50);
+  function setLanguage(lang) {
+    localStorage.setItem('halle_lang', lang);
+    
+    // Toggle Button States
+    document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    
+    // Toggle Text Visibility
+    document.querySelectorAll('.lang-de').forEach(el => {
+      el.classList.toggle('hidden-lang', lang !== 'de');
+    });
+    document.querySelectorAll('.lang-en').forEach(el => {
+      el.classList.toggle('hidden-lang', lang !== 'en');
     });
 
-    function openModal() {
-        document.getElementById('modal-reservation').style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+    // Update Meta Title
+    const title = document.getElementById('page-title');
+    if (lang === 'de') {
+      title.innerText = "Gastro HALLE Krumbach | Italienisches Esserlebnis";
+      document.documentElement.lang = "de";
+    } else {
+      title.innerText = "Gastro HALLE Krumbach | Italian Dining Experience";
+      document.documentElement.lang = "en";
     }
+  }
 
-    function closeModal() {
-        document.getElementById('modal-reservation').style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
+  // Set Default Language from Local Storage (or default to 'de')
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('halle_lang') || 'de';
+    setLanguage(savedLang);
+  });
 
-    window.onclick = function(event) {
-        let modal = document.getElementById('modal-reservation');
-        if (event.target == modal) closeModal();
-    }
+  // Sticky Navbar
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // Reveal Animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
 
-    window.onload = () => {
-        const savedLang = localStorage.getItem('halle_lang') || 'de';
-        setLanguage(savedLang);
-    };
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
 </body>

@@ -2,876 +2,269 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Speisekarte — Halle Krumbach</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speisekarte | Gastro HALLE</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
     <style>
         :root {
-            --cream: #F9F6F0;
-            --cream-dark: #EDE8DF;
-            --parchment: #E8E0D0;
-            --gold: #B8963E;
-            --gold-light: #D4B068;
-            --gold-pale: rgba(184,150,62,0.12);
-            --gold-border: rgba(184,150,62,0.3);
-            --ink: #1C1814;
-            --ink-mid: #4A4540;
-            --ink-soft: #8A847C;
-            --ink-ghost: #B8B3AC;
-            --charcoal: #2A2520;
-            --deep: #0F0D0B;
-            --serif: 'Cormorant Garamond', Georgia, serif;
-            --sans: 'Jost', sans-serif;
-            --turn: 0.9s;
-            --page-w: 430px;
-            --page-h: 680px;
+            --accent: #c96a2b;
+            --cream: #f8f4ee;
+            --dark: #0f0f0f;
+            --page-w: 400px; /* Largeur d'une seule page */
+            --page-h: 560px;
+            --anim-speed: 0.8s;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html, body { height: 100%; overflow: hidden; -webkit-font-smoothing: antialiased; }
-        body { font-family: var(--sans); background: var(--deep); color: var(--ink); user-select: none; }
-
-        /* BACKGROUND */
-        #bg {
-            position: fixed; inset: 0; z-index: 0;
-            background: radial-gradient(ellipse 80% 60% at 50% 40%, #1E1A14 0%, #0F0D0B 100%);
-        }
-        #bg::after {
-            content: '';
-            position: absolute; inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-            opacity: 0.6; pointer-events: none;
-        }
-
-        /* NAV */
-        #nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0.9rem 2.5rem;
-            background: rgba(15,13,11,0.85); backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(184,150,62,0.15);
-        }
-        .nav-logo {
-            font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
-            letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold-light);
-        }
-        .lang-switcher { display: flex; gap: 0; border: 1px solid rgba(184,150,62,0.25); border-radius: 2px; overflow: hidden; }
-        .lang-btn {
-            background: none; border: none; cursor: pointer;
-            font-family: var(--sans); font-size: 0.65rem; font-weight: 400;
-            color: rgba(255,255,255,0.35); padding: 0.35rem 0.75rem;
-            transition: all 0.25s; letter-spacing: 0.15em;
-        }
-        .lang-btn + .lang-btn { border-left: 1px solid rgba(184,150,62,0.2); }
-        .lang-btn.active { color: var(--deep); background: var(--gold); }
-
-        /* SECTION TABS */
-        #tabs {
-            position: fixed; top: 51px; left: 0; right: 0; z-index: 400;
-            display: flex; justify-content: center; gap: 0;
-            background: rgba(15,13,11,0.8); backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(184,150,62,0.1);
-            overflow-x: auto; scrollbar-width: none;
-        }
-        #tabs::-webkit-scrollbar { display: none; }
-        .tab {
-            background: none; border: none; cursor: pointer;
-            display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
-            padding: 0.7rem 1.1rem; position: relative;
-            transition: all 0.25s; white-space: nowrap; flex-shrink: 0;
-        }
-        .tab-icon { font-size: 0.9rem; opacity: 0.4; transition: all 0.3s; }
-        .tab.active .tab-icon { opacity: 1; transform: translateY(-1px); }
-        .tab-label {
-            font-family: var(--sans); font-size: 0.52rem; font-weight: 400;
-            letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3);
-            transition: color 0.25s;
-        }
-        .tab.active .tab-label { color: var(--gold-light); }
-        .tab::after {
-            content: ''; position: absolute; bottom: 0; left: 50%;
-            width: 0; height: 1px; background: var(--gold);
-            transform: translateX(-50%); transition: width 0.3s ease;
-        }
-        .tab.active::after { width: 50%; }
-
-        /* SCENE */
-        #scene {
-            position: relative; z-index: 10; height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: flex-start; padding-top: 118px;
-            perspective: 2500px;
-        }
-
-        #book {
-            position: relative;
-            width: calc(var(--page-w) * 2);
-            height: var(--page-h);
-            perspective: 3500px;
-            cursor: grab;
-            touch-action: none;
-            filter: drop-shadow(0 40px 80px rgba(0,0,0,0.7)) drop-shadow(0 8px 16px rgba(0,0,0,0.5));
-        }
-        #book:active { cursor: grabbing; }
-
-        /* Spine */
-        #book::before {
-            content: '';
-            position: absolute; left: calc(50% - 2px); top: 0;
-            width: 4px; height: 100%; z-index: 90;
-            background: linear-gradient(to right, rgba(0,0,0,0.15), rgba(184,150,62,0.15), rgba(0,0,0,0.15));
-            pointer-events: none;
-        }
-
-        /* PAGE */
-        .page {
-            position: absolute; top: 0;
-            width: var(--page-w); height: var(--page-h);
-            transform-style: preserve-3d;
-            transition: transform var(--turn) cubic-bezier(0.645, 0.045, 0.355, 1.000);
-            z-index: 1;
-        }
-        .page.left { left: 0; transform-origin: right center; }
-        .page.right { left: var(--page-w); transform-origin: left center; }
-        .page.left.flipped { transform: rotateY(180deg); }
-        .page.right.flipped { transform: rotateY(-180deg); }
-
-        .face, .back {
-            position: absolute; inset: 0;
-            backface-visibility: hidden;
-            background: var(--cream);
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background-color: var(--dark);
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            color: var(--cream);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
-        .back { transform: rotateY(180deg); background: var(--cream-dark); }
 
-        /* Edge shadows */
-        .page.left .face::after {
-            content: ''; position: absolute; right: 0; top: 0;
-            width: 20px; height: 100%;
-            background: linear-gradient(to left, rgba(0,0,0,0.07), transparent);
-            pointer-events: none; z-index: 5;
-        }
-        .page.right .face::after {
-            content: ''; position: absolute; left: 0; top: 0;
-            width: 20px; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.07), transparent);
-            pointer-events: none; z-index: 5;
+        /* --- NAVBAR --- */
+        #navbar {
+            height: 70px;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(17, 17, 17, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
         }
 
-        /* PAGE INNER */
-        .page-body {
-            height: 100%; overflow-y: auto; scrollbar-width: none;
-            padding: 2.5rem 2rem 1.8rem;
-            display: flex; flex-direction: column;
+        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
+        .nav-logo { height: 40px; width: auto; }
+        .brand-text { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+
+        .nav-cta {
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-cta:hover { background: var(--accent); color: white; }
+
+        /* --- SCÈNE DU LIVRE --- */
+        #main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 2000px;
+        }
+
+        #book-container {
             position: relative;
-        }
-        .page-body::-webkit-scrollbar { display: none; }
-
-        /* Cover page ornament */
-        .cover-ornament {
-            position: absolute; inset: 18px;
-            border: 1px solid rgba(184,150,62,0.35);
-            pointer-events: none; z-index: 2;
-        }
-        .cover-ornament::before {
-            content: '';
-            position: absolute; inset: 7px;
-            border: 1px solid rgba(184,150,62,0.18);
+            width: var(--page-w);
+            height: var(--page-h);
+            transform-style: preserve-3d;
+            transition: transform var(--anim-speed) ease-in-out;
+            /* Décalage initial pour centrer la couverture */
+            transform: translateX(0); 
         }
 
-        /* DARK PAGES */
-        .dark-face {
-            position: absolute; inset: 0;
-            background: var(--deep);
+        /* Quand le livre est ouvert, on décale le pivot vers la droite pour que l'ensemble soit centré */
+        #book-container.is-open {
+            transform: translateX(50%);
         }
 
-        /* TYPOGRAPHY — Page Content */
-        .grand-title {
-            font-family: var(--serif); font-size: 2rem; font-weight: 400;
-            color: var(--ink); letter-spacing: 0.05em; text-align: center;
-            line-height: 1; margin-bottom: 0.2rem;
-        }
-        .grand-sub {
-            font-family: var(--sans); font-size: 0.52rem; font-weight: 400;
-            letter-spacing: 0.28em; text-transform: uppercase;
-            color: var(--gold); text-align: center;
-            margin-bottom: 1.5rem; padding-bottom: 1.2rem;
-            border-bottom: 1px solid var(--gold-border);
-        }
-        .section-title {
-            font-family: var(--sans); font-size: 0.48rem; font-weight: 400;
-            letter-spacing: 0.28em; text-transform: uppercase;
-            color: var(--gold); text-align: center; margin-bottom: 0.25rem;
-        }
-        .section-sub {
-            font-family: var(--serif); font-size: 1.45rem; font-weight: 400; font-style: italic;
-            color: var(--ink); text-align: center; letter-spacing: 0.02em;
-            margin-bottom: 1.4rem; padding-bottom: 1rem;
-            border-bottom: 1px solid var(--gold-border);
+        .sheet {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0; left: 0;
+            transform-origin: left;
+            transform-style: preserve-3d;
+            transition: transform var(--anim-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
+            z-index: 1;
         }
 
-        /* MENU ITEM */
-        .item { margin-bottom: 1rem; }
-        .item-row {
-            display: flex; align-items: baseline;
-            width: 100%; gap: 6px; margin-bottom: 0.15rem;
-        }
-        .item-name {
-            font-family: var(--serif); font-size: 1rem; font-weight: 500;
-            color: var(--ink); letter-spacing: 0.03em; flex-shrink: 0;
-        }
-        .item-alg {
-            font-family: var(--sans); font-size: 0.42rem; font-weight: 300;
-            color: var(--ink-ghost); vertical-align: super; flex-shrink: 0;
-        }
-        .dots {
-            flex-grow: 1;
-            border-bottom: 1px dotted rgba(26,24,20,0.15);
-            position: relative; top: -3px;
-        }
-        .item-price {
-            font-family: var(--serif); font-size: 0.95rem; font-weight: 400;
-            color: var(--ink); flex-shrink: 0;
-        }
-        .item-price span { font-family: var(--sans); font-size: 0.55rem; font-weight: 300; color: var(--ink-soft); margin-left: 2px; }
-        .item-desc {
-            font-family: var(--sans); font-size: 0.63rem; font-weight: 300;
-            color: var(--ink-mid); line-height: 1.45; padding-right: 1rem;
-        }
-        .badge {
-            display: inline-block; font-family: var(--sans); font-size: 0.38rem;
-            font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase;
-            color: var(--gold); border: 1px solid var(--gold-border);
-            padding: 2px 8px; margin-bottom: 5px;
+        .page-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 0 4px 4px 0;
+            overflow: hidden;
+            background: #1a1a1a;
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
         }
 
-        /* DIVIDER */
-        .divider {
-            display: flex; align-items: center; gap: 10px;
-            margin: 1rem 0 0.8rem;
-        }
-        .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--gold-border); }
-        .divider-text {
-            font-family: var(--serif); font-size: 0.9rem; font-style: italic;
-            color: var(--gold); white-space: nowrap;
-        }
+        .page-face img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* EXTRAS BOX */
-        .extras {
-            margin-top: 0.8rem; padding: 0.8rem 1rem;
-            border: 1px solid var(--gold-border); background: var(--gold-pale);
-        }
-        .extras-title {
-            font-family: var(--sans); font-size: 0.45rem; font-weight: 400;
-            letter-spacing: 0.25em; text-transform: uppercase;
-            color: var(--gold); text-align: center; margin-bottom: 0.5rem;
-        }
-        .extra-row {
-            display: flex; justify-content: space-between; align-items: baseline;
-            font-family: var(--sans); font-size: 0.62rem; font-weight: 300;
-            color: var(--ink-mid); margin-bottom: 0.2rem;
-        }
-        .extra-row strong { color: var(--ink); font-weight: 400; }
-
-        /* FEATURE PLATTER */
-        .platter {
-            border: 1px solid var(--gold-border); padding: 1.2rem; text-align: center;
-            background: var(--gold-pale); margin-top: 0.8rem;
-        }
-        .platter-title {
-            font-family: var(--serif); font-size: 1.25rem; font-weight: 400; font-style: italic;
-            color: var(--ink); margin-bottom: 0.4rem;
-        }
-        .platter-desc {
-            font-family: var(--sans); font-size: 0.62rem; font-weight: 300;
-            color: var(--ink-mid); line-height: 1.55; margin-bottom: 0.8rem;
-        }
-        .platter-row {
-            display: flex; justify-content: space-between; align-items: baseline;
-            padding: 0.25rem 0.5rem;
-            border-top: 1px solid var(--gold-border);
-        }
-        .platter-row:last-child { border-bottom: 1px solid var(--gold-border); }
-        .platter-label { font-family: var(--sans); font-size: 0.65rem; font-weight: 400; color: var(--ink-mid); }
-        .platter-value { font-family: var(--serif); font-size: 1rem; color: var(--ink); }
-
-        /* DRINKS */
-        .drink-cat {
-            font-family: var(--serif); font-size: 1rem; font-style: italic;
-            color: var(--gold); text-align: center;
-            margin: 0.9rem 0 0.4rem;
-        }
-        .drink-row {
-            display: flex; align-items: baseline; gap: 6px; margin-bottom: 0.25rem;
-        }
-        .drink-name {
-            font-family: var(--sans); font-size: 0.65rem; font-weight: 400; color: var(--ink); flex-shrink: 0;
-        }
-        .drink-hint {
-            font-family: var(--sans); font-size: 0.55rem; font-weight: 300;
-            color: var(--ink-soft); font-style: italic;
-        }
-        .drink-dots { flex-grow: 1; border-bottom: 1px dotted rgba(26,24,20,0.15); position: relative; top: -3px; }
-        .drink-price {
-            font-family: var(--serif); font-size: 0.88rem; color: var(--ink); flex-shrink: 0;
-        }
-
-        /* PAGE FOOTER */
-        .page-footer {
-            margin-top: auto; padding-top: 0.8rem;
-            font-family: var(--sans); font-size: 0.42rem; font-weight: 300;
-            color: var(--ink-ghost); text-align: center; line-height: 1.7;
-            border-top: 1px solid rgba(26,24,20,0.08);
-        }
-
-        /* CONTROLS */
-        #controls {
-            position: fixed; bottom: 1.5rem;
-            display: flex; align-items: center; justify-content: center;
-            gap: 2.5rem; z-index: 20; width: 100%; left: 0;
+        /* Effet de pliure */
+        .page-face::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.2) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.1) 100%);
             pointer-events: none;
         }
-        .ctrl {
-            background: rgba(15,13,11,0.85); backdrop-filter: blur(10px);
-            border: 1px solid rgba(184,150,62,0.25); border-radius: 50%;
-            width: 44px; height: 44px; cursor: pointer; color: var(--gold);
-            font-size: 1.2rem; transition: all 0.25s; pointer-events: auto;
-            display: flex; align-items: center; justify-content: center;
+
+        .back { transform: rotateY(180deg); }
+
+        .sheet.flipped { transform: rotateY(-180deg); }
+
+        /* Zones de clic */
+        .click-layer {
+            position: absolute;
+            width: 100vw;
+            height: 100%;
+            z-index: 500;
+            display: flex;
+            pointer-events: none;
         }
-        .ctrl:not(:disabled):hover { background: var(--gold); color: var(--deep); border-color: var(--gold); }
-        .ctrl:disabled { opacity: 0.25; cursor: default; }
-        .page-num {
-            font-family: var(--sans); font-size: 0.6rem; font-weight: 300;
-            letter-spacing: 0.2em; color: rgba(255,255,255,0.4); pointer-events: auto;
+        .click-area {
+            flex: 1;
+            pointer-events: auto;
+            cursor: pointer;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 900px) { :root { --page-w: 46vw; --page-h: 64vh; } html { font-size: 10px; } }
-        @media (max-width: 768px) {
-            :root { --page-w: 48vw; --page-h: 63vh; }
-            html { font-size: 8px; }
-            #scene { padding-top: 115px; overflow-x: hidden; }
-            .page-body { padding: 2rem 1.3rem 1.5rem; }
-            .tab { padding: 0.6rem 0.7rem; }
-            .tab-label { display: none; }
-            .tab-icon { font-size: 1.2rem; }
-            .nav-logo { font-size: 0.85rem; }
+        /* --- FOOTER --- */
+        #footer-controls {
+            height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 10, 10, 0.9);
+            gap: 8px;
+        }
+
+        .page-info {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+
+        .progress-bar { width: 150px; height: 1px; background: rgba(255,255,255,0.1); }
+        #progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
+
+        /* MOBILE */
+        @media (max-width: 850px) {
+            #book-container.is-open { transform: translateX(0); } /* On ne décale pas sur mobile */
+            :root { --page-w: 80vw; --page-h: 60vh; }
         }
     </style>
 </head>
-<body data-lang="de">
-    <div id="bg"></div>
+<body>
 
-    <nav id="nav">
-        <div class="lang-switcher">
-            <button class="lang-btn active" id="btn-de" onclick="setLang('de')">DE</button>
-            <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-        </div>
-        <div class="nav-logo">Halle Krumbach</div>
-        <div style="width:80px"></div>
+    <audio id="flip-sound" src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3" preload="auto"></audio>
+
+    <nav id="navbar">
+        <a href="index.html" class="brand">
+            <img src="logo.jpg" alt="Gastro HALLE" class="nav-logo">
+            <span class="brand-text">Gastro HALLE</span>
+        </a>
+        <a href="index.html" class="nav-cta">Startseite</a>
     </nav>
 
-    <div id="tabs">
-        <button class="tab active" onclick="goTo(1)"><span class="tab-icon">🍽</span><span class="tab-label">Vorspeisen</span></button>
-        <button class="tab" onclick="goTo(2)"><span class="tab-icon">🥗</span><span class="tab-label">Salate</span></button>
-        <button class="tab" onclick="goTo(4)"><span class="tab-icon">🍝</span><span class="tab-label">Pasta</span></button>
-        <button class="tab" onclick="goTo(5)"><span class="tab-icon">🍕</span><span class="tab-label">Pizza</span></button>
-        <button class="tab" onclick="goTo(7)"><span class="tab-icon">🍔</span><span class="tab-label">Burger</span></button>
-        <button class="tab" onclick="goTo(9)"><span class="tab-icon">🐟</span><span class="tab-label">Hauptspeisen</span></button>
-        <button class="tab" onclick="goTo(11)"><span class="tab-icon">🍹</span><span class="tab-label">Getränke</span></button>
-    </div>
-
-    <div id="scene">
-        <div id="book"></div>
-        <div id="controls">
-            <button class="ctrl" id="btn-prev" onclick="turn(-1)" disabled>&#8249;</button>
-            <span class="page-num" id="pnum">1 / 1</span>
-            <button class="ctrl" id="btn-next" onclick="turn(1)">&#8250;</button>
+    <div id="main-content">
+        <div id="book-container">
+            </div>
+        
+        <div class="click-layer">
+            <div class="click-area" onclick="prevSheet()"></div>
+            <div class="click-area" onclick="nextSheet()"></div>
         </div>
     </div>
 
-<script>
-'use strict';
+    <div id="footer-controls">
+        <div class="page-info">
+            SEITE <span id="current-page">1</span> VON 14
+        </div>
+        <div class="progress-bar">
+            <div id="progress-fill"></div>
+        </div>
+        <div style="font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 2px;">
+            Links oder rechts klicken zum Umblättern
+        </div>
+    </div>
 
-const ALG = {
-    de: 'A-Gluten · B-Krebstiere · C-Eier · D-Fisch · E-Erdnüsse · F-Soja · G-Milch · H-Schalenfrüchte · L-Sellerie · M-Senf · N-Sesam · O-Sulfite · P-Lupine · R-Weichtiere',
-    en: 'A-Gluten · B-Crustaceans · C-Eggs · D-Fish · E-Peanuts · F-Soya · G-Milk · H-Nuts · L-Celery · M-Mustard · N-Sesame · O-Sulphites · P-Lupin · R-Molluscs'
-};
+    <script>
+        const totalImages = 14;
+        const totalSheets = totalImages / 2;
+        let currentIdx = 0;
+        const container = document.getElementById('book-container');
+        const audio = document.getElementById('flip-sound');
 
-let lang = 'de';
-const t = o => !o ? '' : (typeof o === 'string' ? o : (o[lang] || o.de || ''));
+        function init() {
+            for (let i = 0; i < totalSheets; i++) {
+                const sheet = document.createElement('div');
+                sheet.className = 'sheet';
+                sheet.style.zIndex = totalSheets - i;
+                
+                const p1 = (i * 2) + 1;
+                const p2 = (i * 2) + 2;
 
-const SPREADS = [
-    // 0: COVER
-    { L: { type:'dark' }, R: { type:'cover' } },
-
-    // 1: ANTIPASTI
-    {
-        L: {
-            type:'items',
-            gtitle:{de:'Vorspeisen',en:'Starters'},
-            gsub:{de:'Traditionell & Hausgemacht',en:'Traditional & Homemade'},
-            items:[
-                { name:'Vegetarische Antipasti', alg:'AGH', desc:{de:'Büffelmozzarella · Saisongemüse · Oliven · Grana · Rucola',en:'Buffalo mozzarella · seasonal vegetables · olives · grana · arugula'}, price:'15.90' },
-                { name:'Caprese Amore', alg:'AGH', desc:{de:'Büffelmozzarella · Basilikumpesto · Tomaten',en:'Buffalo mozzarella · basil pesto · tomatoes'}, price:'10.90' },
-                { name:'Rinder-Carpaccio', alg:'AG', desc:{de:'Hauchdünnes Rinderfilet · Rucola · Cherrytomaten · Parmesan · Olivenöl',en:'Beef fillet · arugula · cherry tomatoes · parmesan · olive oil'}, price:'14.90' },
-                { name:'Parmaschinken & Melone', alg:'AG', desc:{de:'San Daniele Schinken · frische Melone',en:'San Daniele ham · fresh melon'}, price:'14.90' },
-                { name:'Vitello Tonnato', alg:'G', desc:{de:'Kalbsfleisch · Thunfischcreme · Kapern · Cherrytomaten',en:'Veal · tuna cream · capers · cherry tomatoes'}, price:'14.90' },
-                { name:'Gemischte Vorspeise des Hauses', alg:'AGH', desc:{de:'Eine Auswahl feiner Spezialitäten nach Art des Hauses',en:'A selection of house specialities'}, price:'15.90' },
-            ]
-        },
-        R: {
-            type:'items',
-            stitle:{de:'Hausbrot',en:'Bread'},
-            ssub:{de:'Frisch aus dem Ofen',en:'Fresh from the oven'},
-            items:[
-                { name:'Pizzabrot', alg:'A', desc:{de:'Klassisch mit Knoblauch',en:'Classic with garlic'}, price:'3.90' },
-                { name:'Focaccia mit Rosmarin', alg:'A', desc:{de:'Frisches Fladenbrot · Rosmarin · Meersalz',en:'Fresh flatbread · rosemary · sea salt'}, price:'4.40' },
-                { name:'Bruschetta', alg:'A', desc:{de:'Getoastetes Brot · Tomaten · Basilikum · Knoblauch · Olivenöl',en:'Toasted bread · tomatoes · basil · garlic · olive oil'}, price:'5.90' },
-            ]
+                sheet.innerHTML = `
+                    <div class="page-face front"><img src="Pmenu/imag-${p1}.png"></div>
+                    <div class="page-face back"><img src="Pmenu/imag-${p2}.png"></div>
+                `;
+                container.appendChild(sheet);
+            }
+            updateUI();
         }
-    },
 
-    // 2: SUPPEN & SALATE
-    {
-        L: {
-            type:'items',
-            gtitle:{de:'Suppen',en:'Soups'},
-            gsub:{de:'Wärmend & Frisch',en:'Warm & Fresh'},
-            items:[
-                { name:'Tomatencremesuppe', alg:'ACL', desc:{de:'Frische Tomaten · Basilikum',en:'Fresh tomatoes · basil'}, price:'5.90' },
-                { name:'Minestrone', alg:'ACGL', desc:{de:'Saisonale Gemüsesuppe',en:'Seasonal vegetable soup'}, price:'5.90' },
-                { name:'Fischsuppe', alg:'ACD', desc:{de:'Mediterrane Art mit Tomaten',en:'Mediterranean style with tomatoes'}, price:'14.90' },
-            ]
-        },
-        R: {
-            type:'items',
-            stitle:{de:'Salate',en:'Salads'},
-            ssub:{de:'Knackig & Vital',en:'Crunchy & Vital'},
-            items:[
-                { name:'Grüner Salat', alg:'A', desc:{de:'Blattsalat · Rucola · Balsamico-Dressing',en:'Leaf salad · arugula · balsamic dressing'}, price:'5.40' },
-                { name:'Tomatensalat', alg:'A', desc:{de:'Tomaten · Zwiebeln',en:'Tomatoes · onions'}, price:'5.90' },
-                { name:'Gemischter Salat', alg:'A', desc:{de:'Blattsalat · Tomaten · Gurken',en:'Mixed salad · tomatoes · cucumbers'}, price:'6.40' },
-                { name:'Rucola Salat', alg:'A', desc:{de:'Rucola · Cherrytomaten · Parmesan · Balsamico-Dressing',en:'Arugula · cherry tomatoes · parmesan · balsamic'}, price:'8.90' },
-                { name:'Hühnerbrust Salat', alg:'A', desc:{de:'Gemischter Salat · gegrillte Hühnerbruststreifen',en:'Mixed salad · grilled chicken strips'}, price:'12.90' },
-                { name:'Thunfisch Salat', alg:'DL', desc:{de:'Blattsalat · Thunfisch · Zwiebeln · Tomaten · Oliven',en:'Leaf salad · tuna · onions · tomatoes · olives'}, price:'12.90' },
-                { name:'Feta Salat', alg:'AG', desc:{de:'Bunter Salat · Schafskäse · Oliven · Zwiebel',en:'Mixed salad · feta · olives · onion'}, price:'12.90' },
-                { name:'Backhendlsalat', alg:'ACG', desc:{de:'Knusprige Hühnerstreifen · Blattsalat · Gurken · Tomaten',en:'Crispy chicken strips · leaf salad · cucumbers · tomatoes'}, price:'12.90' },
-            ]
-        }
-    },
-
-    // 3: PASTA
-    {
-        L: {
-            type:'items',
-            gtitle:{de:'Nudeln',en:'Pasta'},
-            gsub:{de:'Auch glutenfrei möglich',en:'Gluten-free available'},
-            items:[
-                { name:'Spaghetti Knoblauch & Öl', alg:'A', desc:{de:'Knoblauch · Olivenöl · Peperoncino · Petersilie (Vegan)',en:'Garlic · olive oil · chili · parsley (Vegan)'}, price:'10.90' },
-                { name:'Penne Arrabiata', alg:'A', desc:{de:'Scharfe Tomatensauce · Peperoncino (Vegan)',en:'Spicy tomato sauce · chili (Vegan)'}, price:'11.90' },
-                { name:'Spaghetti Bolognese', alg:'AB', desc:{de:'Rindfleischsauce · Tomatensugo · Basilikum',en:'Beef sauce · tomato sauce · basil'}, price:'12.90' },
-                { name:'Spaghetti Carbonara', alg:'ACG', desc:{de:'Eigelb · Guanciale · Pecorino · Grana · Sahne',en:'Egg yolk · guanciale · pecorino · grana · cream'}, price:'13.90' },
-                { name:'Gnocchi Sorrentiner Art', alg:'A', desc:{de:'Tomatensauce · Büffelmozzarella · Basilikum',en:'Tomato sauce · buffalo mozzarella · basil'}, price:'13.90' },
-                { name:'Hausgemachte Lasagne', alg:'AGO', desc:{de:'Rindsragout · Tomaten · Mozzarella',en:'Beef ragout · tomatoes · mozzarella'}, price:'14.90' },
-            ]
-        },
-        R: {
-            type:'items',
-            stitle:{de:'Spezialitäten',en:'Specialties'},
-            ssub:{de:'Aus dem Meer & Trüffel',en:'From the Sea & Truffle'},
-            items:[
-                { name:'Lachs-Tagliatelle', alg:'ADG', desc:{de:'Lachsfilet · Babyspinat · Tomatensauce · Crema',en:'Salmon fillet · baby spinach · tomato sauce · cream'}, price:'18.90' },
-                { name:'Garnelen-Linguine', alg:'ABH', desc:{de:'Tomatensugo · Knoblauch · Garnelen · Grana',en:'Tomato sauce · garlic · prawns · grana'}, price:'21.90' },
-                { name:'Linguine Meeresfrüchte', alg:'ABCDG', desc:{de:'Garnelen · Muscheln · Oktopus · Knoblauch',en:'Prawns · mussels · octopus · garlic'}, price:'21.90' },
-                { name:'Trüffel-Gnocchi', alg:'AG', desc:{de:'Gefüllte Gnocchi · Trüffelbutter · Grana · Sahne',en:'Filled gnocchi · truffle butter · grana · cream'}, price:'19.90' },
-            ]
-        }
-    },
-
-    // 4: PIZZA I
-    {
-        L: {
-            type:'items',
-            gtitle:{de:'Pizza',en:'Pizza'},
-            gsub:{de:'Klassisch & Handgemacht',en:'Classic & Handmade'},
-            items:[
-                { name:'Margherita', alg:'AG', desc:{de:'Tomaten · Mozzarella · Basilikum',en:'Tomatoes · mozzarella · basil'}, price:'10.90' },
-                { name:'Funghi', alg:'AG', desc:{de:'Tomaten · Mozzarella · Champignons',en:'Tomatoes · mozzarella · mushrooms'}, price:'11.90' },
-                { name:'Cardinale', alg:'AG', desc:{de:'Tomaten · Mozzarella · Schinken',en:'Tomatoes · mozzarella · ham'}, price:'12.90' },
-                { name:'Salami', alg:'AG', desc:{de:'Tomaten · Mozzarella · Salami',en:'Tomatoes · mozzarella · salami'}, price:'12.90' },
-                { name:'Hawaii', alg:'AG', desc:{de:'Tomaten · Mozzarella · Schinken · Ananas',en:'Tomatoes · mozzarella · ham · pineapple'}, price:'12.90' },
-                { name:'Siciliana', alg:'ADG', desc:{de:'Sardellen · Kapern · Oliven',en:'Anchovies · capers · olives'}, price:'13.50' },
-            ]
-        },
-        R: {
-            type:'items',
-            stitle:{de:'Spezial Pizzas',en:'Special Pizzas'},
-            ssub:{de:'Beliebte Kombinationen',en:'Popular Combinations'},
-            items:[
-                { name:'Regina', alg:'AG', desc:{de:'Tomaten · Mozzarella · Schinken · Champignons',en:'Tomatoes · mozzarella · ham · mushrooms'}, price:'13.90' },
-                { name:'Toscana', alg:'AG', desc:{de:'Schinken · Salami · Speck',en:'Ham · salami · bacon'}, price:'14.90' },
-                { name:'Quattro Stagioni', alg:'AG', desc:{de:'Schinken · Champignons · Artischocken',en:'Ham · mushrooms · artichokes'}, price:'14.90' },
-                { name:'Rusticana', alg:'ACG', desc:{de:'Schinken · Pilze · Artischocken · Ei · Oliven',en:'Ham · mushrooms · artichokes · egg · olives'}, price:'15.90' },
-                { name:'Diavolo', alg:'AG', desc:{de:'Scharfe Salami · Zwiebeln · Frühlingszwiebeln',en:'Spicy salami · onions · spring onions'}, price:'15.90' },
-                { name:'Buffalo', alg:'AG', desc:{de:'Büffelmozzarella · Cherrytomaten · Grana',en:'Buffalo mozzarella · cherry tomatoes · grana'}, price:'15.90' },
-            ]
-        }
-    },
-
-    // 5: PIZZA II & EXTRAS
-    {
-        L: {
-            type:'items',
-            stitle:{de:'Weitere Pizzas',en:'More Pizzas'},
-            ssub:{de:'Vegetarisch & Fisch',en:'Vegetarian & Fish'},
-            items:[
-                { name:'Thunfisch Pizza', alg:'AGD', desc:{de:'Thunfisch · Zwiebeln · Oliven',en:'Tuna · onions · olives'}, price:'14.90' },
-                { name:'Vegetarische Pizza', alg:'AL', desc:{de:'Gegrilltes Gemüse der Saison',en:'Grilled seasonal vegetables'}, price:'14.90' },
-                { name:'Vier Käse Pizza', alg:'AG', desc:{de:'Mozzarella · 4 ausgewählte Käsesorten',en:'Mozzarella · 4 select cheeses'}, price:'14.90' },
-                { name:'Capricciosa', alg:'ACG', desc:{de:'Artischocken · Schinken · Champignons · Oliven',en:'Artichokes · ham · mushrooms · olives'}, price:'14.90' },
-                { name:'Meeresfrüchte Pizza', alg:'AGDBR', desc:{de:'Tomaten · Mozzarella · Meeresfrüchte',en:'Tomatoes · mozzarella · seafood'}, price:'17.90' },
-                { name:'San Daniele', alg:'AG', desc:{de:'Rucola · Cherrytomaten · Rohschinken · Grana',en:'Arugula · cherry tomatoes · raw ham · grana'}, price:'17.90' },
-                { name:'Calzone', alg:'AG', desc:{de:'Gefüllte Pizza-Tasche',en:'Stuffed pizza pocket'}, price:'15.90' },
-            ]
-        },
-        R: {
-            type:'items',
-            stitle:{de:'Individuell',en:'Custom'},
-            ssub:{de:'Extras & Beilagen',en:'Extras & Sides'},
-            items:[
-                { name:'Rucola Pizza', alg:'AG', desc:{de:'Frischer Rucola · Cherrytomaten · Grana',en:'Fresh arugula · cherry tomatoes · grana'}, price:'14.90' },
-                { name:'Feta Pizza', alg:'AG', desc:{de:'Spinat · Schafskäse',en:'Spinach · sheep cheese'}, price:'14.90' },
-                { name:'Provenciale', alg:'TAG', desc:{de:'Speck · Schinken · Mais · Pfefferoni',en:'Bacon · ham · corn · peppers'}, price:'14.90' },
-            ],
-            extras:[
-                { label:{de:'Schinken, Salami, Speck, Ei, Oliven, Sardellen, Thunfisch, Gemüse',en:'Ham, salami, bacon, egg, olives, anchovies, tuna, vegetables'}, price:'1.70' },
-                { label:{de:'Mozzarella, Hühnerfleisch, Schafskäse',en:'Mozzarella, chicken, sheep cheese'}, price:'3.00' },
-                { label:{de:'Meeresfrüchte, Riesengarnelen',en:'Seafood, king prawns'}, price:'3.50' },
-            ]
-        }
-    },
-
-    // 6: BURGER
-    {
-        L: {
-            type:'items',
-            gtitle:{de:'Burger',en:'Burgers'},
-            gsub:{de:'Saftig & Frisch vom Grill',en:'Juicy & Fresh from the Grill'},
-            items:[
-                { name:'Cheeseburger', alg:'ACFGMN', desc:{de:'Angus Beef (Medium) · Speck · Cheddar · Tomate · Gurke · Zwiebel · Pommes',en:'Angus Beef (Medium) · Bacon · Cheddar · Tomato · Cucumber · Onion · Fries'}, price:'14.90' },
-                { name:'BBQ Burger', alg:'ACEGLMN', desc:{de:'Angus Beef (Medium) · Speck · Cheddar · Karamellisierte Zwiebel · Pommes · BBQ Sauce',en:'Angus Beef (Medium) · Bacon · Cheddar · Caramelized Onions · Fries · BBQ Sauce'}, price:'14.90' },
-                { name:'Crispy Chicken Burger', alg:'ACEGMNO', desc:{de:'Hühnerbrust (Gebacken/Gegrillt) · Cheddar · Sauce Tartare · Pommes · Cocktail Dip',en:'Chicken Breast (Fried/Grilled) · Cheddar · Tartar Sauce · Fries · Cocktail Dip'}, price:'14.90' },
-                { name:'Veganer Burger', alg:'A', desc:{de:'Gemüselaibchen · Veganes Brot · Vegane Mayo · Pommes · Ketchup',en:'Vegetable patty · Vegan bread · Vegan mayo · Fries · Ketchup'}, price:'14.90' },
-            ]
-        },
-        R: {
-            type:'dark',
-            cover:{ title:{de:'Hauptspeisen',en:'Main Courses'}, sub:{de:'Fisch & Fleisch',en:'Fish & Meat'} }
-        }
-    },
-
-    // 7: FISCH & PLATTE
-    {
-        L: {
-            type:'items',
-            gtitle:{de:'Fischgerichte',en:'Fish'},
-            gsub:{de:'Frisch aus dem Wasser',en:'Fresh catches'},
-            items:[
-                { name:'Wolfsbarschfilet', alg:'DL', desc:{de:'Gegrillt · Marktgemüse · Rosmarinkartoffeln',en:'Grilled · market vegetables · rosemary potatoes'}, price:'24.90' },
-                { name:'Gegrillter Tintenfisch', alg:'R', desc:{de:'Babyspinat · Rote Zwiebeln · Kartoffeln · Tomaten',en:'Calamari · baby spinach · red onions · potatoes · tomatoes'}, price:'21.90' },
-                { name:'Gegrilltes Lachsfilet', alg:'D', desc:{de:'Babyspinat · Rote Zwiebeln · Kartoffeln · Zitronensauce',en:'Salmon fillet · baby spinach · red onions · potatoes · lemon sauce'}, price:'20.90' },
-                { name:'Riesengarnelen', alg:'RL', desc:{de:'Vom Grill · Grillgemüse · Rosmarinkartoffeln',en:'King prawns · grilled vegetables · rosemary potatoes'}, price:'25.90' },
-                { name:'Gegrillter Oktopus', alg:'R', desc:{de:'Blattsalat · Cherrytomaten · Rosmarinkartoffeln',en:'Octopus · leaf salad · cherry tomatoes · rosemary potatoes'}, price:'27.90' },
-            ]
-        },
-        R: {
-            type:'platter',
-            stitle:{de:'Spezialität',en:'Specialty'},
-            ssub:{de:'Fischplatte',en:'Seafood Platter'},
-            platter:{
-                title:{de:'Grillplatte (Saisonal)',en:'Seasonal Grill Platter'},
-                desc:{de:'Fischfilet · Oktopus · Garnelen · Tintenfisch · Muscheln · Gemüsemix · Babykartoffeln',en:'Fish fillet · octopus · prawns · calamari · mussels · mixed veggies · baby potatoes'},
-                prices:[
-                    { label:{de:'Für 1 Person',en:'For 1 Person'}, value:'29.90' },
-                    { label:{de:'Für 2 Personen',en:'For 2 Persons'}, value:'55.90' },
-                ]
+        function nextSheet() {
+            if (currentIdx < totalSheets) {
+                const sheets = document.querySelectorAll('.sheet');
+                sheets[currentIdx].classList.add('flipped');
+                // Gestion de l'empilement (Z-index)
+                setTimeout(() => {
+                    sheets[currentIdx-1].style.zIndex = currentIdx;
+                }, 100);
+                
+                currentIdx++;
+                audio.currentTime = 0; audio.play().catch(()=>{});
+                updateUI();
             }
         }
-    },
 
-    // 8: FLEISCH
-    {
-        L: {
-            type:'items',
-            gtitle:{de:'Fleischgerichte',en:'Meat'},
-            gsub:{de:'Vom Lavasteingrill',en:'From the Grill'},
-            items:[
-                { name:'Lammkrone', alg:'L', desc:{de:'Vom Grill · Gemüse · Rosmarinkartoffeln',en:'Rack of lamb · vegetables · rosemary potatoes'}, price:'28.90' },
-                { name:'Rindslungenbraten', alg:'L', desc:{de:'Premium Rinderfilet · Grillgemüse · Rosmarinkartoffeln',en:'Beef tenderloin · grilled vegetables · rosemary potatoes'}, price:'27.90' },
-                { name:'Piccata Milanese', alg:'AG', desc:{de:'Hühnerbrust im Parmesanteig · Spaghetti Pomodoro',en:'Chicken breast in parmesan crust · spaghetti pomodoro'}, price:'21.90' },
-                { name:'Gegrilltes Naturschnitzel', alg:'AG', desc:{de:'Hühnerbrust · Champignonsauce · Reis',en:'Grilled chicken breast · mushroom sauce · rice'}, price:'16.90' },
-                { name:'Hühnerbrust "Angello"', alg:'G', desc:{de:'Gegrillt · Schimmelkäsesauce · Reis',en:'Grilled · blue cheese sauce · rice'}, price:'16.10' },
-            ]
-        },
-        R: {
-            type:'items',
-            stitle:{de:'Bambini',en:'Kids'},
-            ssub:{de:'Für unsere kleinen Gäste',en:'For our young guests'},
-            items:[
-                { name:'Mini Hamburger', alg:'AM', desc:{de:'Gegrilltes Rind · Gurke · Pommes',en:'Grilled beef · cucumber · fries'}, price:'5.90' },
-                { name:'Schnitzel Sandwich', alg:'AC', desc:{de:'Ketchup · Mayo · Pommes',en:'Ketchup · mayo · fries'}, price:'6.90' },
-                { name:'Hühnerflügel (5 Stk)', alg:'AG', desc:{de:'Chicken Wings mit Pommes',en:'Chicken wings with fries'}, price:'6.90' },
-                { name:'Chicken Nuggets (6 Stk)', alg:'AL', desc:{de:'Mit knusprigen Pommes',en:'With crispy fries'}, price:'5.90' },
-                { name:'Mozzarella Sticks (6 Stk)', alg:'ACG', desc:{de:'Mit Pommes',en:'With fries'}, price:'6.90' },
-                { name:'Hot Dog', alg:'AC', desc:{de:'Ketchup · Mayo · Pommes',en:'Ketchup · mayo · fries'}, price:'5.90' },
-            ]
-        }
-    },
-
-    // 9: DESSERTS & KAFFEE
-    {
-        L: {
-            type:'items',
-            gtitle:{de:'Desserts',en:'Desserts'},
-            gsub:{de:'Hausgemachte Süßspeisen',en:'Homemade Sweets'},
-            items:[
-                { name:'Tiramisu', alg:'AG', desc:{de:'Hausgemacht · Mascarpone · Pistazien',en:'Homemade · mascarpone · pistachios'}, price:'6.90' },
-                { name:'Panna Cotta', alg:'G', desc:{de:'Sahnepudding · Erdbeeren',en:'Cream pudding · strawberries'}, price:'5.90' },
-                { name:'Lavakuchen', alg:'AG', desc:{de:'Schokokuchen · Vanilleeis',en:'Chocolate cake · vanilla ice cream'}, price:'6.90' },
-                { name:'Tartufo', alg:'GH', desc:{de:'Eisdessert · Schokolade · Nüsse',en:'Ice dessert · chocolate · nuts'}, price:'5.90' },
-                { name:'Zitronenkuchen', alg:'A', desc:{de:'Italienischer Art · Sahne',en:'Italian style · cream'}, price:'5.90' },
-                { name:'Affogato', alg:'AE', desc:{de:'Vanilleeis mit Espresso',en:'Vanilla ice cream with espresso'}, price:'5.90' },
-            ]
-        },
-        R: {
-            type:'drinks',
-            stitle:{de:'Heißgetränke',en:'Hot Drinks'},
-            ssub:{de:'Kaffee & Tee',en:'Coffee & Tea'},
-            cats:[
-                { label:{de:'Kaffee',en:'Coffee'}, items:[
-                    { name:'Espresso', price:'2.80' },
-                    { name:'Espresso Doppio', price:'4.80' },
-                    { name:'Espresso Macchiato', price:'2.80' },
-                    { name:'Cappuccino', price:'3.80' },
-                    { name:'Café Latte', price:'4.20' },
-                    { name:'Kleiner Brauner', price:'3.40' },
-                    { name:'Heiße Schokolade', price:'4.20' },
-                ]},
-                { label:{de:'Tee',en:'Tea'}, items:[
-                    { name:'Verschiedene Sorten', price:'3.70' },
-                    { name:'Frischer Pfefferminztee', price:'3.70' },
-                ]}
-            ]
-        }
-    },
-
-    // 10: GETRÄNKE I
-    {
-        L: {
-            type:'drinks',
-            gtitle:{de:'Erfrischung',en:'Refreshment'},
-            gsub:{de:'Hausgemachte Limonaden (0.5l)',en:'Homemade Lemonades'},
-            cats:[
-                { label:'', items:[
-                    { name:'Erdbeere-Basilikum', price:'5.90' },
-                    { name:'Limette-Minze', price:'5.90' },
-                    { name:'Mango-Maracuja', price:'5.90' },
-                    { name:'Blaue Litschi', price:'5.90' },
-                    { name:'Rosa Grapefruit', price:'5.90' },
-                ]}
-            ]
-        },
-        R: {
-            type:'drinks',
-            stitle:{de:'Alkoholfrei',en:'Softdrinks'},
-            ssub:{de:'Klassiker & Säfte',en:'Classics & Juices'},
-            cats:[
-                { label:'', items:[
-                    { name:'Coca Cola / Zero (0.33l)', price:'3.60' },
-                    { name:'Fanta / Eistee (0.33l)', price:'3.60' },
-                    { name:'Mineralwasser (0.33l)', price:'2.90' },
-                    { name:'Mineralwasser (0.75l)', price:'5.40' },
-                    { name:'Sodawasser (0.50l)', price:'3.00' },
-                    { name:'Säfte gespritzt (0.50l)', price:'4.20' },
-                    { name:'Red Bull (0.33l)', price:'4.30' },
-                ]}
-            ]
-        }
-    },
-
-    // 11: GETRÄNKE II
-    {
-        L: {
-            type:'drinks',
-            gtitle:{de:'Bier & Spritz',en:'Beer & Spritz'},
-            gsub:{de:'Fass & Flasche',en:'Draft & Bottle'},
-            cats:[
-                { label:'Bier', items:[
-                    { name:'Kaltenhausen Fassbier (0.3l)', price:'3.90' },
-                    { name:'Kaltenhausen Fassbier (0.5l)', price:'4.90' },
-                    { name:'Radler (0.5l)', price:'4.90' },
-                    { name:'Weizenbier (0.5l)', price:'4.90' },
-                ]},
-                { label:'Spritzer', items:[
-                    { name:'Weißer Spritzer', price:'3.20' },
-                    { name:'Aperol Spritz', price:'6.90' },
-                    { name:'Hugo Spritz', price:'6.90' },
-                    { name:'Lillet Rosé', price:'6.90' },
-                ]}
-            ]
-        },
-        R: {
-            type:'drinks',
-            stitle:{de:'Barservice',en:'Bar'},
-            ssub:{de:'Longdrinks & Digestif',en:'Cocktails & Spirits'},
-            cats:[
-                { label:'Drinks', items:[
-                    { name:'Gin Tonic', price:'6.90' },
-                    { name:'Campari Soda', price:'5.90' },
-                    { name:'Negroni', price:'7.90' },
-                    { name:'Amaretto Sour', price:'6.90' },
-                ]},
-                { label:'Spirituosen', items:[
-                    { name:'Grappa / Limoncello', price:'5.90' },
-                    { name:'Vodka', price:'6.90' },
-                    { name:'Averna / Ramazzotti', price:'5.90' },
-                ]}
-            ]
-        }
-    }
-];
-
-// --- RENDER ENGINE ---
-
-let currentPage = 0;
-const book = document.getElementById('book');
-
-function createPage(spread, side) {
-    const data = spread[side];
-    const p = document.createElement('div');
-    p.className = `page ${side === 'L' ? 'left' : 'right'}`;
-    
-    let content = '';
-    if (data.type === 'dark') {
-        content = `<div class="face dark-face">
-            <div class="cover-ornament"></div>
-            <div class="page-body" style="justify-content:center; color:var(--gold-light);">
-                ${data.cover ? `<h2 class="grand-title" style="color:white">${t(data.cover.title)}</h2><p class="grand-sub">${t(data.cover.sub)}</p>` : ''}
-            </div>
-        </div>`;
-    } else if (data.type === 'cover') {
-        content = `<div class="face">
-            <div class="cover-ornament"></div>
-            <div class="page-body" style="justify-content:center; align-items:center;">
-                <h1 class="grand-title" style="font-size:3rem">Halle</h1>
-                <p class="grand-sub" style="border:none">Krumbach</p>
-                <div class="divider" style="width:60%"><div class="divider-text">Speisekarte</div></div>
-            </div>
-        </div>`;
-    } else {
-        content = `<div class="face"><div class="page-body">`;
-        
-        if (data.gtitle) {
-            content += `<h2 class="grand-title">${t(data.gtitle)}</h2><p class="grand-sub">${t(data.gsub)}</p>`;
-        }
-        if (data.stitle) {
-            content += `<h3 class="section-title">${t(data.stitle)}</h3><p class="section-sub">${t(data.ssub)}</p>`;
+        function prevSheet() {
+            if (currentIdx > 0) {
+                currentIdx--;
+                const sheets = document.querySelectorAll('.sheet');
+                sheets[currentIdx].classList.remove('flipped');
+                sheets[currentIdx].style.zIndex = totalSheets - currentIdx;
+                
+                audio.currentTime = 0; audio.play().catch(()=>{});
+                updateUI();
+            }
         }
 
-        if (data.items) {
-            data.items.forEach(it => {
-                content += `<div class="item">
-                    <div class="item-row">
-                        <span class="item-name">${t(it.name)}</span>
-                        ${it.alg ? `<span class="item-alg">${it.alg}</span>` : ''}
-                        <div class="dots"></div>
-                        <span class="item-price">${it.price}<span>€</span></span>
-                    </div>
-                    ${it.desc ? `<p class="item-desc">${t(it.desc)}</p>` : ''}
-                </div>`;
-            });
+        function updateUI() {
+            // Gérer le centrage dynamique
+            if (currentIdx > 0) {
+                container.classList.add('is-open');
+            } else {
+                container.classList.remove('is-open');
+            }
+
+            // Calcul de la page affichée
+            let displayPage = currentIdx === 0 ? 1 : (currentIdx * 2);
+            document.getElementById('current-page').innerText = displayPage;
+            
+            const progress = (currentIdx / totalSheets) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
         }
 
-        if (data.cats) {
-            data.cats.forEach(cat => {
-                if (cat.label) content += `<h4 class="drink-cat">${t(cat.label)}</h4>`;
-                cat.items.forEach(it => {
-                    content += `<div class="drink-row">
-                        <span class="drink-name">${t(it.name)}</span>
-                        <div class="drink-dots"></div>
-                        <span class="drink-price">${it.price}€</span>
-                    </div>`;
-                });
-            });
-        }
-
-        if (data.extras) {
-            content += `<div class="extras"><div class="extras-title">Extras</div>`;
-            data.extras.forEach(ex => {
-                content += `<div class="extra-row"><span>${t(ex.label)}</span><strong>+ ${ex.price}€</strong></div>`;
-            });
-            content += `</div>`;
-        }
-
-        if (data.platter) {
-            content += `<div class="platter">
-                <h4 class="platter-title">${t(data.platter.title)}</h4>
-                <p class="platter-desc">${t(data.platter.desc)}</p>`;
-            data.platter.prices.forEach(pr => {
-                content += `<div class="platter-row">
-                    <span class="platter-label">${t(pr.label)}</span>
-                    <span class="platter-value">${pr.value}€</span>
-                </div>`;
-            });
-            content += `</div>`;
-        }
-
-        content += `<div class="page-footer">${ALG[lang]}<br>${lang==='de'?'Alle Preise inkl. Steuern · Trinkgeld nicht inkludiert':'Prices incl. taxes · Tip not included'}</div>`;
-        content += `</div></div>`;
-    }
-    
-    p.innerHTML = content;
-    return p;
-}
-
-function render() {
-    book.innerHTML = '';
-    const s = SPREADS[currentPage];
-    book.appendChild(createPage(s, 'L'));
-    book.appendChild(createPage(s, 'R'));
-    
-    document.getElementById('pnum').innerText = `${currentPage + 1} / ${SPREADS.length}`;
-    document.getElementById('btn-prev').disabled = currentPage === 0;
-    document.getElementById('btn-next').disabled = currentPage === SPREADS.length - 1;
-
-    // Update Tab Active State
-    document.querySelectorAll('.tab').forEach((tab, i) => {
-        tab.classList.toggle('active', (i === 0 && currentPage <= 1) || (i === 1 && currentPage === 2) || (i === 2 && currentPage === 3));
-    });
-}
-
-function turn(dir) {
-    currentPage = Math.max(0, Math.min(SPREADS.length - 1, currentPage + dir));
-    render();
-}
-
-function goTo(idx) {
-    currentPage = idx;
-    render();
-}
-
-function setLang(l) {
-    lang = l;
-    document.getElementById('btn-de').classList.toggle('active', l === 'de');
-    document.getElementById('btn-en').classList.toggle('active', l === 'en');
-    render();
-}
-
-render();
-
-</script>
+        init();
+    </script>
 </body>
 </html>

@@ -29,7 +29,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            touch-action: manipulation; /* Optimise le toucher mobile */
+            touch-action: manipulation;
         }
 
         /* --- NAVBAR --- */
@@ -44,9 +44,10 @@
             z-index: 1000;
         }
         .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: white; }
-        .nav-logo { height: 32px; width: auto; }
+        .nav-logo { height: 32px; width: auto; border-radius: 4px; }
         .brand-text { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
-        .nav-cta { padding: 0.5rem 1rem; border: 1px solid var(--accent); border-radius: 50px; color: var(--accent); text-decoration: none; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
+        .nav-cta { padding: 0.5rem 1rem; border: 1px solid var(--accent); border-radius: 50px; color: var(--accent); text-decoration: none; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
+        .nav-cta:hover { background: var(--accent); color: white; }
 
         /* --- SCÈNE DU LIVRE --- */
         #main-content {
@@ -55,7 +56,8 @@
             align-items: center;
             justify-content: center;
             perspective: 2000px;
-            padding: 10px;
+            padding: 20px;
+            overflow: hidden;
         }
 
         #book-container {
@@ -63,10 +65,10 @@
             width: var(--page-w);
             height: var(--page-h);
             transform-style: preserve-3d;
-            transition: transform var(--anim-speed) ease-in-out;
+            transition: transform var(--anim-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
         }
 
-        /* Effet Bureau : Décalage pour voir 2 pages */
+        /* Desktop: shift right when open to show both pages centered */
         @media (min-width: 851px) {
             #book-container.is-open { transform: translateX(50%); }
         }
@@ -88,22 +90,22 @@
             border-radius: 0 4px 4px 0;
             overflow: hidden;
             background: #1a1a1a;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 25px rgba(0,0,0,0.8);
         }
 
         .page-face img { width: 100%; height: 100%; object-fit: contain; background: #000; }
 
-        /* Ombre douce sur la pliure */
+        /* Inner Shadow for the fold */
         .page-face::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 30px; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
+            content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
             pointer-events: none;
         }
 
         .back { transform: rotateY(180deg); }
         .sheet.flipped { transform: rotateY(-180deg); }
 
-        /* Zones de clic */
+        /* Interaction Layer */
         .click-layer {
             position: absolute; width: 100%; height: 100%; z-index: 500;
             display: flex; pointer-events: none;
@@ -112,31 +114,35 @@
 
         /* --- FOOTER --- */
         #footer-controls {
-            height: 70px;
+            height: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             background: rgba(10, 10, 10, 0.95);
-            gap: 5px;
+            gap: 8px;
             z-index: 1000;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
-        .page-info { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--accent); }
-        .progress-bar { width: 120px; height: 1px; background: rgba(255,255,255,0.1); }
+        .page-info { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--accent); letter-spacing: 1px; }
+        .progress-bar { width: 150px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; }
         #progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
 
-        /* --- ADAPTATION MOBILE (CRITIQUE) --- */
+        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 850px) {
             :root {
-                /* On utilise presque toute la largeur de l'écran */
-                --page-w: 90vw; 
-                --page-h: 70vh; 
+                --page-w: 88vw; 
+                --page-h: 60vh; 
             }
-            #book-container {
-                /* Centré sans décalage sur mobile */
-                transform: translateX(0) !important;
+            #main-content { perspective: 1500px; }
+            
+            /* Shift the book right when open so the flipped page (on the left) stays on screen */
+            #book-container.is-open-mobile {
+                transform: translateX(44vw) scale(0.95);
             }
-            .brand-text { display: none; } /* Gain de place */
+            
+            .brand-text { display: none; }
+            .nav-cta { font-size: 0.6rem; padding: 0.4rem 0.8rem; }
         }
     </style>
 </head>
@@ -146,14 +152,15 @@
 
     <nav id="navbar">
         <a href="index.html" class="brand">
-            <img src="logo.jpg" alt="Gastro HALLE" class="nav-logo">
+            <img src="logo.jpg" alt="Logo" class="nav-logo">
             <span class="brand-text">Gastro HALLE</span>
         </a>
         <a href="index.html" class="nav-cta">Startseite</a>
     </nav>
 
     <div id="main-content">
-        <div id="book-container"></div>
+        <div id="book-container">
+            </div>
         <div class="click-layer">
             <div class="click-area" onclick="prevSheet()"></div>
             <div class="click-area" onclick="nextSheet()"></div>
@@ -161,10 +168,10 @@
     </div>
 
     <div id="footer-controls">
-        <div class="page-info">SEITE <span id="current-page">1</span> VON 14</div>
+        <div class="page-info">SEITE <span id="current-page">1</span> / 14</div>
         <div class="progress-bar"><div id="progress-fill"></div></div>
-        <div style="font-size: 0.5rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">
-            Tippen zum Umblättern
+        <div style="font-size: 0.6rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px;">
+            <i class="fa-solid fa-arrows-left-right"></i> Tippen zum Blättern
         </div>
     </div>
 
@@ -185,8 +192,8 @@
                 const p2 = (i * 2) + 2;
 
                 sheet.innerHTML = `
-                    <div class="page-face front"><img src="Pmenu/imag-${p1}.png"></div>
-                    <div class="page-face back"><img src="Pmenu/imag-${p2}.png"></div>
+                    <div class="page-face front"><img src="Pmenu/imag-${p1}.png" alt="Page ${p1}"></div>
+                    <div class="page-face back"><img src="Pmenu/imag-${p2}.png" alt="Page ${p2}"></div>
                 `;
                 container.appendChild(sheet);
             }
@@ -198,7 +205,7 @@
                 const sheets = document.querySelectorAll('.sheet');
                 sheets[currentIdx].classList.add('flipped');
                 currentIdx++;
-                audio.currentTime = 0; audio.play().catch(()=>{});
+                playSound();
                 updateUI();
             }
         }
@@ -208,20 +215,33 @@
                 currentIdx--;
                 const sheets = document.querySelectorAll('.sheet');
                 sheets[currentIdx].classList.remove('flipped');
-                audio.currentTime = 0; audio.play().catch(()=>{});
+                playSound();
                 updateUI();
             }
         }
 
+        function playSound() {
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
+
         function updateUI() {
-            // Centrage seulement sur grand écran
-            if (currentIdx > 0 && window.innerWidth > 850) {
-                container.classList.add('is-open');
+            const isMobile = window.innerWidth <= 850;
+            
+            // Handle Position Classes
+            if (currentIdx > 0) {
+                if (isMobile) {
+                    container.classList.add('is-open-mobile');
+                    container.classList.remove('is-open');
+                } else {
+                    container.classList.add('is-open');
+                    container.classList.remove('is-open-mobile');
+                }
             } else {
-                container.classList.remove('is-open');
+                container.classList.remove('is-open', 'is-open-mobile');
             }
 
-            // Gestion correcte du Z-index pour mobile et desktop
+            // Handle Z-Index layers
             const sheets = document.querySelectorAll('.sheet');
             sheets.forEach((s, i) => {
                 if (i < currentIdx) {
@@ -231,16 +251,16 @@
                 }
             });
 
+            // Update Progress
             let displayPage = currentIdx === 0 ? 1 : (currentIdx * 2);
-            document.getElementById('current-page').innerText = (currentIdx === totalSheets) ? totalImages : displayPage;
+            if (currentIdx === totalSheets) displayPage = totalImages;
             
+            document.getElementById('current-page').innerText = displayPage;
             const progress = (currentIdx / totalSheets) * 100;
             document.getElementById('progress-fill').style.width = progress + '%';
         }
 
-        // Réajuster si on tourne le téléphone
         window.addEventListener('resize', updateUI);
-
         init();
     </script>
 </body>

@@ -1,283 +1,354 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Speisekarte | Gastro HALLE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Speisekarte | Gastro HALLE</title>
 
-    <style>
-        :root {
-            --gold: #c9a96e;
-            --gold-light: #e8d5b0;
-            --ink: #0d0d0d;
-            --cream: #faf6f0;
-            --flip-speed: 0.8s;
-            --nav-h: 64px;
-            --foot-h: 80px;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+<style>
+:root {
+  --gold:#c9a96e;
+  --ink:#0d0d0d;
+  --cream:#faf6f0;
+  --nav-h:64px;
+  --foot-h:96px;
+  --flip-speed:0.75s;
+}
 
-        body {
-            height: 100vh;
-            background: var(--ink);
-            color: var(--cream);
-            font-family: 'Jost', sans-serif;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
+/* RESET */
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-        /* ── SCENE & PERSPECTIVE ── */
-        #viewport {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            perspective: 2000px;
-            padding: 20px;
-            position: relative;
-        }
+html,body {
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:var(--ink);
+  font-family:'Jost',sans-serif;
+}
 
-        /* ── BOOK CONTAINER ── */
-        #book {
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease;
-            /* width/height gérés par JS */
-        }
+/* BACKGROUND SAFE */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at top, #2a1f0e, transparent 70%),
+    radial-gradient(circle at bottom, #1a1206, transparent 70%);
+}
 
-        /* ── SHEET LOGIC ── */
-        .sheet {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            transform-style: preserve-3d;
-            transform-origin: left center;
-            transition: transform var(--flip-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
-            pointer-events: none;
-        }
+/* NAV */
+#navbar {
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:var(--nav-h);
+  z-index:1000;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 14px;
+  background:rgba(10,10,10,0.95);
+  color:var(--cream);
+}
 
-        /* Desktop: On veut que la feuille pivote depuis le centre */
-        @media (min-width: 768px) {
-            #book.spread { transform: translateX(50%); } /* Décale le livre pour centrer la reliure */
-            .sheet { transform-origin: left center; }
-        }
+/* SCENE */
+#scene {
+  position:fixed;
+  top:var(--nav-h);
+  bottom:var(--foot-h);
+  left:0;
+  right:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  perspective:1600px;
+  padding:0 10px;
+}
 
-        .sheet.flipped {
-            transform: rotateY(-180deg);
-        }
+/* BOOK WRAP */
+#book-wrap {
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  max-width:100%;
+  max-height:100%;
+}
 
-        .page-face {
-            position: absolute;
-            inset: 0;
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-            background: #111;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
-            pointer-events: auto;
-        }
+/* BOOK */
+#book {
+  position:relative;
+  transform-style:preserve-3d;
+}
 
-        .page-face.back {
-            transform: rotateY(180deg);
-        }
+/* SHEETS */
+.sheet {
+  position:absolute;
+  top:0;
+  left:0;
+  transform-origin:right;
+  transition:transform var(--flip-speed) ease;
+  cursor:pointer;
+}
 
-        .page-face img {
-            width: 100%; height: 100%;
-            object-fit: contain;
-            user-select: none;
-        }
+.sheet.flipped {
+  transform:rotateY(-180deg);
+}
 
-        /* Spine Shadow */
-        .front::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, transparent 10%, transparent 100%);
-        }
-        .back::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to left, rgba(0,0,0,0.4) 0%, transparent 10%, transparent 100%);
-        }
+.page-face {
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  overflow:hidden;
+}
 
-        /* ── UI ELEMENTS ── */
-        #navbar {
-            height: var(--nav-h);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; border-bottom: 1px solid rgba(201,169,110,0.2);
-            z-index: 100; background: var(--ink);
-        }
+.page-face img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#111;
+}
 
-        #footer {
-            height: var(--foot-h);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-top: 1px solid rgba(201,169,110,0.2);
-            z-index: 100; background: var(--ink);
-        }
+.page-face.back {
+  transform:rotateY(180deg);
+}
 
-        .nav-btn {
-            color: var(--gold); border: 1px solid var(--gold);
-            padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.8rem;
-        }
+/* FOOTER */
+#footer {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:var(--foot-h);
+  background:rgba(10,10,10,0.95);
+  color:var(--cream);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
 
-        .controls {
-            display: flex; gap: 30px; margin-top: 10px;
-        }
+/* SOUND BUTTON */
+#sound-btn {
+  position:fixed;
+  bottom:calc(var(--foot-h) + 10px);
+  right:12px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#111;
+  border:1px solid #333;
+  color:var(--gold);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1001;
+}
 
-        .control-btn {
-            background: none; border: none; color: var(--gold);
-            font-size: 1.5rem; cursor: pointer; transition: 0.3s;
-        }
+/* MOBILE FIX */
+@media (max-width:768px) {
+  #scene {
+    perspective:1000px;
+  }
 
-        .control-btn:disabled { color: #333; cursor: default; }
-
-        /* Loader */
-        #loader {
-            position: fixed; inset:0; background: var(--ink);
-            display: flex; align-items: center; justify-content: center; z-index: 9999;
-        }
-        .hidden { opacity: 0; pointer-events: none; transition: 0.8s; }
-    </style>
+  #book-wrap {
+    transform:scale(0.92);
+  }
+}
+</style>
 </head>
+
 <body>
 
-<div id="loader">Lade Menü...</div>
-
+<!-- NAV -->
 <nav id="navbar">
-    <div class="brand-name" style="color: var(--gold); letter-spacing: 2px;">GASTRO HALLE</div>
-    <div id="page-info">1 / 14</div>
-    <a href="#" class="nav-btn">HOME</a>
+  <div>Gastro HALLE</div>
+  <div><span id="pg-cur">1</span> / <span id="pg-total">14</span></div>
 </nav>
 
-<main id="viewport">
-    <div id="book">
-        </div>
-</main>
+<!-- SCENE -->
+<div id="scene">
+  <div id="book-wrap">
+    <div id="book"></div>
+  </div>
+</div>
 
-<footer id="footer">
-    <div id="label">Speisekarte</div>
-    <div class="controls">
-        <button class="control-btn" id="prevBtn"><i class="fa fa-chevron-left"></i></button>
-        <button class="control-btn" id="nextBtn"><i class="fa fa-chevron-right"></i></button>
-    </div>
-</footer>
+<!-- FOOTER -->
+<div id="footer">
+  <div id="page-label">Menu</div>
+</div>
+
+<!-- SOUND -->
+<div id="sound-btn"><i class="fa fa-volume-high"></i></div>
 
 <script>
-    const TOTAL_PAGES = 14; 
-    const book = document.getElementById('book');
-    const pageInfo = document.getElementById('page-info');
-    const label = document.getElementById('label');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    
-    let currentSheet = 0;
-    const totalSheets = TOTAL_PAGES / 2;
-    const sheets = [];
 
-    function initBook() {
-        const isMobile = window.innerWidth < 768;
-        const vW = window.innerWidth;
-        const vH = window.innerHeight - 144; // h-nav - h-foot
+const TOTAL = 14;
+const sheets = [];
+let current = 0;
+let anim = false;
 
-        // Calcul des dimensions (Ratio 3:4)
-        let w, h;
-        if (isMobile) {
-            w = Math.min(vW * 0.85, 400);
-            h = w * 1.4;
-            book.classList.remove('spread');
-        } else {
-            h = Math.min(vH * 0.8, 600);
-            w = (h * 0.75);
-            book.classList.add('spread');
-        }
+const book = document.getElementById("book");
 
-        book.style.width = w + 'px';
-        book.style.height = h + 'px';
+/* =========================
+   FIX RESPONSIVE SIZE
+========================= */
+function getSize() {
+  const navH = 64;
+  const footH = 96;
 
-        book.innerHTML = '';
-        sheets.length = 0;
+  const hAvail = window.innerHeight - navH - footH;
+  const wAvail = window.innerWidth;
 
-        for (let i = 0; i < totalSheets; i++) {
-            const sheet = document.createElement('div');
-            sheet.className = 'sheet';
-            sheet.style.zIndex = totalSheets - i;
+  const aspect = 3 / 4;
 
-            const p1 = i * 2 + 1;
-            const p2 = i * 2 + 2;
+  const isMobile = window.innerWidth < 768;
 
-            sheet.innerHTML = `
-                <div class="page-face front">
-                    <img src="Pmenu/imag-${p1}.png" alt="P${p1}">
-                </div>
-                <div class="page-face back">
-                    <img src="Pmenu/imag-${p2}.png" alt="P${p2}">
-                </div>
-            `;
-            
-            book.appendChild(sheet);
-            sheets.push(sheet);
-        }
-        updateUI();
+  if (isMobile) {
+    let h = hAvail * 0.85;
+    let w = h * aspect;
+
+    if (w > wAvail * 0.95) {
+      w = wAvail * 0.95;
+      h = w / aspect;
     }
 
-    function updateUI() {
-        sheets.forEach((sheet, idx) => {
-            if (idx < currentSheet) {
-                sheet.classList.add('flipped');
-                sheet.style.zIndex = idx + 1;
-            } else {
-                sheet.classList.remove('flipped');
-                sheet.style.zIndex = totalSheets - idx;
-            }
-        });
+    return { w, h };
+  }
 
-        const displayPage = currentSheet === 0 ? 1 : currentSheet * 2;
-        pageInfo.textContent = `${displayPage} / ${TOTAL_PAGES}`;
-        label.textContent = currentSheet === 0 ? "Cover" : `Seite ${currentSheet * 2} - ${currentSheet * 2 + 1}`;
-        
-        prevBtn.disabled = currentSheet === 0;
-        nextBtn.disabled = currentSheet === totalSheets;
-    }
+  let h = hAvail * 0.9;
+  let w = h * aspect * 2;
 
-    function next() {
-        if (currentSheet < totalSheets) {
-            currentSheet++;
-            updateUI();
-        }
-    }
+  if (w > wAvail * 0.85) {
+    w = wAvail * 0.85;
+    h = (w / 2) / aspect;
+  }
 
-    function prev() {
-        if (currentSheet > 0) {
-            currentSheet--;
-            updateUI();
-        }
-    }
+  return { w, h };
+}
 
-    // Events
-    nextBtn.addEventListener('click', next);
-    prevBtn.addEventListener('click', prev);
-    
-    // Swipe
-    let touchStart = 0;
-    document.addEventListener('touchstart', e => touchStart = e.touches[0].clientX);
-    document.addEventListener('touchend', e => {
-        const delta = e.changedTouches[0].clientX - touchStart;
-        if (Math.abs(delta) > 50) {
-            delta > 0 ? prev() : next();
-        }
-    });
+/* =========================
+   BUILD BOOK
+========================= */
+function build() {
+  document.querySelectorAll(".sheet").forEach(e => e.remove());
+  sheets.length = 0;
 
-    window.addEventListener('resize', initBook);
-    window.addEventListener('load', () => {
-        initBook();
-        setTimeout(() => document.getElementById('loader').classList.add('hidden'), 500);
-    });
+  const { w, h } = getSize();
+  const pageW = w / 2;
 
-    // Keyboard
-    document.addEventListener('keydown', e => {
-        if (e.key === "ArrowRight") next();
-        if (e.key === "ArrowLeft") prev();
-    });
+  book.style.width = pageW + "px";
+  book.style.height = h + "px";
+
+  for (let i = 0; i < TOTAL / 2; i++) {
+
+    const p1 = i * 2 + 1;
+    const p2 = i * 2 + 2;
+
+    const s = document.createElement("div");
+    s.className = "sheet";
+    s.style.width = pageW + "px";
+    s.style.height = h + "px";
+    s.style.zIndex = TOTAL - i;
+
+    s.innerHTML = `
+      <div class="page-face front">
+        <img src="Pmenu/imag-${p1}.png">
+      </div>
+      <div class="page-face back">
+        <img src="Pmenu/imag-${p2}.png">
+      </div>
+    `;
+
+    book.appendChild(s);
+    sheets.push(s);
+  }
+
+  apply();
+}
+
+/* =========================
+   APPLY STATE
+========================= */
+function apply() {
+  sheets.forEach((s, i) => {
+    if (i < current) s.classList.add("flipped");
+    else s.classList.remove("flipped");
+  });
+
+  document.getElementById("pg-cur").innerText = current + 1;
+}
+
+/* =========================
+   NAV
+========================= */
+function next() {
+  if (anim || current >= sheets.length) return;
+  anim = true;
+
+  sheets[current].classList.add("flipped");
+  current++;
+
+  apply();
+  setTimeout(() => anim = false, 750);
+}
+
+function prev() {
+  if (anim || current <= 0) return;
+  anim = true;
+
+  current--;
+  sheets[current].classList.remove("flipped");
+
+  apply();
+  setTimeout(() => anim = false, 750);
+}
+
+/* =========================
+   TOUCH FIX
+========================= */
+let startX = null;
+
+document.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e => {
+  if (startX === null) return;
+
+  const dx = e.changedTouches[0].clientX - startX;
+
+  if (Math.abs(dx) > 40) {
+    dx < 0 ? next() : prev();
+  }
+
+  startX = null;
+});
+
+/* CLICK NAV */
+document.addEventListener("click", e => {
+  if (e.clientX < window.innerWidth / 2) prev();
+  else next();
+});
+
+/* RESIZE */
+window.addEventListener("resize", build);
+
+/* INIT */
+window.onload = build;
+
 </script>
 
 </body>

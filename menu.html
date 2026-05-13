@@ -1,290 +1,234 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Speisekarte | Gastro HALLE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Speisekarte | Gastro HALLE</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
-<style>
-:root {
-    --accent: #c96a2b;
-    --cream: #f8f4ee;
-    --dark: #0f0f0f;
-    --page-w: 400px;
-    --page-h: 560px;
-    --anim-speed: 0.8s;
-}
+    <style>
+        :root {
+            --accent: #c96a2b;
+            --page-w: 360px;
+            --page-h: 560px;
+        }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* IMPORTANT FIX */
-}
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
 
-body {
-    background: radial-gradient(circle at center, #1a1a1a, #0a0a0a);
-    color: var(--cream);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    display: flex;
-    flex-direction: column;
-}
+        /* FOND FIXE IMAG-LEFT */
+        #bg-static {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('Pmenu/imag-left.png') no-repeat center center;
+            background-size: cover;
+            filter: brightness(0.2);
+            z-index: -1;
+        }
 
-/* ================= NAVBAR ================= */
-#navbar {
-    height: 70px;
-    padding: 0 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(17,17,17,0.9);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
+        #navbar {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.6);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 10;
+        }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: white;
-    text-decoration: none;
-}
+        /* SCÈNE PRINCIPALE */
+        #main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            touch-action: none; /* Désactive le scroll vertical pour le swipe */
+        }
 
-.nav-logo {
-    height: 40px;
-}
+        #book-container {
+            position: relative;
+            width: var(--page-w);
+            height: var(--page-h);
+            max-width: 85vw;
+            max-height: 70vh;
+        }
 
-.nav-cta {
-    padding: 0.6rem 1.2rem;
-    border: 1px solid var(--accent);
-    border-radius: 50px;
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 0.7rem;
-}
+        /* LES PAGES */
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            overflow: hidden;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* ================= SCENE ================= */
-#main-content {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    perspective: 2000px;
-    overflow: hidden; /* FIX OVERFLOW */
-}
+        .page img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
-#book-container {
-    position: relative;
-    width: var(--page-w);
-    height: var(--page-h);
-    transform-style: preserve-3d;
-    transition: transform var(--anim-speed) ease;
-    max-width: 95vw; /* FIX MOBILE */
-    max-height: 70vh;
-}
+        /* Animation de sortie (Glisse vers la gauche) */
+        .page.exit-left {
+            transform: translateX(-120%) rotate(-10deg);
+            opacity: 0;
+            pointer-events: none;
+        }
 
-/* IMPORTANT FIX MOBILE CENTRING */
-@media (max-width: 850px) {
-    :root {
-        --page-w: 85vw;
-        --page-h: 65vh;
-    }
+        /* FOOTER */
+        #footer {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.8);
+        }
 
-    #book-container.is-open {
-        transform: translateX(0);
-    }
-}
+        .counter {
+            font-size: 1rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+            font-weight: 600;
+        }
 
-/* ================= SHEETS ================= */
-.sheet {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    transform-origin: left;
-    transform-style: preserve-3d;
-    transition: transform var(--anim-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
-}
-
-.page-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 0 4px 4px 0;
-    overflow: hidden;
-    background: #1a1a1a;
-    box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
-}
-
-.page-face img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* FIX OVERFLOW IMAGE */
-    background: #1a1a1a;
-}
-
-.back {
-    transform: rotateY(180deg);
-}
-
-.sheet.flipped {
-    transform: rotateY(-180deg);
-}
-
-/* ================= CLICK ZONES (FIX OVERFLOW) ================= */
-.click-layer {
-    position: absolute;
-    width: 100%; /* FIXED (was 100vw) */
-    height: 100%;
-    display: flex;
-    z-index: 500;
-}
-
-.click-area {
-    flex: 1;
-    cursor: pointer;
-}
-
-/* ================= FOOTER ================= */
-#footer-controls {
-    height: 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(10,10,10,0.9);
-}
-
-.page-info {
-    font-family: 'Cormorant Garamond', serif;
-    color: var(--accent);
-}
-
-/* ================= MOBILE SAFETY ================= */
-body {
-    touch-action: manipulation;
-    overscroll-behavior: none;
-}
-</style>
+        /* Indications Swipe */
+        .hint {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.7rem;
+            opacity: 0.5;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
-
 <body>
 
-<audio id="flip-sound" src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3"></audio>
+    <div id="bg-static"></div>
 
-<nav id="navbar">
-    <a href="index.html" class="brand">
-        <img src="logo.jpg" class="nav-logo">
-        <span>Gastro HALLE</span>
-    </a>
-    <a href="index.html" class="nav-cta">Startseite</a>
-</nav>
+    <nav id="navbar">
+        <span style="font-weight:700; letter-spacing: 1px;">GASTRO HALLE</span>
+    </nav>
 
-<div id="main-content">
-    <div id="book-container"></div>
-
-    <div class="click-layer">
-        <div class="click-area" onclick="prevSheet()"></div>
-        <div class="click-area" onclick="nextSheet()"></div>
-    </div>
-</div>
-
-<div id="footer-controls">
-    <div class="page-info">
-        SEITE <span id="current-page">1</span> VON 14
-    </div>
-</div>
-
-<script>
-const totalImages = 14;
-const totalSheets = totalImages / 2;
-
-let currentIdx = 0;
-let container = document.getElementById("book-container");
-let audio = document.getElementById("flip-sound");
-
-function init() {
-    for (let i = 0; i < totalSheets; i++) {
-
-        const sheet = document.createElement("div");
-        sheet.className = "sheet";
-        sheet.style.zIndex = totalSheets - i;
-
-        const p1 = i * 2 + 1;
-        const p2 = i * 2 + 2;
-
-        sheet.innerHTML = `
-            <div class="page-face front">
-                <img src="Pmenu/imag-${p1}.png">
+    <div id="main-content">
+        <div id="book-container" id="swipe-zone">
             </div>
-            <div class="page-face back">
-                <img src="Pmenu/imag-${p2}.png">
-            </div>
-        `;
+        <div class="hint">← Glisser pour tourner →</div>
+    </div>
 
-        container.appendChild(sheet);
-    }
+    <div id="footer">
+        <div class="counter">SEITE <span id="current-idx">1</span> / <span id="total-idx">15</span></div>
+    </div>
 
-    updateUI();
-}
+    <audio id="flip-sound" src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3"></audio>
 
-/* ================= NEXT ================= */
-function nextSheet() {
-    const sheets = document.querySelectorAll(".sheet");
+    <script>
+        const images = [];
+        for(let i=1; i<=14; i++) images.push(`Pmenu/imag-${i}.png`);
+        images.push(`Pmenu/imag-end.png`);
 
-    if (currentIdx < totalSheets) {
-        sheets[currentIdx].classList.add("flipped");
+        const container = document.getElementById('book-container');
+        const audio = document.getElementById('flip-sound');
+        const currentLabel = document.getElementById('current-idx');
+        const totalLabel = document.getElementById('total-idx');
 
-        currentIdx++;
+        let currentIndex = 0;
+        totalLabel.innerText = images.length;
 
-        audio.currentTime = 0;
-        audio.play().catch(()=>{});
+        // Initialisation des pages
+        function init() {
+            images.forEach((src, i) => {
+                const div = document.createElement('div');
+                div.className = 'page';
+                div.style.zIndex = images.length - i;
+                div.innerHTML = `<img src="${src}" alt="Menu ${i+1}">`;
+                container.appendChild(div);
+            });
+        }
 
-        updateUI();
-    }
-}
+        function updateUI() {
+            currentLabel.innerText = currentIndex + 1;
+            const pages = document.querySelectorAll('.page');
+            
+            pages.forEach((page, i) => {
+                if (i < currentIndex) {
+                    page.classList.add('exit-left');
+                } else {
+                    page.classList.remove('exit-left');
+                }
+            });
+        }
 
-/* ================= PREV ================= */
-function prevSheet() {
-    const sheets = document.querySelectorAll(".sheet");
+        function playSound() {
+            audio.currentTime = 0;
+            audio.play().catch(()=>{});
+        }
 
-    if (currentIdx > 0) {
-        currentIdx--;
+        // GESTION DU SWIPE
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-        sheets[currentIdx].classList.remove("flipped");
+        const mainContent = document.getElementById('main-content');
 
-        audio.currentTime = 0;
-        audio.play().catch(()=>{});
+        mainContent.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, false);
 
-        updateUI();
-    }
-}
+        mainContent.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, false);
 
-/* ================= UI ================= */
-function updateUI() {
+        function handleSwipe() {
+            const threshold = 50; // Distance minimum pour valider le swipe
+            if (touchStartX - touchEndX > threshold) {
+                // Swipe vers la GAUCHE -> Page Suivante
+                if (currentIndex < images.length - 1) {
+                    currentIndex++;
+                    playSound();
+                    updateUI();
+                }
+            }
+            if (touchEndX - touchStartX > threshold) {
+                // Swipe vers la DROITE -> Page Précédente
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    playSound();
+                    updateUI();
+                }
+            }
+        }
 
-    if (currentIdx > 0) {
-        container.classList.add("is-open");
-    } else {
-        container.classList.remove("is-open");
-    }
+        // Support du clic pour Desktop
+        mainContent.addEventListener('click', (e) => {
+            const width = window.innerWidth;
+            if (e.clientX > width / 2) {
+                if (currentIndex < images.length - 1) { currentIndex++; playSound(); updateUI(); }
+            } else {
+                if (currentIndex > 0) { currentIndex--; playSound(); updateUI(); }
+            }
+        });
 
-    document.getElementById("current-page").innerText =
-        currentIdx === 0 ? 1 : currentIdx * 2;
-}
-
-/* ================= INIT ================= */
-init();
-</script>
-
+        init();
+    </script>
 </body>
 </html>

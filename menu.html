@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Speisekarte | Gastro HALLE</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,8 +13,8 @@
             --accent: #c96a2b;
             --cream: #f8f4ee;
             --dark: #0f0f0f;
-            --page-w: 400px; /* Largeur d'une seule page */
-            --page-h: 560px;
+            --page-w: 420px; 
+            --page-h: 580px;
             --anim-speed: 0.8s;
         }
 
@@ -29,36 +29,24 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            touch-action: manipulation; /* Optimise le toucher mobile */
         }
 
         /* --- NAVBAR --- */
         #navbar {
-            height: 70px;
+            height: 60px;
             padding: 0 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(17, 17, 17, 0.9);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(17, 17, 17, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
         }
-
-        .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
-        .nav-logo { height: 40px; width: auto; }
-        .brand-text { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
-
-        .nav-cta {
-            padding: 0.6rem 1.2rem;
-            border: 1px solid var(--accent);
-            border-radius: 50px;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-        .nav-cta:hover { background: var(--accent); color: white; }
+        .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: white; }
+        .nav-logo { height: 32px; width: auto; }
+        .brand-text { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+        .nav-cta { padding: 0.5rem 1rem; border: 1px solid var(--accent); border-radius: 50px; color: var(--accent); text-decoration: none; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
 
         /* --- SCÈNE DU LIVRE --- */
         #main-content {
@@ -67,6 +55,7 @@
             align-items: center;
             justify-content: center;
             perspective: 2000px;
+            padding: 10px;
         }
 
         #book-container {
@@ -75,19 +64,16 @@
             height: var(--page-h);
             transform-style: preserve-3d;
             transition: transform var(--anim-speed) ease-in-out;
-            /* Décalage initial pour centrer la couverture */
-            transform: translateX(0); 
         }
 
-        /* Quand le livre est ouvert, on décale le pivot vers la droite pour que l'ensemble soit centré */
-        #book-container.is-open {
-            transform: translateX(50%);
+        /* Effet Bureau : Décalage pour voir 2 pages */
+        @media (min-width: 851px) {
+            #book-container.is-open { transform: translateX(50%); }
         }
 
         .sheet {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             top: 0; left: 0;
             transform-origin: left;
             transform-style: preserve-3d;
@@ -97,68 +83,60 @@
 
         .page-face {
             position: absolute;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             backface-visibility: hidden;
             border-radius: 0 4px 4px 0;
             overflow: hidden;
             background: #1a1a1a;
-            box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        .page-face img { width: 100%; height: 100%; object-fit: cover; }
+        .page-face img { width: 100%; height: 100%; object-fit: contain; background: #000; }
 
-        /* Effet de pliure */
+        /* Ombre douce sur la pliure */
         .page-face::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.2) 0%, transparent 10%, transparent 90%, rgba(0,0,0,0.1) 100%);
+            content: ''; position: absolute; top: 0; left: 0; width: 30px; height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.2), transparent);
             pointer-events: none;
         }
 
         .back { transform: rotateY(180deg); }
-
         .sheet.flipped { transform: rotateY(-180deg); }
 
         /* Zones de clic */
         .click-layer {
-            position: absolute;
-            width: 100vw;
-            height: 100%;
-            z-index: 500;
-            display: flex;
-            pointer-events: none;
+            position: absolute; width: 100%; height: 100%; z-index: 500;
+            display: flex; pointer-events: none;
         }
-        .click-area {
-            flex: 1;
-            pointer-events: auto;
-            cursor: pointer;
-        }
+        .click-area { flex: 1; pointer-events: auto; cursor: pointer; }
 
         /* --- FOOTER --- */
         #footer-controls {
-            height: 80px;
+            height: 70px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(10, 10, 10, 0.9);
-            gap: 8px;
+            background: rgba(10, 10, 10, 0.95);
+            gap: 5px;
+            z-index: 1000;
         }
-
-        .page-info {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1rem;
-            letter-spacing: 1px;
-            color: var(--accent);
-        }
-
-        .progress-bar { width: 150px; height: 1px; background: rgba(255,255,255,0.1); }
+        .page-info { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--accent); }
+        .progress-bar { width: 120px; height: 1px; background: rgba(255,255,255,0.1); }
         #progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
 
-        /* MOBILE */
+        /* --- ADAPTATION MOBILE (CRITIQUE) --- */
         @media (max-width: 850px) {
-            #book-container.is-open { transform: translateX(0); } /* On ne décale pas sur mobile */
-            :root { --page-w: 80vw; --page-h: 60vh; }
+            :root {
+                /* On utilise presque toute la largeur de l'écran */
+                --page-w: 90vw; 
+                --page-h: 70vh; 
+            }
+            #book-container {
+                /* Centré sans décalage sur mobile */
+                transform: translateX(0) !important;
+            }
+            .brand-text { display: none; } /* Gain de place */
         }
     </style>
 </head>
@@ -175,9 +153,7 @@
     </nav>
 
     <div id="main-content">
-        <div id="book-container">
-            </div>
-        
+        <div id="book-container"></div>
         <div class="click-layer">
             <div class="click-area" onclick="prevSheet()"></div>
             <div class="click-area" onclick="nextSheet()"></div>
@@ -185,14 +161,10 @@
     </div>
 
     <div id="footer-controls">
-        <div class="page-info">
-            SEITE <span id="current-page">1</span> VON 14
-        </div>
-        <div class="progress-bar">
-            <div id="progress-fill"></div>
-        </div>
-        <div style="font-size: 0.55rem; color: #666; text-transform: uppercase; letter-spacing: 2px;">
-            Links oder rechts klicken zum Umblättern
+        <div class="page-info">SEITE <span id="current-page">1</span> VON 14</div>
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <div style="font-size: 0.5rem; color: #666; text-transform: uppercase; letter-spacing: 1px;">
+            Tippen zum Umblättern
         </div>
     </div>
 
@@ -225,11 +197,6 @@
             if (currentIdx < totalSheets) {
                 const sheets = document.querySelectorAll('.sheet');
                 sheets[currentIdx].classList.add('flipped');
-                // Gestion de l'empilement (Z-index)
-                setTimeout(() => {
-                    sheets[currentIdx-1].style.zIndex = currentIdx;
-                }, 100);
-                
                 currentIdx++;
                 audio.currentTime = 0; audio.play().catch(()=>{});
                 updateUI();
@@ -241,28 +208,38 @@
                 currentIdx--;
                 const sheets = document.querySelectorAll('.sheet');
                 sheets[currentIdx].classList.remove('flipped');
-                sheets[currentIdx].style.zIndex = totalSheets - currentIdx;
-                
                 audio.currentTime = 0; audio.play().catch(()=>{});
                 updateUI();
             }
         }
 
         function updateUI() {
-            // Gérer le centrage dynamique
-            if (currentIdx > 0) {
+            // Centrage seulement sur grand écran
+            if (currentIdx > 0 && window.innerWidth > 850) {
                 container.classList.add('is-open');
             } else {
                 container.classList.remove('is-open');
             }
 
-            // Calcul de la page affichée
+            // Gestion correcte du Z-index pour mobile et desktop
+            const sheets = document.querySelectorAll('.sheet');
+            sheets.forEach((s, i) => {
+                if (i < currentIdx) {
+                    s.style.zIndex = i + 1;
+                } else {
+                    s.style.zIndex = totalSheets - i;
+                }
+            });
+
             let displayPage = currentIdx === 0 ? 1 : (currentIdx * 2);
-            document.getElementById('current-page').innerText = displayPage;
+            document.getElementById('current-page').innerText = (currentIdx === totalSheets) ? totalImages : displayPage;
             
             const progress = (currentIdx / totalSheets) * 100;
             document.getElementById('progress-fill').style.width = progress + '%';
         }
+
+        // Réajuster si on tourne le téléphone
+        window.addEventListener('resize', updateUI);
 
         init();
     </script>

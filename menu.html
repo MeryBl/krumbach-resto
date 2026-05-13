@@ -4,240 +4,281 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Speisekarte | Gastro HALLE</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=Plus+Jakarta+Sans:wght@300;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
     <style>
         :root {
-            --accent: #d4af37; 
-            --cream: #fdfaf5;
-            --dark: #0a0a0a;
-            --page-w: 360px; 
-            --page-h: 520px;
-            --anim-speed: 0.9s;
+            --gold: #c9a96e;
+            --gold-light: #e8d5b0;
+            --ink: #0d0d0d;
+            --cream: #faf6f0;
+            --flip-speed: 0.8s;
+            --nav-h: 64px;
+            --foot-h: 80px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            background-color: var(--dark);
-            background-image: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
-            color: var(--cream);
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        body {
             height: 100vh;
+            background: var(--ink);
+            color: var(--cream);
+            font-family: 'Jost', sans-serif;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
-        /* --- NAVBAR --- */
-        #navbar {
-            height: 60px;
-            padding: 0 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(0, 0, 0, 0.9);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-            z-index: 1000;
-        }
-        .brand-text { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; }
-
-        /* --- BOOK SCENE --- */
-        #main-content {
+        /* ── SCENE & PERSPECTIVE ── */
+        #viewport {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             perspective: 2000px;
             padding: 20px;
-        }
-
-        #book-container {
             position: relative;
-            width: var(--page-w);
-            height: var(--page-h);
-            transform-style: preserve-3d;
-            transition: transform var(--anim-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
-            /* Initial state: Centered */
-            transform: translateX(0); 
         }
 
-        /* Open State: Shifts right to make room for the left page */
-        .is-open { transform: translateX(45%) !important; }
+        /* ── BOOK CONTAINER ── */
+        #book {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+            /* width/height gérés par JS */
+        }
 
+        /* ── SHEET LOGIC ── */
         .sheet {
             position: absolute;
-            width: 100%; height: 100%;
             top: 0; left: 0;
-            transform-origin: left;
+            width: 100%; height: 100%;
             transform-style: preserve-3d;
-            transition: transform var(--anim-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform-origin: left center;
+            transition: transform var(--flip-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
+            pointer-events: none;
+        }
+
+        /* Desktop: On veut que la feuille pivote depuis le centre */
+        @media (min-width: 768px) {
+            #book.spread { transform: translateX(50%); } /* Décale le livre pour centrer la reliure */
+            .sheet { transform-origin: left center; }
+        }
+
+        .sheet.flipped {
+            transform: rotateY(-180deg);
         }
 
         .page-face {
             position: absolute;
-            width: 100%; height: 100%;
+            inset: 0;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             background: #111;
-            overflow: hidden;
-            border-radius: 2px 4px 4px 2px;
-            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.5);
+            pointer-events: auto;
         }
 
-        .page-face img { width: 100%; height: 100%; object-fit: contain; }
-
-        /* Shadows for depth */
-        .page-face::after {
-            content: ''; position: absolute; top: 0; width: 40px; height: 100%;
-            pointer-events: none; z-index: 5;
+        .page-face.back {
+            transform: rotateY(180deg);
         }
-        .front::after { left: 0; background: linear-gradient(to right, rgba(0,0,0,0.4), transparent); }
-        .back::after { right: 0; background: linear-gradient(to left, rgba(0,0,0,0.4), transparent); }
 
-        .back { transform: rotateY(180deg); }
-        .sheet.flipped { transform: rotateY(-180deg); }
-
-        /* Interaction zones */
-        .click-layer {
-            position: absolute; width: 200%; height: 100%; left: -50%; top: 0;
-            z-index: 999; display: flex; pointer-events: none;
+        .page-face img {
+            width: 100%; height: 100%;
+            object-fit: contain;
+            user-select: none;
         }
-        .click-area { flex: 1; pointer-events: auto; cursor: pointer; }
 
-        /* --- FOOTER --- */
-        #footer-controls {
-            height: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+        /* Spine Shadow */
+        .front::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, transparent 10%, transparent 100%);
         }
-        .page-info { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--accent); letter-spacing: 2px; }
-        .progress-bar { width: 120px; height: 1px; background: rgba(212, 175, 55, 0.2); }
-        #progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.5s; }
+        .back::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to left, rgba(0,0,0,0.4) 0%, transparent 10%, transparent 100%);
+        }
 
-        /* Mobile specific adjustments */
-        @media (max-width: 850px) {
-            :root { --page-w: 80vw; --page-h: 60vh; }
-            .is-open { transform: translateX(40%) !important; }
+        /* ── UI ELEMENTS ── */
+        #navbar {
+            height: var(--nav-h);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; border-bottom: 1px solid rgba(201,169,110,0.2);
+            z-index: 100; background: var(--ink);
         }
+
+        #footer {
+            height: var(--foot-h);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-top: 1px solid rgba(201,169,110,0.2);
+            z-index: 100; background: var(--ink);
+        }
+
+        .nav-btn {
+            color: var(--gold); border: 1px solid var(--gold);
+            padding: 5px 15px; border-radius: 20px; text-decoration: none; font-size: 0.8rem;
+        }
+
+        .controls {
+            display: flex; gap: 30px; margin-top: 10px;
+        }
+
+        .control-btn {
+            background: none; border: none; color: var(--gold);
+            font-size: 1.5rem; cursor: pointer; transition: 0.3s;
+        }
+
+        .control-btn:disabled { color: #333; cursor: default; }
+
+        /* Loader */
+        #loader {
+            position: fixed; inset:0; background: var(--ink);
+            display: flex; align-items: center; justify-content: center; z-index: 9999;
+        }
+        .hidden { opacity: 0; pointer-events: none; transition: 0.8s; }
     </style>
 </head>
 <body>
 
-    <audio id="flip-sound" src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3" preload="auto"></audio>
+<div id="loader">Lade Menü...</div>
 
-    <nav id="navbar">
-        <div class="brand-text">Gastro Halle</div>
-        <div style="font-size: 10px; color: #666; letter-spacing: 1px;">MENU</div>
-    </nav>
+<nav id="navbar">
+    <div class="brand-name" style="color: var(--gold); letter-spacing: 2px;">GASTRO HALLE</div>
+    <div id="page-info">1 / 14</div>
+    <a href="#" class="nav-btn">HOME</a>
+</nav>
 
-    <div id="main-content">
-        <div id="book-container"></div>
-        <div class="click-layer">
-            <div class="click-area" onclick="prevSheet()"></div>
-            <div class="click-area" onclick="nextSheet()"></div>
+<main id="viewport">
+    <div id="book">
         </div>
+</main>
+
+<footer id="footer">
+    <div id="label">Speisekarte</div>
+    <div class="controls">
+        <button class="control-btn" id="prevBtn"><i class="fa fa-chevron-left"></i></button>
+        <button class="control-btn" id="nextBtn"><i class="fa fa-chevron-right"></i></button>
     </div>
+</footer>
 
-    <div id="footer-controls">
-        <div class="page-info"><span id="page-label">LADEN...</span></div>
-        <div class="progress-bar"><div id="progress-fill"></div></div>
-    </div>
+<script>
+    const TOTAL_PAGES = 14; 
+    const book = document.getElementById('book');
+    const pageInfo = document.getElementById('page-info');
+    const label = document.getElementById('label');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    let currentSheet = 0;
+    const totalSheets = TOTAL_PAGES / 2;
+    const sheets = [];
 
-    <script>
-        const totalImages = 14; 
-        const container = document.getElementById('book-container');
-        const audio = document.getElementById('flip-sound');
-        let currentIdx = 0;
+    function initBook() {
+        const isMobile = window.innerWidth < 768;
+        const vW = window.innerWidth;
+        const vH = window.innerHeight - 144; // h-nav - h-foot
 
-        // Configuration
-        const path = "Pmenu/"; 
-        const leftImgPath = path + "imag-left.png";
-        const endImgPath = path + "imag-end.png";
-
-        function init() {
-            // Sheet 1 to 13: Front = Menu, Back = imag-left
-            for (let i = 1; i < totalImages; i++) {
-                createSheet(path + `imag-${i}.png`, leftImgPath, 100 - i);
-            }
-            // Final Sheet: Front = last menu page, Back = imag-end
-            createSheet(path + `imag-${totalImages}.png`, endImgPath, 0);
-
-            updateUI();
+        // Calcul des dimensions (Ratio 3:4)
+        let w, h;
+        if (isMobile) {
+            w = Math.min(vW * 0.85, 400);
+            h = w * 1.4;
+            book.classList.remove('spread');
+        } else {
+            h = Math.min(vH * 0.8, 600);
+            w = (h * 0.75);
+            book.classList.add('spread');
         }
 
-        function createSheet(front, back, z) {
+        book.style.width = w + 'px';
+        book.style.height = h + 'px';
+
+        book.innerHTML = '';
+        sheets.length = 0;
+
+        for (let i = 0; i < totalSheets; i++) {
             const sheet = document.createElement('div');
             sheet.className = 'sheet';
-            sheet.style.zIndex = z;
+            sheet.style.zIndex = totalSheets - i;
+
+            const p1 = i * 2 + 1;
+            const p2 = i * 2 + 2;
+
             sheet.innerHTML = `
-                <div class="page-face front"><img src="${front}" onerror="this.src='https://via.placeholder.com/400x600?text=Menu+Page'"></div>
-                <div class="page-face back"><img src="${back}" onerror="this.src='https://via.placeholder.com/400x600?text=Left+Side'"></div>
+                <div class="page-face front">
+                    <img src="Pmenu/imag-${p1}.png" alt="P${p1}">
+                </div>
+                <div class="page-face back">
+                    <img src="Pmenu/imag-${p2}.png" alt="P${p2}">
+                </div>
             `;
-            container.appendChild(sheet);
-        }
-
-        function nextSheet() {
-            const sheets = document.querySelectorAll('.sheet');
-            if (currentIdx < sheets.length) {
-                sheets[currentIdx].classList.add('flipped');
-                currentIdx++;
-                playFlip();
-                updateUI();
-            }
-        }
-
-        function prevSheet() {
-            if (currentIdx > 0) {
-                currentIdx--;
-                const sheets = document.querySelectorAll('.sheet');
-                sheets[currentIdx].classList.remove('flipped');
-                playFlip();
-                updateUI();
-            }
-        }
-
-        function playFlip() {
-            audio.currentTime = 0;
-            audio.play().catch(()=>{});
-        }
-
-        function updateUI() {
-            const sheets = document.querySelectorAll('.sheet');
             
-            // LOGIC FOR CENTERING:
-            // If currentIdx is 0 (First Page) OR currentIdx is sheets.length (Last Page flipped)
-            // The book should be in the middle.
-            if (currentIdx > 0 && currentIdx < sheets.length) {
-                container.classList.add('is-open');
-            } else {
-                container.classList.remove('is-open');
-            }
-
-            // Depth management
-            sheets.forEach((s, i) => {
-                if (i < currentIdx) s.style.zIndex = i + 1;
-                else s.style.zIndex = sheets.length - i;
-            });
-
-            // Text Update
-            const label = document.getElementById('page-label');
-            if (currentIdx === 0) {
-                label.innerText = "WILLKOMMEN";
-            } else if (currentIdx === sheets.length) {
-                label.innerText = "DANKE FÜR IHREN BESUCH";
-            } else {
-                label.innerText = `SEITE ${currentIdx} / ${totalImages}`;
-            }
-
-            const progress = (currentIdx / sheets.length) * 100;
-            document.getElementById('progress-fill').style.width = progress + '%';
+            book.appendChild(sheet);
+            sheets.push(sheet);
         }
+        updateUI();
+    }
 
-        init();
-    </script>
+    function updateUI() {
+        sheets.forEach((sheet, idx) => {
+            if (idx < currentSheet) {
+                sheet.classList.add('flipped');
+                sheet.style.zIndex = idx + 1;
+            } else {
+                sheet.classList.remove('flipped');
+                sheet.style.zIndex = totalSheets - idx;
+            }
+        });
+
+        const displayPage = currentSheet === 0 ? 1 : currentSheet * 2;
+        pageInfo.textContent = `${displayPage} / ${TOTAL_PAGES}`;
+        label.textContent = currentSheet === 0 ? "Cover" : `Seite ${currentSheet * 2} - ${currentSheet * 2 + 1}`;
+        
+        prevBtn.disabled = currentSheet === 0;
+        nextBtn.disabled = currentSheet === totalSheets;
+    }
+
+    function next() {
+        if (currentSheet < totalSheets) {
+            currentSheet++;
+            updateUI();
+        }
+    }
+
+    function prev() {
+        if (currentSheet > 0) {
+            currentSheet--;
+            updateUI();
+        }
+    }
+
+    // Events
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+    
+    // Swipe
+    let touchStart = 0;
+    document.addEventListener('touchstart', e => touchStart = e.touches[0].clientX);
+    document.addEventListener('touchend', e => {
+        const delta = e.changedTouches[0].clientX - touchStart;
+        if (Math.abs(delta) > 50) {
+            delta > 0 ? prev() : next();
+        }
+    });
+
+    window.addEventListener('resize', initBook);
+    window.addEventListener('load', () => {
+        initBook();
+        setTimeout(() => document.getElementById('loader').classList.add('hidden'), 500);
+    });
+
+    // Keyboard
+    document.addEventListener('keydown', e => {
+        if (e.key === "ArrowRight") next();
+        if (e.key === "ArrowLeft") prev();
+    });
+</script>
+
 </body>
 </html>

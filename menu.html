@@ -5,31 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Speisekarte | Gastro HALLE</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;600&family=Plus+Jakarta+Sans:wght@300;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --accent: #c96a2b;
-            --cream: #f8f4ee;
-            --dark: #0f0f0f;
-            --page-w: 420px; 
-            --page-h: 580px;
-            --anim-speed: 0.8s;
+            --accent: #d4af37; 
+            --cream: #fdfaf5;
+            --dark: #0a0a0a;
+            --page-w: 360px; 
+            --page-h: 520px;
+            --anim-speed: 0.9s;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body { 
             background-color: var(--dark);
-            background-image: radial-gradient(circle at center, #1a1a1a 0%, #0a0a0a 100%);
+            background-image: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
             color: var(--cream);
             font-family: 'Plus Jakarta Sans', sans-serif;
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            touch-action: manipulation;
         }
 
         /* --- NAVBAR --- */
@@ -39,17 +37,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(17, 17, 17, 0.95);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
             z-index: 1000;
         }
-        .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; color: white; }
-        .nav-logo { height: 32px; width: auto; border-radius: 4px; }
-        .brand-text { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
-        .nav-cta { padding: 0.5rem 1rem; border: 1px solid var(--accent); border-radius: 50px; color: var(--accent); text-decoration: none; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; transition: 0.3s; }
-        .nav-cta:hover { background: var(--accent); color: white; }
+        .brand-text { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; letter-spacing: 0.2em; color: var(--accent); text-transform: uppercase; }
 
-        /* --- SCÈNE DU LIVRE --- */
+        /* --- BOOK SCENE --- */
         #main-content {
             flex: 1;
             display: flex;
@@ -57,7 +51,6 @@
             justify-content: center;
             perspective: 2000px;
             padding: 20px;
-            overflow: hidden;
         }
 
         #book-container {
@@ -66,12 +59,12 @@
             height: var(--page-h);
             transform-style: preserve-3d;
             transition: transform var(--anim-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
+            /* Initial state: Centered */
+            transform: translateX(0); 
         }
 
-        /* Desktop: shift right when open to show both pages centered */
-        @media (min-width: 851px) {
-            #book-container.is-open { transform: translateX(50%); }
-        }
+        /* Open State: Shifts right to make room for the left page */
+        .is-open { transform: translateX(45%) !important; }
 
         .sheet {
             position: absolute;
@@ -80,35 +73,35 @@
             transform-origin: left;
             transform-style: preserve-3d;
             transition: transform var(--anim-speed) cubic-bezier(0.645, 0.045, 0.355, 1);
-            z-index: 1;
         }
 
         .page-face {
             position: absolute;
             width: 100%; height: 100%;
             backface-visibility: hidden;
-            border-radius: 0 4px 4px 0;
+            background: #111;
             overflow: hidden;
-            background: #1a1a1a;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.8);
+            border-radius: 2px 4px 4px 2px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
         }
 
-        .page-face img { width: 100%; height: 100%; object-fit: contain; background: #000; }
+        .page-face img { width: 100%; height: 100%; object-fit: contain; }
 
-        /* Inner Shadow for the fold */
+        /* Shadows for depth */
         .page-face::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 40px; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
-            pointer-events: none;
+            content: ''; position: absolute; top: 0; width: 40px; height: 100%;
+            pointer-events: none; z-index: 5;
         }
+        .front::after { left: 0; background: linear-gradient(to right, rgba(0,0,0,0.4), transparent); }
+        .back::after { right: 0; background: linear-gradient(to left, rgba(0,0,0,0.4), transparent); }
 
         .back { transform: rotateY(180deg); }
         .sheet.flipped { transform: rotateY(-180deg); }
 
-        /* Interaction Layer */
+        /* Interaction zones */
         .click-layer {
-            position: absolute; width: 100%; height: 100%; z-index: 500;
-            display: flex; pointer-events: none;
+            position: absolute; width: 200%; height: 100%; left: -50%; top: 0;
+            z-index: 999; display: flex; pointer-events: none;
         }
         .click-area { flex: 1; pointer-events: auto; cursor: pointer; }
 
@@ -119,30 +112,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(10, 10, 10, 0.95);
             gap: 8px;
-            z-index: 1000;
-            border-top: 1px solid rgba(255,255,255,0.05);
         }
-        .page-info { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--accent); letter-spacing: 1px; }
-        .progress-bar { width: 150px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 2px; }
-        #progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.4s; }
+        .page-info { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--accent); letter-spacing: 2px; }
+        .progress-bar { width: 120px; height: 1px; background: rgba(212, 175, 55, 0.2); }
+        #progress-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.5s; }
 
-        /* --- MOBILE OPTIMIZATION --- */
+        /* Mobile specific adjustments */
         @media (max-width: 850px) {
-            :root {
-                --page-w: 88vw; 
-                --page-h: 60vh; 
-            }
-            #main-content { perspective: 1500px; }
-            
-            /* Shift the book right when open so the flipped page (on the left) stays on screen */
-            #book-container.is-open-mobile {
-                transform: translateX(44vw) scale(0.95);
-            }
-            
-            .brand-text { display: none; }
-            .nav-cta { font-size: 0.6rem; padding: 0.4rem 0.8rem; }
+            :root { --page-w: 80vw; --page-h: 60vh; }
+            .is-open { transform: translateX(40%) !important; }
         }
     </style>
 </head>
@@ -151,16 +130,12 @@
     <audio id="flip-sound" src="https://www.soundjay.com/misc/sounds/page-flip-01a.mp3" preload="auto"></audio>
 
     <nav id="navbar">
-        <a href="index.html" class="brand">
-            <img src="logo.jpg" alt="Logo" class="nav-logo">
-            <span class="brand-text">Gastro HALLE</span>
-        </a>
-        <a href="index.html" class="nav-cta">Startseite</a>
+        <div class="brand-text">Gastro Halle</div>
+        <div style="font-size: 10px; color: #666; letter-spacing: 1px;">MENU</div>
     </nav>
 
     <div id="main-content">
-        <div id="book-container">
-            </div>
+        <div id="book-container"></div>
         <div class="click-layer">
             <div class="click-area" onclick="prevSheet()"></div>
             <div class="click-area" onclick="nextSheet()"></div>
@@ -168,44 +143,49 @@
     </div>
 
     <div id="footer-controls">
-        <div class="page-info">SEITE <span id="current-page">1</span> / 14</div>
+        <div class="page-info"><span id="page-label">LADEN...</span></div>
         <div class="progress-bar"><div id="progress-fill"></div></div>
-        <div style="font-size: 0.6rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px;">
-            <i class="fa-solid fa-arrows-left-right"></i> Tippen zum Blättern
-        </div>
     </div>
 
     <script>
-        const totalImages = 14;
-        const totalSheets = totalImages / 2;
-        let currentIdx = 0;
+        const totalImages = 14; 
         const container = document.getElementById('book-container');
         const audio = document.getElementById('flip-sound');
+        let currentIdx = 0;
+
+        // Configuration
+        const path = "Pmenu/"; 
+        const leftImgPath = path + "imag-left.png";
+        const endImgPath = path + "imag-end.png";
 
         function init() {
-            for (let i = 0; i < totalSheets; i++) {
-                const sheet = document.createElement('div');
-                sheet.className = 'sheet';
-                sheet.style.zIndex = totalSheets - i;
-                
-                const p1 = (i * 2) + 1;
-                const p2 = (i * 2) + 2;
-
-                sheet.innerHTML = `
-                    <div class="page-face front"><img src="Pmenu/imag-${p1}.png" alt="Page ${p1}"></div>
-                    <div class="page-face back"><img src="Pmenu/imag-${p2}.png" alt="Page ${p2}"></div>
-                `;
-                container.appendChild(sheet);
+            // Sheet 1 to 13: Front = Menu, Back = imag-left
+            for (let i = 1; i < totalImages; i++) {
+                createSheet(path + `imag-${i}.png`, leftImgPath, 100 - i);
             }
+            // Final Sheet: Front = last menu page, Back = imag-end
+            createSheet(path + `imag-${totalImages}.png`, endImgPath, 0);
+
             updateUI();
         }
 
+        function createSheet(front, back, z) {
+            const sheet = document.createElement('div');
+            sheet.className = 'sheet';
+            sheet.style.zIndex = z;
+            sheet.innerHTML = `
+                <div class="page-face front"><img src="${front}" onerror="this.src='https://via.placeholder.com/400x600?text=Menu+Page'"></div>
+                <div class="page-face back"><img src="${back}" onerror="this.src='https://via.placeholder.com/400x600?text=Left+Side'"></div>
+            `;
+            container.appendChild(sheet);
+        }
+
         function nextSheet() {
-            if (currentIdx < totalSheets) {
-                const sheets = document.querySelectorAll('.sheet');
+            const sheets = document.querySelectorAll('.sheet');
+            if (currentIdx < sheets.length) {
                 sheets[currentIdx].classList.add('flipped');
                 currentIdx++;
-                playSound();
+                playFlip();
                 updateUI();
             }
         }
@@ -215,52 +195,48 @@
                 currentIdx--;
                 const sheets = document.querySelectorAll('.sheet');
                 sheets[currentIdx].classList.remove('flipped');
-                playSound();
+                playFlip();
                 updateUI();
             }
         }
 
-        function playSound() {
+        function playFlip() {
             audio.currentTime = 0;
-            audio.play().catch(() => {});
+            audio.play().catch(()=>{});
         }
 
         function updateUI() {
-            const isMobile = window.innerWidth <= 850;
+            const sheets = document.querySelectorAll('.sheet');
             
-            // Handle Position Classes
-            if (currentIdx > 0) {
-                if (isMobile) {
-                    container.classList.add('is-open-mobile');
-                    container.classList.remove('is-open');
-                } else {
-                    container.classList.add('is-open');
-                    container.classList.remove('is-open-mobile');
-                }
+            // LOGIC FOR CENTERING:
+            // If currentIdx is 0 (First Page) OR currentIdx is sheets.length (Last Page flipped)
+            // The book should be in the middle.
+            if (currentIdx > 0 && currentIdx < sheets.length) {
+                container.classList.add('is-open');
             } else {
-                container.classList.remove('is-open', 'is-open-mobile');
+                container.classList.remove('is-open');
             }
 
-            // Handle Z-Index layers
-            const sheets = document.querySelectorAll('.sheet');
+            // Depth management
             sheets.forEach((s, i) => {
-                if (i < currentIdx) {
-                    s.style.zIndex = i + 1;
-                } else {
-                    s.style.zIndex = totalSheets - i;
-                }
+                if (i < currentIdx) s.style.zIndex = i + 1;
+                else s.style.zIndex = sheets.length - i;
             });
 
-            // Update Progress
-            let displayPage = currentIdx === 0 ? 1 : (currentIdx * 2);
-            if (currentIdx === totalSheets) displayPage = totalImages;
-            
-            document.getElementById('current-page').innerText = displayPage;
-            const progress = (currentIdx / totalSheets) * 100;
+            // Text Update
+            const label = document.getElementById('page-label');
+            if (currentIdx === 0) {
+                label.innerText = "WILLKOMMEN";
+            } else if (currentIdx === sheets.length) {
+                label.innerText = "DANKE FÜR IHREN BESUCH";
+            } else {
+                label.innerText = `SEITE ${currentIdx} / ${totalImages}`;
+            }
+
+            const progress = (currentIdx / sheets.length) * 100;
             document.getElementById('progress-fill').style.width = progress + '%';
         }
 
-        window.addEventListener('resize', updateUI);
         init();
     </script>
 </body>
